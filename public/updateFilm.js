@@ -12,7 +12,7 @@ $(document).ready(function () {
         <input class="form-control" type="text" id="runningTime" name="runningTime" required>
         
 
-        <label class="form-label" for="genre">Genre</label>
+        <label class="form-label" for="genre">Age Rating</label>
         <input class="form-control" type="text" id="genre" name="genre" required>
 
         <label class="form-label" for="director">Director</label>
