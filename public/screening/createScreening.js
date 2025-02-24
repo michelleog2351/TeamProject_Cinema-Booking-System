@@ -1,8 +1,10 @@
 $(document).ready(function () {
-    nav();
-    footer();
-    
-    $("#fbody").append(`<label  class="form-label" for="startTime">Start Time</label>
+  nav();
+  footer();
+
+  $(
+    "#fbody"
+  ).append(`<label  class="form-label" for="startTime">Start Time</label>
         <input class="form-control" type="time" name="startTime" id="startTime"></input>
 
         <label class="form-label" for="date">Date</label>
@@ -18,22 +20,23 @@ $(document).ready(function () {
         <input class="form-control" type="text" name="filmID" id="filmID"></input>
         <br>
     `);
-    $("#cancel").click(function () {
-        location.replace("http://localhost:3000/screening/screening.html");
-    });
+  $("#cancel").click(function () {
+    location.replace("http://localhost:3000/screening/screening.html");
+  });
 
-    $("#save").click(function () {
-        let newScreening = {
-         startTime: $(`#startTime`).val(),
-         date : $(`#date`).val(),
-         seatsRemaining : $(`#seatsRemaining`).val(),
-         theatreID : $(`#theatreID`).val(),
-         filmID: $(`#filmID`).val()
-        };
-        $.post(`http://localhost:3000/createScreening`, newScreening)
-            .done(function () {
-                alert("Film created successfully!");
-                location.replace("http://localhost:3000/screening/screening.html");
-            })
-    });
+  $("#save").click(function () {
+    let newScreening = {
+      startTime: $(`#startTime`).val(),
+      date: $(`#date`).val(),
+      seatsRemaining: $(`#seatsRemaining`).val(),
+      theatreID: $(`#theatreID`).val(),
+      filmID: $(`#filmID`).val(),
+    };
+    $.post(`http://localhost:3000/createScreening`, newScreening).done(
+      function () {
+        alert("Film created successfully!");
+        location.replace("http://localhost:3000/screening/screening.html");
+      }
+    );
+  });
 });
