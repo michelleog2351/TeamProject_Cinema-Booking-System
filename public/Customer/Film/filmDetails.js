@@ -33,6 +33,9 @@ function loadFilmDetails() {
                         Go Back
                     </button>
                 </div>
+                <div id="screeningDetails" class="card-body">
+                    <h6>Showings</h6>
+                </div>
             </div>
         `);
   }).fail(function (jqXHR, textStatus, errorThrown) {
@@ -40,4 +43,19 @@ function loadFilmDetails() {
     alert("Failed to load film details.");
     location.href = "cFilm.html";
   });
+}
+
+
+function fetchScreenings(filmID) 
+{
+    $.getJSON(`http://localhost:3000/screenings/${filmID}`, function (data) {
+        $.each(data, function (i, value) {
+            alert(data)
+            $(`#screeningDetails`).append(
+                `
+                    <p class="card-text"><strong>${value.Time}</strong></p>
+                `
+            );
+        });
+    });
 }

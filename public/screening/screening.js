@@ -24,8 +24,8 @@ async function getJsonData() {
                 <td id="seatsRemaining${value.SeatsRemaining}">${value.SeatsRemaining}</td>
                 <td id="theatreID${value.TheatreID}">${value.TheatreID}</td>
                 <td id="filmID${filmname}">${filmname}</td>
-                <td><button type="button" class="updateButton" value="${value.ScreeningID}">Update</button></td>
-                <td><button type="button" class="deleteButton" value="${value.ScreeningID}">Delete</button></td>
+                <td><button type="button" class="updateButton btn btn-secondary" value="${value.ScreeningID}">Update</button></td>
+                <td><button type="button" class="deleteButton btn btn-danger" value="${value.ScreeningID}">Delete</button></td>
                 </tr>`
             );
         });

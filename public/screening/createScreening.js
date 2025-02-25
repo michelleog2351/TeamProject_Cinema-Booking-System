@@ -66,13 +66,9 @@ function getFilmData() {
 }
 
 function getTheatreData() {
-    // $.getJSON(`http://localhost:3000/theatre`, function (data) {
-    //     $.each(data, function (i, value) {
-    //         $(`#theatreSelect`).append(`<option value=${value.TheatreID}>${value.TheatreID}</option>`);
-    //     });
-    // });
-    for(var i =1; i<=5; i++)
-    {
-        $(`#theatreSelect`).append(`<option value=${i}>${i}</option>`);
-    }
+    $.getJSON(`http://localhost:3000/Theatres`, function (data) {
+        $.each(data, function (i, value) {
+            $(`#theatreSelect`).append(`<option value=${value.TheatreID}>${value.TheatreID}</option>`);
+        });
+    });
 }

@@ -42,6 +42,23 @@ exports.getScreening = function (req, res) {
   });
 };
 
+//This will search for independent Screening in update
+exports.getFilmScreening = function (req, res) {
+  var filmID = req.params.filmID; 
+
+  const query = "SELECT * FROM Screening WHERE FilmID = ?"; //creates a query using prepared statemetns
+  connection.query(query, [filmID], function (err, rows) {
+    if (err) {
+      console.error(err);
+      return res.status(500).send("Error getting screening");
+    }
+    if (rows.length === 0) {
+      return res.status(404).send({ message: "Screening not found" });
+    }
+    res.json(rows[0]);
+  });
+};
+
 //Creates a new entry of Screening by passing name, email and password
 exports.createScreening = function (req, res) {
     var startTime = req.body.startTime;

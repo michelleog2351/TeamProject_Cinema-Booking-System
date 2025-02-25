@@ -9,22 +9,22 @@ function nav() {
                 <a class="nav-link" href="/Customer/Film/cFilm.html">Now Showing</a>
             </li> 
             <li class="nav-item">
-                <a class="nav-link" href="/film.html">Film</a>
+                <a class="nav-link" href="/film/film.html">Film</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/ticket.html">Ticket</a>
+                <a class="nav-link" href="/ticket/ticket.html">Ticket</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/screening/screening.html">Screening</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/theatre.html">Theatre</a>
+                <a class="nav-link" href="/theatre/theatre.html">Theatre</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/admin.html">Admin</a>
+                <a class="nav-link" href="/admin/admin.html">Admin</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/manager.html">Manager</a>
+                <a class="nav-link" href="/manager/manager.html">Manager</a>
             </li>   
     `;
   if (sessionStorage.getItem("login") == "true") {
