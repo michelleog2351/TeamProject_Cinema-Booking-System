@@ -114,11 +114,11 @@ CREATE TABLE `Admin` (
 
 INSERT INTO `Film` (`Name`, `Category`, `Genre`, `RunningTime`, `Director`, `CoverImage`, `VideoURL`, `ReleaseDate`)
 VALUES
-('The Dark Knight', 'Action', 'PG-13', 90,'Christopher Nolan', 'dark_knight_cover.jpg', 'https://example.com/dark_knight', '2008-07-18'),
-('Inception', 'Sci-Fi', 'PG-13', 90, 'Christopher Nolan', 'inception_cover.jpg', 'https://example.com/inception', '2010-07-16'),
-('The Shawshank Redemption', 'Drama', 90, 'R', 'Frank Darabont', 'shawshank_cover.jpg', 'https://example.com/shawshank', '1994-09-22'),
-('Interstellar', 'Sci-Fi', 'PG-13', 90,'Christopher Nolan', 'interstellar_cover.jpg', 'https://example.com/interstellar', '2014-11-07'),
-('The Godfather', 'Crime', 'R', 90, 'Francis Ford Coppola', 'godfather_cover.jpg', 'https://example.com/godfather', '1972-03-24');
+('The Dark Knight', 'Action', 'PG-13', 90,'Christopher Nolan', 'The_Dark_Knight.jpg', 'https://example.com/dark_knight', '2008-07-18'),
+('Inception', 'Sci-Fi', 'PG-13', 90, 'Christopher Nolan', 'Inception.jpg', 'https://example.com/inception', '2010-07-16'),
+('The Shawshank Redemption', 'Drama', 'R', 90, 'Frank Darabont', 'The_Shawshank_Redemption.jpg', 'https://example.com/shawshank', '1994-09-22'),
+('Interstellar', 'Sci-Fi', 'PG-13', 90,'Christopher Nolan', 'Interstellar.jpg', 'https://example.com/interstellar', '2014-11-07'),
+('The Godfather', 'Crime', 'R', 90, 'Francis Ford Coppola', 'The_Godfather.jpg', 'https://example.com/godfather', '1972-03-24');
 
 INSERT INTO `Theatre` (`Capacity`)
 VALUES

@@ -1,8 +1,8 @@
 $(document).ready(function () {
-  //nav();
-  //footer;
-  if (typeof nav === "function") nav();
-  if (typeof footer === "function") footer();
+  nav();
+  footer();
+  // if (typeof nav === "function") nav();
+  // if (typeof footer === "function") footer();
 
   fetchFilms();
 
@@ -10,7 +10,6 @@ $(document).ready(function () {
     search();
   });
 });
-
 /*
  * IMAGES
  * <img src="../../images/${value.Name.replace(/\s+/g, "_")}.jpg"
