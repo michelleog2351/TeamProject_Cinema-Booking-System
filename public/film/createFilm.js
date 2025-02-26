@@ -29,7 +29,7 @@ $(document).ready(function () {
         <br>
     `);
     $("#cancel").click(function () {
-        location.replace("http://localhost:3000/film.html");
+        location.replace("http://localhost:3000/film/film.html");
     });
 
     $("#save").click(function () {
@@ -46,10 +46,32 @@ $(document).ready(function () {
         $.post(`http://localhost:3000/createFilm`, newFilm)
             .done(function () {
                 alert("Film created successfully!");
-                location.replace("http://localhost:3000/film.html");
+                location.replace("http://localhost:3000/film/film.html");
             })
             .fail(function () {
                 alert("Error creating film.");
             });
     });
 });
+
+function getSelectData() {
+	//Get the teams from the getTeams.php
+	$.ajax({
+		url: `http://localhost/a2/ajax/getTeams.php`,
+		cache: false,
+		type: `GET`,
+		dataType: `json`,       // text, json, xml
+		success: successFunc,
+		error: errorFunc
+	});
+	//Add them to the drop down with their value being the teamID
+	function successFunc(data) {
+		$.each(data.teams, function (index, team) {
+			$(`#teams`).append(`<option value=${team.id}>${team.name}</option>`);
+		});
+	}
+
+	function errorFunc(xhr, status, strError) {
+		$(`#myDiv`).text(`There was an error!`);
+	}
+}

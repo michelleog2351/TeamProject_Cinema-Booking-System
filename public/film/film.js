@@ -6,9 +6,9 @@ $(document).ready(function () {
     `<button type="button" class="addButton btn btn-primary">Add</button>`
   );
 
-  $(".addButton").click(function () {
-    location.replace("http://localhost:3000/createFilm.html");
-  });
+    $(".addButton").click(function () {
+        location.replace("http://localhost:3000/film/createFilm.html");
+    });
 });
 
 function getJsonData() {
@@ -32,19 +32,19 @@ function getJsonData() {
       );
     });
 
-    $(".updateButton").click(function (e) {
-      let ID = e.target.value;
-      localStorage.setItem("FilmID", ID);
-      location.replace("http://localhost:3000/updateFilm.html");
-    });
+        $(".updateButton").click(function (e) {
+            let ID = e.target.value;
+            localStorage.setItem("FilmID", ID);
+            location.replace("http://localhost:3000/film/updateFilm.html");
+        });
 
-    $(".deleteButton").click(function (e) {
-      let ID = e.target.value;
-      $.post(`http://localhost:3000/deleteFilm/${ID}`, { FilmID: ID }).done(
-        function () {
-          location.replace("http://localhost:3000/film.html");
-        }
-      );
+
+        $(".deleteButton").click(function (e) {
+            let ID = e.target.value;
+            $.post(`http://localhost:3000/deleteFilm/${ID}`, { FilmID: ID })
+                .done(function () {
+                    location.replace("http://localhost:3000/film/film.html");
+                });
+        });
     });
-  });
 }

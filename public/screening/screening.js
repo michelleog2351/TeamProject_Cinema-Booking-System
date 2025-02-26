@@ -11,32 +11,32 @@ $(document).ready(function () {
     });
 });
 
-function getJsonData() {
-    $.getJSON(`http://localhost:3000/screenings`, function (data) {
-        $.each(data, function (i, value) {
+async function getJsonData() {
+    await $.getJSON(`http://localhost:3000/screenings`, function (data) {
+        $.each(data, async function (i, value) {
             let screeningDate = new Date(value.Date);
             let formattedDate = screeningDate.toISOString().split('T')[0];
+            let filmname = await getFilmData(value.FilmID);
             $(`#tbody`).append(
                 `<tr>
                 <td id="startTime${value.StartTime}">${value.StartTime}</td>
                 <td id="date${formattedDate}">${formattedDate}</td>
                 <td id="seatsRemaining${value.SeatsRemaining}">${value.SeatsRemaining}</td>
                 <td id="theatreID${value.TheatreID}">${value.TheatreID}</td>
-                <td id="filmID${value.FilmID}">${value.FilmID}</td>
+                <td id="filmID${filmname}">${filmname}</td>
                 <td><button type="button" class="updateButton btn btn-secondary" value="${value.ScreeningID}">Update</button></td>
                 <td><button type="button" class="deleteButton btn btn-danger" value="${value.ScreeningID}">Delete</button></td>
                 </tr>`
             );
         });
 
-        $(".updateButton").click(function (e) {
+        $(document).on('click', '.updateButton', function (e) {
             let ID = e.target.value;
             localStorage.setItem("ScreeningID", ID);
             location.replace("http://localhost:3000/screening/updateScreening.html");
         });
-
-
-        $(".deleteButton").click(function (e) {
+        
+        $(document).on('click', '.deleteButton', function (e) {
             let ID = e.target.value;
             $.post(`http://localhost:3000/deleteScreening/${ID}`)
                 .done(function () {
@@ -44,4 +44,10 @@ function getJsonData() {
                 });
         });
     });
+}
+
+
+async function getFilmData(ID) {
+    data = await $.getJSON(`http://localhost:3000/film/${ID}`);
+        return data.Name;
 }

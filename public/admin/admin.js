@@ -6,9 +6,11 @@ $(`document`).ready(function () {
     `<button type="button" class="addButton btn btn-primary">Add</button>`
   );
 
-  $(".addButton").click(function (e) {
-    location.replace("http://localhost:3000/createAdmin.html");
-  });
+
+    $(".addButton").click(function (e) 
+    {
+        location.replace("http://localhost:3000/admin/createAdmin.html");  
+    });
 });
 
 function getJsonData() {
@@ -28,15 +30,17 @@ function getJsonData() {
       let ID = e.target.value;
       localStorage.setItem("ID", ID);
 
-      location.replace("http://localhost:3000/updateAdmin.html");
-    });
-    $(".deleteButton").click(function (e) {
-      let ID = e.target.value;
-      $.post(`http://localhost:3000/deleteAdmin/${ID}`, {
-        AdminID: ID,
-      }).done(function () {
-        location.replace("http://localhost:3000/admin.html");
-      });
-    });
-  });
-}
+                location.replace("http://localhost:3000/admin/updateAdmin.html");
+            });
+            $(".deleteButton").click(function (e) 
+            {
+                let ID = e.target.value;
+                $.post(`http://localhost:3000/deleteAdmin/${ID}`, {
+                    AdminID: ID
+                })
+                .done(function () {
+                    location.replace("http://localhost:3000/admin/admin.html");
+                })
+            });
+	});
+} 

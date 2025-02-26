@@ -16,9 +16,6 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
--- GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' IDENTIFIED BY 'root' WITH GRANT OPTION;
-FLUSH PRIVILEGES;
-
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -34,7 +31,6 @@ CREATE TABLE `Film` (
   `FilmID` INT NOT NULL AUTO_INCREMENT,
   `Name` varchar(50) NOT NULL,
   `Category` varchar(10) NOT NULL,
-  `RunningTime` int(10) NOT NULL,
   `Genre` varchar(50) NOT NULL,
   `Director` varchar(50) NOT NULL,
   `CoverImage` varchar(50) NOT NULL,
@@ -65,14 +61,14 @@ CREATE TABLE `Screening` (
 CREATE TABLE `Booking` (
   `BookingID` INT NOT NULL AUTO_INCREMENT,
   `NoOfSeats` INT NOT NULL,
-  `Cost` DOUBLE NOT NULL,
+  `Cost` Decimal(5,2) NOT NULL,
   `Email` varchar(50) NOT NULL,
   PRIMARY KEY (`BookingID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `TicketType` (
   `Name` varchar(15) NOT NULL,
-  `Cost` DOUBLE NOT NULL,
+  `Cost` Decimal(5,2) NOT NULL,
   PRIMARY KEY (`Name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -95,24 +91,22 @@ CREATE TABLE `Seat` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `Manager` (
-  `ManagerID` INT NOT NULL auto_increment,
   `Name` varchar(50) NOT NULL,
   `Email` varchar(50) NOT NULL,
   `Password` varchar(50) NOT NULL,
-  PRIMARY KEY (`ManagerID`)
+  PRIMARY KEY (`Email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `Admin` (
-  `AdminID` INT NOT NULL auto_increment,
   `Name` varchar(50) NOT NULL,
   `Email` varchar(50) NOT NULL,
   `Password` varchar(50) NOT NULL,
-  PRIMARY KEY (`AdminID`)
+  PRIMARY KEY (`Email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
 
-INSERT INTO `Film` (`Name`, `Category`, `Genre`, `RunningTime`, `Director`, `CoverImage`, `VideoURL`, `ReleaseDate`)
+INSERT INTO `Film` (`Name`, `Category`, `Genre`, `Director`, `CoverImage`, `VideoURL`, `ReleaseDate`)
 VALUES
 ('The Dark Knight', 'Action', 'PG-13', 90,'Christopher Nolan', 'The_Dark_Knight.jpg', 'https://example.com/dark_knight', '2008-07-18'),
 ('Inception', 'Sci-Fi', 'PG-13', 90, 'Christopher Nolan', 'Inception.jpg', 'https://example.com/inception', '2010-07-16'),
