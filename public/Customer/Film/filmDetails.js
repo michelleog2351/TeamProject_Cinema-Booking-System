@@ -38,6 +38,7 @@ function loadFilmDetails() {
                 </div>
             </div>
         `);
+        fetchScreenings(filmID);
   }).fail(function (jqXHR, textStatus, errorThrown) {
     console.error("Failed to load film details:", textStatus, errorThrown);
     alert("Failed to load film details.");
@@ -48,12 +49,13 @@ function loadFilmDetails() {
 
 function fetchScreenings(filmID) 
 {
-    $.getJSON(`http://localhost:3000/screenings/${filmID}`, function (data) {
+    $.getJSON(`http://localhost:3000/filmScreenings/${filmID}`, function (data) {
         $.each(data, function (i, value) {
-            alert(data)
+            let screeningDate = new Date(value.Date);
+            let formattedDate = screeningDate.toISOString().split('T')[0];
             $(`#screeningDetails`).append(
                 `
-                    <p class="card-text"><strong>${value.Time}</strong></p>
+                    <p class="card-text">Date: ${formattedDate}  Time: ${value.StartTime} Theatre: ${value.TheatreID} Seats Left: ${value.SeatsRemaining} </p>
                 `
             );
         });

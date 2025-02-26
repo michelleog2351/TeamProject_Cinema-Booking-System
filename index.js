@@ -72,7 +72,7 @@ app.get("/screenings", function(req,res){
 	screening.getScreenings(req,res);
 });
 
-app.get("/screenings/:filmID", function(req,res){
+app.get("/filmScreenings/:filmID", function(req,res){
 	screening.getFilmScreening(req,res);
 });
 
