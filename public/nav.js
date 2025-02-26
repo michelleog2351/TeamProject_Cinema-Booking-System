@@ -12,9 +12,6 @@ function nav() {
                 <a class="nav-link" href="/film/film.html">Film</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/ticket/ticket.html">Ticket</a>
-            </li>
-            <li class="nav-item">
                 <a class="nav-link" href="/screening/screening.html">Screening</a>
             </li>
             <li class="nav-item">
