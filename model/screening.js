@@ -7,6 +7,7 @@ var mysql = require("mysql2");
 var connection = mysql.createConnection({
   host: "localhost",
   user: "root",
+  // password: "root",
   password: "password",
   database: "cinemaDB",
 });
@@ -27,7 +28,7 @@ exports.getScreenings = function (req, res) {
 
 //This will search for independent Screening in update
 exports.getScreening = function (req, res) {
-  var screeningID = req.params.screeningID; 
+  var screeningID = req.params.screeningID;
 
   const query = "SELECT * FROM Screening WHERE ScreeningID = ?"; //creates a query using prepared statemetns
   connection.query(query, [screeningID], function (err, rows) {
@@ -61,25 +62,33 @@ exports.getFilmScreening = function (req, res) {
 
 //Creates a new entry of Screening by passing name, email and password
 exports.createScreening = function (req, res) {
-    var startTime = req.body.startTime;
-    var date = req.body.date;
-    var seatsRemaining = req.body.seatsRemaining;
-    var theatreID = req.body.theatreID;
-    var filmID = req.body.filmID;
+  var startTime = req.body.startTime;
+  var date = req.body.date;
+  var seatsRemaining = req.body.seatsRemaining;
+  var theatreID = req.body.theatreID;
+  var filmID = req.body.filmID;
 
-  const query = "INSERT INTO Screening (StartTime, Date, SeatsRemaining, TheatreID, FilmID ) VALUES (?, ?, ?, ?, ?)"; //Prepared statments
-  connection.query(query, [startTime, date, seatsRemaining, theatreID, filmID], function (err, result) {
-    if (err) {
-      console.error(err);
-      return res.status(500).send("Error adding Screening");
+  const query =
+    "INSERT INTO Screening (StartTime, Date, SeatsRemaining, TheatreID, FilmID ) VALUES (?, ?, ?, ?, ?)"; //Prepared statments
+  connection.query(
+    query,
+    [startTime, date, seatsRemaining, theatreID, filmID],
+    function (err, result) {
+      if (err) {
+        console.error(err);
+        return res.status(500).send("Error adding Screening");
+      }
+      res.send({
+        message: "Screening added successfully",
+        screeningID: result.insertId,
+      });
     }
-    res.send({ message: "Screening added successfully", screeningID: result.insertId });
-  });
+  );
 };
 
 //Deletes an Screening by passing an ID
 exports.deleteScreening = function (req, res) {
-    var screeningID = req.params.screeningID; 
+  var screeningID = req.params.screeningID;
 
   const query = "DELETE FROM screening WHERE ScreeningID = ?";
   connection.query(query, [screeningID], function (err, result) {
@@ -97,7 +106,7 @@ exports.deleteScreening = function (req, res) {
 //Updates an Screening to have new data
 exports.updateScreening = function (req, res) {
   var screeningID = req.params.screeningID;
-  var startTime = req.body.startTime; 
+  var startTime = req.body.startTime;
   var date = req.body.date;
   var seatsRemaining = req.body.seatsRemaining;
   var theatreID = req.body.theatreID;
