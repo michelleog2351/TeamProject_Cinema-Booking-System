@@ -1,6 +1,6 @@
 $(`document`).ready(function () {
-    nav();
-    footer();
+  nav();
+  footer();
   $(`#fbody`).append(
     `<label  class="form-label" for="name">Name</label>
     <input class="form-control" type="text" name="name" id="name"></input>
@@ -9,7 +9,7 @@ $(`document`).ready(function () {
     <input class="form-control" type="text" name="email" id="email"></input>
     
     <label class="form-label" for="password">Password</label>
-    <input class="form-control" type="text" name="password" id="password"></input>
+    <input class="form-control" type="password" name="password" id="password"></input>
     <br>`
   );
 

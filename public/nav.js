@@ -18,7 +18,7 @@ function nav() {
                 <a class="nav-link" href="/screening/screening.html">Screening</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/theatre.html">Theatre</a>
+                <a class="nav-link" href="/theatre/theatre.html">Theatre</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/admin.html">Admin</a>

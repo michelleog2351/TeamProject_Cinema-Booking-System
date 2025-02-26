@@ -7,7 +7,8 @@ var mysql = require("mysql2");
 var connection = mysql.createConnection({
   host: "localhost",
   user: "root",
-  password: "root",
+  // password: "root",
+  password: "password",
   database: "cinemaDB",
 });
 
@@ -54,7 +55,10 @@ exports.createManager = function (req, res) {
       console.error(err);
       return res.status(500).send("Error adding manager");
     }
-    res.send({ message: "manager added successfully", managerID: result.insertId });
+    res.send({
+      message: "manager added successfully",
+      managerID: result.insertId,
+    });
   });
 };
 
