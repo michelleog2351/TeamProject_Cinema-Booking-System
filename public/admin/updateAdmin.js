@@ -16,27 +16,23 @@ $(`document`).ready(function () {
 
   getJsonData(ID);
 
+  $("#cancel").click(function (e) {
+    location.replace("http://localhost:3000/admin/admin.html");
+  });
 
-    $("#cancel").click(function (e) 
-    {
-        location.replace("http://localhost:3000/admin/admin.html");  
-    })
-
-    $("#update").click(function (e) 
-    {
-        let name = $(`#name`).val();
-        let email = $(`#email`).val();
-        let password = $(`#password`).val();
-        $.post(`http://localhost:3000/updateAdmin/${ID}`, {
-            name: name,
-            email: email,
-            password: password
-        })
-        .done(function () {
-            location.replace("http://localhost:3000/admin/admin.html");
-        })
+  $("#update").click(function (e) {
+    let name = $(`#name`).val();
+    let email = $(`#email`).val();
+    let password = $(`#password`).val();
+    $.post(`http://localhost:3000/updateAdmin/${ID}`, {
+      name: name,
+      email: email,
+      password: password,
+    }).done(function () {
+      location.replace("http://localhost:3000/admin/admin.html");
     });
   });
+});
 
 function getJsonData(ID) {
   $.getJSON(`http://localhost:3000/admin/${ID}`, function (data) {
@@ -49,7 +45,7 @@ function getJsonData(ID) {
     $(".updateButton").click(function (e) {
       let name = e.target.value;
 
-      $.post(`http://localhost:3000/updateAdmin`, { 
+      $.post(`http://localhost:3000/updateAdmin`, {
         Name: name,
         Email: email,
         Password: password,
