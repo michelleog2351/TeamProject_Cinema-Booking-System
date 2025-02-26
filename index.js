@@ -8,7 +8,7 @@ var film = require('./model/film');
 var screening = require('./model/screening');
 var Theatre = require('./model/theatre');
 // var ticket = require('./model/ticket');
-// var manager = require('./model/manager');
+ var manager = require('./model/manager');
 // var booking = require('./model/booking');
 // var ticketType = require('./model/ticketType');
 
@@ -102,4 +102,25 @@ app.post("/createTheatre", function(req, res){
 
 app.post("/deleteTheatre/:TheatreID", function(req, res){
     Theatre.deleteTheatre(req, res);
+});
+
+
+app.get("/manager/:managerID", function(req,res){
+	manager.getManager(req,res);
+});
+
+app.get("/managers", function(req,res){
+	manager.getManagers(req,res);
+});
+
+app.post("/updateManager/:managerID", function(req, res) {
+    manager.updateManager(req, res);
+});
+
+app.post("/createManager/:name?/:username?/:password?", function(req,res){
+	manager.createManager(req,res);
+});
+
+app.post("/deleteManager/:managerID", function(req, res){
+    manager.deleteManager(req, res);
 });
