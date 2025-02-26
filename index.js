@@ -125,3 +125,30 @@ app.post("/deleteManager/:managerID", function(req, res){
     manager.deleteManager(req, res);
 });
 
+
+
+app.post("/login/admin", function (req, res) {
+    const { email, password } = req.body;
+
+    admin.getAdmins((admins) => {
+        const adminUser = admins.find((a) => a.Email === email && a.Password === password);
+        if (adminUser) {
+            const token = "some_generated_token";  
+            return res.json({ message: "Login successful", token });
+        }
+        res.status(401).json({ error: "Invalid email or password" });
+    });
+});
+
+app.post("/login/manager", function (req, res) {
+    const { email, password } = req.body;
+
+    manager.getManagers((managers) => {
+        const managerUser = managers.find((m) => m.Email === email && m.Password === password);
+        if (managerUser) {
+            const token = "some_generated_token";  
+            return res.json({ message: "Login successful", token });
+        }
+        res.status(401).json({ error: "Invalid email or password" });
+    });
+});
