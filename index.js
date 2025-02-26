@@ -124,3 +124,4 @@ app.post("/createManager/:name?/:username?/:password?", function(req,res){
 app.post("/deleteManager/:managerID", function(req, res){
     manager.deleteManager(req, res);
 });
+
