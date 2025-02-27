@@ -2,8 +2,9 @@ $("document").ready(function () {
 	nav();
 	footer();
 
-	var filmID = localStorage.getItem("FilmID");
+	var filmID = localStorage.getItem("FilmID"); // Retrieve FilmID from local storage to identify film being updated
 
+	// Dynamically update form
 	$("#fbody").append(`
 		<label class="form-label" for="name">Name</label>
 		<input class="form-control" type="text" id="name" name="name" required>
@@ -33,7 +34,7 @@ $("document").ready(function () {
 		<br>
 	`);
 
-	getJsonData(filmID);
+	getJsonData(filmID); // call function that contains existing film data
 
 	$("#cancel").click(function () {
 		location.replace("http://localhost:3000/film/film.html");

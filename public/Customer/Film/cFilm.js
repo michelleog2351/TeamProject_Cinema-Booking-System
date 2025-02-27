@@ -1,9 +1,6 @@
 $(document).ready(function () {
   nav();
   footer();
-  // if (typeof nav === "function") nav();
-  // if (typeof footer === "function") footer();
-
   fetchFilms();
 
   $("#searchInput").on("input", function () {
@@ -51,16 +48,17 @@ function search() {
           let releaseDate = new Date(value.ReleaseDate)
             .toISOString()
             .split("T")[0];
-          const imagePath = `http://localhost:3000/images/${value.Name.replace(
-            /\s+/g,
-            "_"
-          )}.jpg`;
-          console.log(imagePath);
+          // Testing...
+          // var imagePath = `http://localhost:3000/images/${value.Name.replace(
+          //   /\s+/g,
+          //   "_"
+          // )}.jpg`;
+          //console.log(imagePath);
 
           $("#filmCards").append(
             `<div class="col-md-4 mb-3">
 					 <div class="card">
-						 <img src="http://localhost:3000/images/${value.Name.replace(/\s+/g, "_")}.jpg" 
+						 <img src="/images/${value.Name.replace(/\s+/g, "_")}.jpg" 
      class="card-img-top img-fluid" 
      alt="${value.Name}" 
      style="height: 200px; object-fit: cover;">

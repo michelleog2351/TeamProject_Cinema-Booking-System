@@ -1,6 +1,6 @@
 $(document).ready(function () {
-  if (typeof nav === "function") nav();
-  if (typeof footer === "function") footer();
+  nav();
+  footer();
   loadFilmDetails();
 });
 
