@@ -84,6 +84,10 @@ app.get("/screenings", function(req,res){
 	screening.getScreenings(req,res);
 });
 
+app.get("/startTimes", function(req,res){
+	screening.getStartTime(req,res);
+});
+
 app.get("/filmScreenings/:filmID", function(req,res){
 	screening.getFilmScreening(req,res);
 });

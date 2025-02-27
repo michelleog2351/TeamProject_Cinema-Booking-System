@@ -207,6 +207,8 @@ VALUES
 ('Ivy Green', 'ivy.green@example.com', 'greenPass123'),
 ('Jack Turner', 'jack.turner@example.com', 'jackPass1234'),
 ('Lily Adams', 'lily.adams@example.com', 'lilyPass2025');
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'password';
+
 
 INSERT INTO `ShowingTime` (`StartTime`)
 VALUES

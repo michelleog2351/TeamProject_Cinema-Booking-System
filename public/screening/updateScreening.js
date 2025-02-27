@@ -7,7 +7,9 @@ $(`document`).ready(function () {
         `
         <div class="mb-3">
             <label  class="form-label" for="startTime">Start Time</label>
-            <input class="form-control" type="time" name="startTime" id="startTime"></input>
+            <select class="form-select" id="startTime" name="startTime">
+            
+            </select>
         </div>
 
         <div class="mb-3">
@@ -76,12 +78,12 @@ function getJsonData(ID) {
         let formattedDate = screeningDate.toISOString().split('T')[0];
 
         // Populate the input fields with the data
-        $(`#startTime`).val(data.StartTime);  
         $(`#date`).val(formattedDate);        
         $(`#seatsRemaining`).val(data.SeatsRemaining);  
         //Populate the drop down boxes with the correct film and theatre displayed
         getFilmData(data.FilmID);
         getTheatreData(data.TheatreID);
+        getStartTime(data.StartTime);
 
         
     });
@@ -104,6 +106,15 @@ function getTheatreData(TheatreID) {
         $.each(data, function (i, value) {
             let isSelected = (value.TheatreID === TheatreID) ? 'selected' : ''; 
             $(`#theatreSelect`).append(`<option value="${value.TheatreID}" ${isSelected}>${value.TheatreID}</option>`);
+        });
+    });
+}
+
+function getStartTime(StartTime) {
+    $.getJSON(`http://localhost:3000/startTimes`, function (data) {
+        $.each(data, function (i, value) {
+            let isSelected = (value.StartTime === StartTime) ? 'selected' : ''; 
+            $(`#startTime`).append(`<option value="${value.StartTime}" ${isSelected}>${value.StartTime}</option>`);
         });
     });
 }
