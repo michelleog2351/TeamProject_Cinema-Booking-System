@@ -218,7 +218,7 @@ VALUES
 ('15A'),  
 ('R');      
 
-INSERT INTO `AgeRating` (`AgeRating`)
+INSERT INTO `RunningTime` (`RunningTime`)
 VALUES
 (75),  
 (90),  

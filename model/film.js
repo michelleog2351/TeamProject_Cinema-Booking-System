@@ -124,3 +124,15 @@ exports.deleteFilm = function (req, res) {
     res.send({ message: "Film deleted successfully" });
   });
 };
+
+
+
+exports.getAgeRatings = function (req, res) {
+  connection.query("SELECT * FROM AgeRating", function (err, rows) {
+    if (err) {
+      console.error(err);
+      return res.status(500).send("Error getting films");
+    }
+    res.json(rows);
+  });
+};

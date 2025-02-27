@@ -44,6 +44,10 @@ app.get("/films", function(req,res){
     film.getFilms(req, res);
 });
 
+app.get("/ageRatings", function(req,res){
+    film.getAgeRatings(req, res);
+});
+
 app.get("/film/:filmID", function(req,res){
 	film.getFilm(req,res);
 });
