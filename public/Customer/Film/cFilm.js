@@ -109,12 +109,12 @@ function fetchFilms() {
     $.each(data, function (i, value) {
       let releaseDate = new Date(value.ReleaseDate).toISOString().split("T")[0];
       $("#filmCards").append(`
-				<div class="col-md-4 mb-3">
-					<div class="card">
+				<div class="col-md-3 mb-3">
+					<div class="card" style="width: 400px;">
       <img src="/images/${value.Name.replace(/\s+/g, "_")}.jpg" 
           class="card-img-top img-fluid" 
           alt="${value.Name}" 
-          style="height: 200px; object-fit: cover;">						
+          style="height: 500px; object-fit: cover;">						
      <div class="card-body">
 							<h5 class="card-title">${value.Name}</h5>
 							<p class="card-text">${value.Category} | ${value.Genre}</p>
