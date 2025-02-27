@@ -48,9 +48,6 @@ function nav() {
               <li class="nav-item">
                   <a class="nav-link" href="/Customer/Film/cFilm.html">Now Showing</a>
               </li> 
-              <li class="nav-item">
-                  <a class="nav-link" href="/ticket.html">Ticket</a>
-              </li>
               
     `;
 
@@ -60,9 +57,9 @@ function nav() {
         if (userType === "admin") {
             navOutPut += `
                 <li class="nav-item">
-                    <a class="nav-link" href="/admin.html">Admin</a>
+                    <a class="nav-link" href="/admin/admin.html">Admin</a>
                     <li class="nav-item">
-                  <a class="nav-link" href="/film.html">Film</a>
+                  <a class="nav-link" href="/film/film.html">Film</a>
               </li>
                 </li>`;
         } else if (userType === "manager") {
