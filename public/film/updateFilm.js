@@ -41,13 +41,14 @@ $("document").ready(function () {
 	});
 
 	$("#update").click(function () {
+		let coverImage = $("#coverImage")[0].files[0];
 		let updatedFilm = {
 			name: $("#name").val(),
 			category: $("#category").val(),
 			runningTime: $("#runningTime").val(),
 			genre: $("#genre").val(),
 			director: $("#director").val(),
-			coverImage: $("#coverImage").val(),
+			coverImage: coverImage ? coverImage.name : $("#currentCoverImage").text(),
 			videoURL: $("#videoURL").val(),
 			ReleaseDate: $("#ReleaseDate").val()
 		};
@@ -74,7 +75,9 @@ function getJsonData(filmID) {
 		$("#runningTime").val(data.RunningTime),
 		$("#genre").val(data.Genre);
 		$("#director").val(data.Director);
-		$("#coverImage").val(data.CoverImage);
+		$("#coverImage").val('');
+        $("#fileInfo").remove();
+        $("#coverImage").after(`<p id="currentCoverImage">${data.CoverImage}</p>`);
 		$("#videoURL").val(data.VideoURL);
 		$("#ReleaseDate").val(formattedDate);
 	}).fail(function () {
