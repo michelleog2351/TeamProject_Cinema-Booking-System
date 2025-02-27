@@ -35,7 +35,7 @@ CREATE TABLE `Film` (
   `Genre` varchar(50) NOT NULL,
   `Director` varchar(50) NOT NULL,
   `CoverImage` varchar(50) NOT NULL,
-  `VideoURL` varchar(50) NOT NULL,
+  `VideoURL` varchar(300) NOT NULL,
   `ReleaseDate` DATE NOT NULL,
   PRIMARY KEY (`FilmID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
