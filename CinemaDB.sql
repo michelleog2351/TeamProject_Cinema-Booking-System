@@ -31,6 +31,7 @@ CREATE TABLE `Film` (
   `FilmID` INT NOT NULL AUTO_INCREMENT,
   `Name` varchar(50) NOT NULL,
   `Category` varchar(10) NOT NULL,
+  `RunningTime` int(10) NOT NULL,
   `Genre` varchar(50) NOT NULL,
   `Director` varchar(50) NOT NULL,
   `CoverImage` varchar(50) NOT NULL,
@@ -105,8 +106,7 @@ CREATE TABLE `Admin` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
-
-INSERT INTO `Film` (`Name`, `Category`, `Genre`, `Director`, `CoverImage`, `VideoURL`, `ReleaseDate`)
+INSERT INTO `Film` (`Name`, `Category`, `Genre`, `RunningTime`, `Director`, `CoverImage`, `VideoURL`, `ReleaseDate`) 
 VALUES
 ('The Dark Knight', 'Action', 'PG-13', 90,'Christopher Nolan', 'The_Dark_Knight.jpg', 'https://example.com/dark_knight', '2008-07-18'),
 ('Inception', 'Sci-Fi', 'PG-13', 90, 'Christopher Nolan', 'Inception.jpg', 'https://example.com/inception', '2010-07-16'),
@@ -121,9 +121,6 @@ VALUES
 (40),
 (30),
 (20);
-
-
-
 
 INSERT INTO `Screening` (`StartTime`, `Date`, `SeatsRemaining`, `TheatreID`, `FilmID`)
 VALUES
@@ -148,7 +145,6 @@ VALUES
 ('Student', 7.50),
 ('Senior', 5.00),
 ('Child', 3.00);
-
 
 INSERT INTO `Ticket` (`BookingID`, `TheatreID`, `ScreeningID`, `TicketType`)
 VALUES
