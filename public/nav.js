@@ -24,19 +24,11 @@ function nav() {
                 <a class="nav-link" href="/manager/manager.html">Manager</a>
             </li>   
     `;
-  if (sessionStorage.getItem("login") == "true") {
-    navOutPut += `
-        <li class="nav-item">
-        <a class="nav-link" href="/admin.html">Admin</a>
-        </li> |
-        <li class="nav-item">
-        <a class="nav-link" href="/logout.html">Logout</a>
-        </li> |`;
-  } else {
-    navOutPut += `<li class="nav-item">
+
+  navOutPut += `<li class="nav-item">
         <a class="nav-link" href="/login.html">Login</a> 
         </li>`;
-  }
+
   navOutPut += `</ul></div>`;
   $("nav").html(navOutPut);
 }
