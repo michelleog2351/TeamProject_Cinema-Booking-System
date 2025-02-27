@@ -114,7 +114,7 @@ function fetchFilms() {
       <img src="/images/${value.Name.replace(/\s+/g, "_")}.jpg" 
           class="card-img-top img-fluid" 
           alt="${value.Name}" 
-          style="height: 500px; object-fit: cover;">						
+          style="height: 500px; object-fit: fill;">						
      <div class="card-body">
 							<h5 class="card-title">${value.Name}</h5>
 							<p class="card-text">${value.Category} | ${value.Genre}</p>

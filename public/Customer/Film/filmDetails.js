@@ -30,7 +30,7 @@ function loadFilmDetails() {
             )}.jpg" 
      class="card-img-top img-fluid" 
      alt="${value.Name}" 
-     style="height: 400px; object-fit: cover;">
+     style="height: 500px; object-fit: cover;">
                 
                 <div class="card-body">
                     <h2 class="card-title">${value.Name}</h2>
