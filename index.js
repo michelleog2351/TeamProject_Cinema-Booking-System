@@ -72,6 +72,10 @@ app.get("/screenings", function(req,res){
 	screening.getScreenings(req,res);
 });
 
+app.get("/filmScreenings/:filmID", function(req,res){
+	screening.getFilmScreening(req,res);
+});
+
 app.post("/updateScreening/:screeningID", function(req, res) {
     screening.updateScreening(req, res);
 });

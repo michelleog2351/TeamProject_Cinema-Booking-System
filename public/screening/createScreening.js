@@ -16,9 +16,11 @@ $(document).ready(function () {
         <label class="form-label" for="theatreID">TheatreID</label>
         <input class="form-control" type="text" name="theatreID" id="theatreID"></input>
 
-        <label class="form-label" for="filmID">FilmID</label>
-        <input class="form-control" type="text" name="filmID" id="filmID"></input>
-        <br>
+        <div class="mb-3">
+            <label class="form-label" for="seatsRemaining">Select Film</label>
+            <select class="form-select" id="filmSelect" name="films">
+            </select>
+        </div>
     `);
   $("#cancel").click(function () {
     location.replace("http://localhost:3000/screening/screening.html");
