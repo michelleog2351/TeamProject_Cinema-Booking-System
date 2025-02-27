@@ -1,6 +1,8 @@
 $(document).ready(function () {
   nav();
   footer();
+  getFilmData();
+        getTheatreData();
 
   $(
     "#fbody"
@@ -13,11 +15,15 @@ $(document).ready(function () {
         <label class="form-label" for="seatsRemaining">Seats Remaining</label>
         <input class="form-control" type="text" name="seatsRemaining" id="seatsRemaining"></input>
 
-        <label class="form-label" for="theatreID">TheatreID</label>
-        <input class="form-control" type="text" name="theatreID" id="theatreID"></input>
+        <div class="mb-3">
+            <label class="form-label" for="theatre">Select Theatre</label>
+            <select class="form-select" id="theatreSelect" name="theatre">
+            
+            </select>
+        </div>
 
         <div class="mb-3">
-            <label class="form-label" for="seatsRemaining">Select Film</label>
+            <label class="form-label" for="films">Select Film</label>
             <select class="form-select" id="filmSelect" name="films">
             </select>
         </div>
@@ -31,9 +37,10 @@ $(document).ready(function () {
       startTime: $(`#startTime`).val(),
       date: $(`#date`).val(),
       seatsRemaining: $(`#seatsRemaining`).val(),
-      theatreID: $(`#theatreID`).val(),
-      filmID: $(`#filmID`).val(),
+      theatreID: $(`#theatreSelect`).val(),
+      filmID: $(`#filmSelect`).val(),
     };
+
     $.post(`http://localhost:3000/createScreening`, newScreening).done(
       function () {
         alert("Film created successfully!");
@@ -42,3 +49,20 @@ $(document).ready(function () {
     );
   });
 });
+function getFilmData() {
+  //Retrive the data from the film
+  $.getJSON(`http://localhost:3000/films`, function (data) {
+      $.each(data, function (i, value) {
+          // IF Else to check film and select the one that is currently part of the screening
+          $(`#filmSelect`).append(`<option value="${value.FilmID}">${value.Name}</option>`);
+      });
+  });
+}
+
+function getTheatreData() {
+  $.getJSON(`http://localhost:3000/Theatres`, function (data) {
+      $.each(data, function (i, value) {
+          $(`#theatreSelect`).append(`<option value=${value.TheatreID}>${value.TheatreID}</option>`);
+      });
+  });
+}
