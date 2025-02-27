@@ -83,7 +83,9 @@ function fetchScreenings(filmID) {
 function playTrailer(videoURL) {
   console.log("Video URL: " + videoURL); // Debug
 
-  $('#trailerVideo').attr('src', videoURL); 
+  $('#trailerModal').on('shown.bs.modal', function () {
+    $('#trailerVideo').attr('src', videoURL); 
+  }); 
   $('#trailerModal').modal('show');
 }
 
