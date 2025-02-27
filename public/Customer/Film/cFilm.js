@@ -51,15 +51,26 @@ function search() {
           let releaseDate = new Date(value.ReleaseDate)
             .toISOString()
             .split("T")[0];
+          const imagePath = `http://localhost:3000/images/${value.Name.replace(
+            /\s+/g,
+            "_"
+          )}.jpg`;
+          console.log(imagePath);
+
           $("#filmCards").append(
             `<div class="col-md-4 mb-3">
 					 <div class="card">
-						 <img src="${value.CoverImage}" class="card-img-top img-fluid" alt="${value.Name}" style="height: 200px; object-fit: cover;">
+						 <img src="http://localhost:3000/images/${value.Name.replace(/\s+/g, "_")}.jpg" 
+     class="card-img-top img-fluid" 
+     alt="${value.Name}" 
+     style="height: 200px; object-fit: cover;">
 						 <div class="card-body">
 							 <h5 class="card-title">${value.Name}</h5>
 							 <p class="card-text">${value.Category} | ${value.Genre}</p>
 							 <p class="card-text"><small>Released: ${releaseDate}</small></p>
-							 <button type="button" class="btn btn-primary viewDetailsButton" data-id="${value.FilmID}">
+							 <button type="button" class="btn btn-primary viewDetailsButton" data-id="${
+                 value.FilmID
+               }">
 								 View Details
 							 </button>
 						 </div>
@@ -102,12 +113,17 @@ function fetchFilms() {
       $("#filmCards").append(`
 				<div class="col-md-4 mb-3">
 					<div class="card">
-						<img src="${value.CoverImage}" class="card-img-top img-fluid" alt="${value.Name}" style="height: 200px; object-fit: cover;">
-						<div class="card-body">
+      <img src="/images/${value.Name.replace(/\s+/g, "_")}.jpg" 
+          class="card-img-top img-fluid" 
+          alt="${value.Name}" 
+          style="height: 200px; object-fit: cover;">						
+     <div class="card-body">
 							<h5 class="card-title">${value.Name}</h5>
 							<p class="card-text">${value.Category} | ${value.Genre}</p>
 							<p class="card-text"><small>Released: ${releaseDate}</small></p>
-							<button type="button" class="btn btn-primary viewDetailsButton" data-id="${value.FilmID}">
+							<button type="button" class="btn btn-primary viewDetailsButton" data-id="${
+                value.FilmID
+              }">
 								View Details
 							</button>
 						</div>
