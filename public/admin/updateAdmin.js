@@ -1,7 +1,7 @@
 $(`document`).ready(function () {
   nav();
   footer();
-  var ID = localStorage.getItem("ID", ID);
+  var ID = localStorage.getItem("ID");
   $(`#fbody`).append(
     `<label  class="form-label" for="name">Name</label>
         <input class="form-control" type="text" name="name" id="name"></input>
@@ -36,11 +36,11 @@ $(`document`).ready(function () {
 
 function getJsonData(ID) {
   $.getJSON(`http://localhost:3000/admin/${ID}`, function (data) {
-    $.each(data, function (i, value) {
+   /// $.each(data, function (i, value) {
       $("#name").val(data.Name);
       $("#email").val(data.Email);
       $("#password").val(data.Password);
-    });
+    // });
 
     $(".updateButton").click(function (e) {
       let name = e.target.value;
