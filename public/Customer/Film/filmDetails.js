@@ -47,12 +47,7 @@ function loadFilmDetails() {
                       value.Director
                     }</p>
                     <p class="card-text"><strong>Release Date:</strong> ${releaseDate}</p>
-                    <button 
-                      type="button" 
-                      class="btn btn-primary" 
-                      data-bs-toggle="modal" 
-                      data-bs-target="#trailerModal"
-                      onclick="playTrailer('${value.VideoURL}')">
+                    <button type="button" class="btn btn-primary" onclick="playTrailer('${value.VideoURL}')">
                       Watch Trailer
                     </button>
                     <button type="button" class="btn btn-secondary" onclick="location.href='cFilm.html'">
@@ -86,9 +81,15 @@ function fetchScreenings(filmID) {
   });
 }
 function playTrailer(videoURL) {
-  $("#trailerVideo").attr("src", videoURL);
+  console.log("Video URL: " + videoURL); // Debug
+
+  $('#trailerVideo').attr('src', videoURL); 
+  $('#trailerModal').modal('show');
 }
 
+
 $('#trailerModal').on('hidden.bs.modal', function () {
-  $("#trailerVideo").attr("src", "");
+  console.log('Modal closed');
+  $('#trailerVideo').attr('src', '');
+  $('#trailerModal').attr('inert', 'true');
 });
