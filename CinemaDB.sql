@@ -112,6 +112,12 @@ CREATE TABLE `ShowingTime` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
+CREATE TABLE `Category` (
+`CategoryID` int AUTO_INCREMENT,
+`Category` varchar(50) NOT NULL,
+  PRIMARY KEY (`CategoryID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 CREATE TABLE `AgeRating` (
 `AgeRatingID` int AUTO_INCREMENT,
   `AgeRating` varchar(5) NOT NULL,
@@ -124,7 +130,11 @@ CREATE TABLE `RunningTime` (
   PRIMARY KEY (`RunningTimeID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-
+CREATE TABLE `Capacity` (
+`CapacityID` int AUTO_INCREMENT,
+  `Capacity` int NOT NULL,
+  PRIMARY KEY (`CapacityID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 INSERT INTO `Film` (`Name`, `Category`, `Genre`, `RunningTime`, `Director`, `CoverImage`, `VideoURL`, `ReleaseDate`) 
 VALUES
@@ -218,6 +228,17 @@ VALUES
 ('15A'),  
 ('R');      
 
+INSERT INTO `Category` (`Category`)
+VALUES
+('Action'),  
+('Kids'),      
+('Sci-Fi'),  
+('Drama'), 
+('Thriller'),  
+('Comedy'),  
+('Crime');  
+
+
 INSERT INTO `RunningTime` (`RunningTime`)
 VALUES
 (75),  
@@ -228,6 +249,14 @@ VALUES
 (145),  
 (160);    
 
+
+INSERT INTO `Capacity` (`Capacity`)
+VALUES
+(20),  
+(30),  
+(40),  
+(50),      
+(60); 
 
 COMMIT;
 

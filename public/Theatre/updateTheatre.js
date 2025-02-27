@@ -4,9 +4,11 @@ $(`document`).ready(function () {
 
   var ID = localStorage.getItem("ID", ID);
   $(`#fbody`).append(
-    `
+    `<div class="mb-3">
         <label class="form-label" for="Capacity">Capacity</label>
-        <input class="form-control" type="text" name="Capacity" id="Capacity" placeholder="Enter Capacity" ></input>
+        <select class="form-select" id="Capacity" name="Capacity">
+        </select>
+        </div>
         <br>`
   );
 
@@ -32,7 +34,19 @@ $(`document`).ready(function () {
 function getJsonData(ID) {
   $.getJSON(`http://localhost:3000/Theatre/${ID}`, function (data) {
     {
-      $("#Capacity").val(data.Capacity);
+        getCapacity(data.Capacity)
     }
+  });
+}
+
+
+function getCapacity(Capacity) {
+  //Retrive the data from the film
+  $.getJSON(`http://localhost:3000/capacity`, function (data) {
+      $.each(data, function (i, value) {
+        let isSelected = (value.Capacity === Capacity) ? 'selected' : ''; 
+          // IF Else to check film and select the one that is currently part of the screening
+          $(`#Capacity`).append(`<option value="${value.Capacity}" ${isSelected}>${value.Capacity}</option>`);
+      });
   });
 }

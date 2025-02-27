@@ -80,3 +80,13 @@ exports.deleteTheatre = function (req, res) {
     res.send({ message: "Theatre deleted successfully" });
   });
 };
+
+exports.getCapacity = function (req, res) {
+  connection.query("SELECT * FROM Capacity", function (err, rows) {
+    if (err) {
+      console.error(err);
+      return res.status(500).send("Error getting films");
+    }
+    res.json(rows);
+  });
+};

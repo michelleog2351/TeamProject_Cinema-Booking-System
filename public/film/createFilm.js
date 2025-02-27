@@ -6,11 +6,17 @@ $(document).ready(function () {
 		<label class="form-label" for="name">Name</label>
 		<input class="form-control" type="text" id="name" name="name" required>
 
-		<label class="form-label" for="runningTime">Running Time in Minutes</label>
-		<input class="form-control" type="number" id="runningTime" name="runningTime" required>
+    <div class="mb-3">
+        <label class="form-label" for="runningTime">Running Time in Minutes</label>
+        <select class="form-select" id="runningTime" name="runningTime">
+        </select>
+    </div>
 
-		<label class="form-label" for="category">Category</label>
-		<input class="form-control" type="text" id="category" name="category" placeholder="e.g. Action" required>
+    <div class="mb-3">
+        <label class="form-label" for="category">Category</label>
+        <select class="form-select" id="category" name="category">
+        </select>
+    </div>
 
     <div class="mb-3">
         <label class="form-label" for="genre">Age Rating</label>
@@ -56,6 +62,8 @@ $(document).ready(function () {
       });
   });
   getAgeRatingData();
+  getRunningMinutes();
+  getFilmCategories();
 });
 
 function getAgeRatingData() {
@@ -64,6 +72,26 @@ function getAgeRatingData() {
       $.each(data, function (i, value) {
           // IF Else to check film and select the one that is currently part of the screening
           $(`#genre`).append(`<option value="${value.AgeRating}">${value.AgeRating}</option>`);
+      });
+  });
+}
+
+function getRunningMinutes() {
+  //Retrive the data from the film
+  $.getJSON(`http://localhost:3000/runningMinutes`, function (data) {
+      $.each(data, function (i, value) {
+          // IF Else to check film and select the one that is currently part of the screening
+          $(`#runningTime`).append(`<option value="${value.RunningTime}">${value.RunningTime}</option>`);
+      });
+  });
+}
+
+function getFilmCategories() {
+  //Retrive the data from the film
+  $.getJSON(`http://localhost:3000/category`, function (data) {
+      $.each(data, function (i, value) {
+          // IF Else to check film and select the one that is currently part of the screening
+          $(`#category`).append(`<option value="${value.Category}">${value.Category}</option>`);
       });
   });
 }

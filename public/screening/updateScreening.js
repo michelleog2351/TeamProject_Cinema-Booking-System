@@ -79,10 +79,9 @@ function getJsonData(ID) {
         $(`#startTime`).val(data.StartTime);  
         $(`#date`).val(formattedDate);        
         $(`#seatsRemaining`).val(data.SeatsRemaining);  
-        $(`#theatreID`).val(data.TheatreID); 
         //Populate the drop down boxes with the correct film and theatre displayed
         getFilmData(data.FilmID);
-        getTheatreData();
+        getTheatreData(data.TheatreID);
 
         
     });
@@ -100,10 +99,11 @@ function getFilmData(FilmID) {
     });
 }
 
-function getTheatreData() {
+function getTheatreData(TheatreID) {
     $.getJSON(`http://localhost:3000/Theatres`, function (data) {
         $.each(data, function (i, value) {
-            $(`#theatreSelect`).append(`<option value=${value.TheatreID}>${value.TheatreID}</option>`);
+            let isSelected = (value.TheatreID === TheatreID) ? 'selected' : ''; 
+            $(`#theatreSelect`).append(`<option value="${value.TheatreID}" ${isSelected}>${value.TheatreID}</option>`);
         });
     });
 }

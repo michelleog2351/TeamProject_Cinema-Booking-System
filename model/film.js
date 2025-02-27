@@ -136,3 +136,24 @@ exports.getAgeRatings = function (req, res) {
     res.json(rows);
   });
 };
+
+
+exports.getRunningMinutes = function (req, res) {
+  connection.query("SELECT * FROM RunningTime", function (err, rows) {
+    if (err) {
+      console.error(err);
+      return res.status(500).send("Error getting films");
+    }
+    res.json(rows);
+  });
+};
+
+exports.getFilmCategories = function (req, res) {
+  connection.query("SELECT * FROM Category", function (err, rows) {
+    if (err) {
+      console.error(err);
+      return res.status(500).send("Error getting films");
+    }
+    res.json(rows);
+  });
+};

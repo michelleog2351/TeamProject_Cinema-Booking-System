@@ -20,7 +20,6 @@ function getJsonData() {
         `<tr>
 				<td id="name${value.Name}" >${value.Name}</td>
                 <td id="email${value.Email}">${value.Email}</td>
-				<td id="password${value.Password}">${value.Password}</td>
                 <td><button type="button" class="updateButton btn btn-secondary" value="${value.AdminID}" >Update</button></td>
                 <td><button type="button" class="deleteButton btn btn-danger" value="${value.AdminID}">Delete</button></td>
 				</tr>`

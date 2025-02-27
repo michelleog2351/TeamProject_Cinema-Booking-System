@@ -48,6 +48,14 @@ app.get("/ageRatings", function(req,res){
     film.getAgeRatings(req, res);
 });
 
+app.get("/runningMinutes", function(req,res){
+    film.getRunningMinutes(req, res);
+});
+
+app.get("/category", function(req,res){
+    film.getFilmCategories(req, res);
+});
+
 app.get("/film/:filmID", function(req,res){
 	film.getFilm(req,res);
 });
@@ -110,6 +118,10 @@ app.post("/createTheatre", function(req, res){
 
 app.post("/deleteTheatre/:TheatreID", function(req, res){
     Theatre.deleteTheatre(req, res);
+});
+
+app.get("/capacity", function(req,res){
+    Theatre.getCapacity(req, res);
 });
 
 
