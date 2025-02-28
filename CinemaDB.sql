@@ -92,17 +92,19 @@ CREATE TABLE `Seat` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `Manager` (
+`ManagerID` INT NOT NULL AUTO_INCREMENT,
   `Name` varchar(50) NOT NULL,
   `Email` varchar(50) NOT NULL,
   `Password` varchar(50) NOT NULL,
-  PRIMARY KEY (`Email`)
+  PRIMARY KEY (`ManagerID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `Admin` (
+`AdminID` INT NOT NULL AUTO_INCREMENT,
   `Name` varchar(50) NOT NULL,
   `Email` varchar(50) NOT NULL,
   `Password` varchar(50) NOT NULL,
-  PRIMARY KEY (`Email`)
+  PRIMARY KEY (`AdminID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `ShowingTime` (
@@ -207,7 +209,6 @@ VALUES
 ('Ivy Green', 'ivy.green@example.com', 'greenPass123'),
 ('Jack Turner', 'jack.turner@example.com', 'jackPass1234'),
 ('Lily Adams', 'lily.adams@example.com', 'lilyPass2025');
-ALTER USER 'root'@'localhost' IDENTIFIED BY 'password';
 
 
 INSERT INTO `ShowingTime` (`StartTime`)
