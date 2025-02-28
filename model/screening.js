@@ -7,7 +7,6 @@ var mysql = require("mysql2");
 var connection = mysql.createConnection({
   host: "localhost",
   user: "root",
-  // password: "root",
   password: "password",
   database: "cinemaDB",
 });
@@ -129,4 +128,14 @@ exports.updateScreening = function (req, res) {
       res.send({ message: "Screening updated successfully" });
     }
   );
+};
+
+exports.getStartTime = function (req, res) {
+  connection.query("SELECT * FROM ShowingTime", function (err, rows) {
+    if (err) {
+      console.error(err);
+      return res.status(500).send("Error getting films");
+    }
+    res.json(rows);
+  });
 };

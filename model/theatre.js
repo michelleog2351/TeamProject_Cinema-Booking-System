@@ -3,7 +3,6 @@ var mysql = require("mysql2");
 var connection = mysql.createConnection({
   host: "localhost",
   user: "root",
-  // password: "root",
   password: "password",
   database: "cinemaDB",
 });
@@ -78,5 +77,15 @@ exports.deleteTheatre = function (req, res) {
       return res.status(404).send({ message: "Theatre not found" });
     }
     res.send({ message: "Theatre deleted successfully" });
+  });
+};
+
+exports.getCapacity = function (req, res) {
+  connection.query("SELECT * FROM Capacity", function (err, rows) {
+    if (err) {
+      console.error(err);
+      return res.status(500).send("Error getting films");
+    }
+    res.json(rows);
   });
 };

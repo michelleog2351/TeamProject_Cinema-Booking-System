@@ -3,11 +3,17 @@ $(document).ready(function () {
   footer();
   getFilmData();
         getTheatreData();
+        getStartTime();
 
   $(
     "#fbody"
-  ).append(`<label  class="form-label" for="startTime">Start Time</label>
-        <input class="form-control" type="time" name="startTime" id="startTime"></input>
+  ).append(`
+        <div class="mb-3">
+            <label  class="form-label" for="startTime">Start Time</label>
+            <select class="form-select" id="startTime" name="startTime">
+            
+            </select>
+        </div>
 
         <label class="form-label" for="date">Date</label>
         <input class="form-control" type="date" name="date" id="date"></input>
@@ -63,6 +69,14 @@ function getTheatreData() {
   $.getJSON(`http://localhost:3000/Theatres`, function (data) {
       $.each(data, function (i, value) {
           $(`#theatreSelect`).append(`<option value=${value.TheatreID}>${value.TheatreID}</option>`);
+      });
+  });
+}
+
+function getStartTime() {
+  $.getJSON(`http://localhost:3000/startTimes`, function (data) {
+      $.each(data, function (i, value) {
+          $(`#startTime`).append(`<option value="${value.StartTime}" >${value.StartTime}</option>`);
       });
   });
 }

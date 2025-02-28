@@ -6,14 +6,23 @@ $(document).ready(function () {
 		<label class="form-label" for="name">Name</label>
 		<input class="form-control" type="text" id="name" name="name" required>
 
-		<label class="form-label" for="runningTime">Running Time in Minutes</label>
-		<input class="form-control" type="number" id="runningTime" name="runningTime" required>
+    <div class="mb-3">
+        <label class="form-label" for="runningTime">Running Time in Minutes</label>
+        <select class="form-select" id="runningTime" name="runningTime">
+        </select>
+    </div>
 
-		<label class="form-label" for="category">Category</label>
-		<input class="form-control" type="text" id="category" name="category" placeholder="e.g. Action" required>
+    <div class="mb-3">
+        <label class="form-label" for="category">Category</label>
+        <select class="form-select" id="category" name="category">
+        </select>
+    </div>
 
-		<label class="form-label" for="genre">Age Rating</label>
-		<input class="form-control" type="text" id="genre" name="genre" required>
+    <div class="mb-3">
+        <label class="form-label" for="genre">Age Rating</label>
+        <select class="form-select" id="genre" name="genre">
+        </select>
+    </div>
 
 		<label class="form-label" for="director">Director</label>
 		<input class="form-control" type="text" id="director" name="director" required>
@@ -52,26 +61,37 @@ $(document).ready(function () {
         alert("Error creating film.");
       });
   });
+  getAgeRatingData();
+  getRunningMinutes();
+  getFilmCategories();
 });
 
-function getSelectData() {
-  //Get the teams from the getTeams.php
-  $.ajax({
-    url: `http://localhost/a2/ajax/getTeams.php`,
-    cache: false,
-    type: `GET`,
-    dataType: `json`, // text, json, xml
-    success: successFunc,
-    error: errorFunc,
+function getAgeRatingData() {
+  //Retrive the data from the film
+  $.getJSON(`http://localhost:3000/ageRatings`, function (data) {
+      $.each(data, function (i, value) {
+          // IF Else to check film and select the one that is currently part of the screening
+          $(`#genre`).append(`<option value="${value.AgeRating}">${value.AgeRating}</option>`);
+      });
   });
-  //Add them to the drop down with their value being the teamID
-  function successFunc(data) {
-    $.each(data.teams, function (index, team) {
-      $(`#teams`).append(`<option value=${team.id}>${team.name}</option>`);
-    });
-  }
+}
 
-  function errorFunc(xhr, status, strError) {
-    $(`#myDiv`).text(`There was an error!`);
-  }
+function getRunningMinutes() {
+  //Retrive the data from the film
+  $.getJSON(`http://localhost:3000/runningMinutes`, function (data) {
+      $.each(data, function (i, value) {
+          // IF Else to check film and select the one that is currently part of the screening
+          $(`#runningTime`).append(`<option value="${value.RunningTime}">${value.RunningTime}</option>`);
+      });
+  });
+}
+
+function getFilmCategories() {
+  //Retrive the data from the film
+  $.getJSON(`http://localhost:3000/category`, function (data) {
+      $.each(data, function (i, value) {
+          // IF Else to check film and select the one that is currently part of the screening
+          $(`#category`).append(`<option value="${value.Category}">${value.Category}</option>`);
+      });
+  });
 }

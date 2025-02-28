@@ -3,7 +3,6 @@ var mysql = require("mysql2");
 var connection = mysql.createConnection({
   host: "localhost",
   user: "root",
-  //password: "root",
   password: "password",
   database: "cinemaDB",
 });
@@ -122,5 +121,38 @@ exports.deleteFilm = function (req, res) {
       return res.status(404).send({ message: "Film not found" });
     }
     res.send({ message: "Film deleted successfully" });
+  });
+};
+
+
+
+exports.getAgeRatings = function (req, res) {
+  connection.query("SELECT * FROM AgeRating", function (err, rows) {
+    if (err) {
+      console.error(err);
+      return res.status(500).send("Error getting films");
+    }
+    res.json(rows);
+  });
+};
+
+
+exports.getRunningMinutes = function (req, res) {
+  connection.query("SELECT * FROM RunningTime", function (err, rows) {
+    if (err) {
+      console.error(err);
+      return res.status(500).send("Error getting films");
+    }
+    res.json(rows);
+  });
+};
+
+exports.getFilmCategories = function (req, res) {
+  connection.query("SELECT * FROM Category", function (err, rows) {
+    if (err) {
+      console.error(err);
+      return res.status(500).send("Error getting films");
+    }
+    res.json(rows);
   });
 };
