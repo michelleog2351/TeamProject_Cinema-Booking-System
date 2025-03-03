@@ -2,12 +2,11 @@ $(document).ready(function () {
   nav();
   footer();
   getFilmData();
-        getTheatreData();
-        getStartTime();
+  getTheatreData();
+  getStartTime();
 
-  $(
-    "#fbody"
-  ).append(`
+
+  $("#fbody").append(`
         <div class="mb-3">
             <label  class="form-label" for="startTime">Start Time</label>
             <select class="form-select" id="startTime" name="startTime">
@@ -34,11 +33,33 @@ $(document).ready(function () {
             </select>
         </div>
     `);
+  let today = new Date().toISOString().split('T')[0];
+  $("#date").attr("min", today);
+
   $("#cancel").click(function () {
     location.replace("http://localhost:3000/screening/screening.html");
   });
 
   $("#save").click(function () {
+
+    if ($(`#date`).val() == '' || $(`#seatsRemaining`).val() == '') {
+      alert("All fields must be entered before a Sceening can be created");
+      return;
+    }
+
+    if ($(`#date`).val() < today) {
+      alert("The selected date cannot be in the past.");
+      return; 
+    }
+
+
+    $.post(`http://localhost:3000/createScreening`, newScreening).done(
+      function () {
+        location.replace("http://localhost:3000/screening/screening.html");
+      }
+    );
+
+
     let newScreening = {
       startTime: $(`#startTime`).val(),
       date: $(`#date`).val(),
@@ -49,7 +70,6 @@ $(document).ready(function () {
 
     $.post(`http://localhost:3000/createScreening`, newScreening).done(
       function () {
-        alert("Film created successfully!");
         location.replace("http://localhost:3000/screening/screening.html");
       }
     );
@@ -58,25 +78,25 @@ $(document).ready(function () {
 function getFilmData() {
   //Retrive the data from the film
   $.getJSON(`http://localhost:3000/films`, function (data) {
-      $.each(data, function (i, value) {
-          // IF Else to check film and select the one that is currently part of the screening
-          $(`#filmSelect`).append(`<option value="${value.FilmID}">${value.Name}</option>`);
-      });
+    $.each(data, function (i, value) {
+      // IF Else to check film and select the one that is currently part of the screening
+      $(`#filmSelect`).append(`<option value="${value.FilmID}">${value.Name}</option>`);
+    });
   });
 }
 
 function getTheatreData() {
   $.getJSON(`http://localhost:3000/Theatres`, function (data) {
-      $.each(data, function (i, value) {
-          $(`#theatreSelect`).append(`<option value=${value.TheatreID}>${value.TheatreID}</option>`);
-      });
+    $.each(data, function (i, value) {
+      $(`#theatreSelect`).append(`<option value=${value.TheatreID}>${value.TheatreID}</option>`);
+    });
   });
 }
 
 function getStartTime() {
   $.getJSON(`http://localhost:3000/startTimes`, function (data) {
-      $.each(data, function (i, value) {
-          $(`#startTime`).append(`<option value="${value.StartTime}" >${value.StartTime}</option>`);
-      });
+    $.each(data, function (i, value) {
+      $(`#startTime`).append(`<option value="${value.StartTime}" >${value.StartTime}</option>`);
+    });
   });
 }

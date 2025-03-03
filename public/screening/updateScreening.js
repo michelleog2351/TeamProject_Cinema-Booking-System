@@ -3,7 +3,7 @@ $(`document`).ready(function () {
     footer();
     var ID = localStorage.getItem("ScreeningID");
     $(`#fbody`).append(
-                
+
         `
         <div class="mb-3">
             <label  class="form-label" for="startTime">Start Time</label>
@@ -37,25 +37,36 @@ $(`document`).ready(function () {
         </div>
         `
     );
-    
-    
+
+
 
     getJsonData(ID);
 
+    let today = new Date().toISOString().split('T')[0];
+    $("#date").attr("min", today);
 
-    $("#cancel").click(function (e) 
-    {
-        location.replace("http://localhost:3000/screening/screening.html");  
+    $("#cancel").click(function (e) {
+        location.replace("http://localhost:3000/screening/screening.html");
     })
 
-    $("#update").click(function (e) 
-    {
+    $("#update").click(function (e) {
+
+        if ($(`#date`).val() == '' || $(`#seatsRemaining`).val() == '') {
+            return;
+        }
+
+        if ($(`#date`).val() < today) {
+            alert("The selected date cannot be in the past.");
+            return;
+        }
+
+
         let startTime = $(`#startTime`).val();
         let date = $(`#date`).val();
-        let seatsRemaining  = $(`#seatsRemaining`).val();
-        let theatreID  = $(`#theatreSelect`).val();
+        let seatsRemaining = $(`#seatsRemaining`).val();
+        let theatreID = $(`#theatreSelect`).val();
         let filmID = $(`#filmSelect`).val();
-        
+
 
         $.post(`http://localhost:3000/updateScreening/${ID}`, {
             startTime: startTime,
@@ -64,38 +75,37 @@ $(`document`).ready(function () {
             theatreID: theatreID,
             filmID: filmID
         })
-        .done(function () {
-            location.replace("http://localhost:3000/screening/screening.html");
-        })
+            .done(function () {
+                location.replace("http://localhost:3000/screening/screening.html");
+            })
     });
 
 });
 
 function getJsonData(ID) {
-    $.getJSON(`http://localhost:3000/screening/${ID}`, function(data){
+    $.getJSON(`http://localhost:3000/screening/${ID}`, function (data) {
         // Ensure data is an object, and access it directly
         let screeningDate = new Date(data.Date);
         let formattedDate = screeningDate.toISOString().split('T')[0];
 
         // Populate the input fields with the data
-        $(`#date`).val(formattedDate);        
-        $(`#seatsRemaining`).val(data.SeatsRemaining);  
+        $(`#date`).val(formattedDate);
+        $(`#seatsRemaining`).val(data.SeatsRemaining);
         //Populate the drop down boxes with the correct film and theatre displayed
         getFilmData(data.FilmID);
         getTheatreData(data.TheatreID);
         getStartTime(data.StartTime);
 
-        
+
     });
 }
-
 
 function getFilmData(FilmID) {
     //Retrive the data from the film
     $.getJSON(`http://localhost:3000/films`, function (data) {
         $.each(data, function (i, value) {
             // IF Else to check film and select the one that is currently part of the screening
-            let isSelected = (value.FilmID === FilmID) ? 'selected' : ''; 
+            let isSelected = (value.FilmID === FilmID) ? 'selected' : '';
             $(`#filmSelect`).append(`<option value="${value.FilmID}" ${isSelected}>${value.Name}</option>`);
         });
     });
@@ -104,7 +114,7 @@ function getFilmData(FilmID) {
 function getTheatreData(TheatreID) {
     $.getJSON(`http://localhost:3000/Theatres`, function (data) {
         $.each(data, function (i, value) {
-            let isSelected = (value.TheatreID === TheatreID) ? 'selected' : ''; 
+            let isSelected = (value.TheatreID === TheatreID) ? 'selected' : '';
             $(`#theatreSelect`).append(`<option value="${value.TheatreID}" ${isSelected}>${value.TheatreID}</option>`);
         });
     });
@@ -113,7 +123,7 @@ function getTheatreData(TheatreID) {
 function getStartTime(StartTime) {
     $.getJSON(`http://localhost:3000/startTimes`, function (data) {
         $.each(data, function (i, value) {
-            let isSelected = (value.StartTime === StartTime) ? 'selected' : ''; 
+            let isSelected = (value.StartTime === StartTime) ? 'selected' : '';
             $(`#startTime`).append(`<option value="${value.StartTime}" ${isSelected}>${value.StartTime}</option>`);
         });
     });

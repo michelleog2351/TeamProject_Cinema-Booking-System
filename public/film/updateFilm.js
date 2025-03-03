@@ -42,14 +42,21 @@ $("document").ready(function () {
 		<br>
 	`);
 
-	getJsonData(filmID); // call function that contains existing film data
+	getJsonData(filmID);
 
 	$("#cancel").click(function () {
 		location.replace("http://localhost:3000/film/film.html");
 	});
 
 	$("#update").click(function () {
+
 		let coverImage = $("#coverImage")[0].files[0];
+
+		if ($("#name").val() == '' || $("#director").val() == '' || $(`#ReleaseDate`).val() == '' || $(`#videoURL`).val() == '') {
+			alert("All fields must be entered before a Sceening can be created");
+			return;
+		  }
+
 		let updatedFilm = {
 			name: $("#name").val(),
 			category: $("#category").val(),
@@ -99,7 +106,6 @@ function getJsonData(filmID) {
 
 function getAgeRatingData(Genre) {
     //Retrive the data from the film
-	alert("here")
     $.getJSON(`http://localhost:3000/ageRatings`, function (data) {
         $.each(data, function (i, value) {
             // IF Else to check film and select the one that is currently part of the screening

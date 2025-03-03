@@ -42,6 +42,12 @@ $(document).ready(function () {
   });
 
   $("#save").click(function () {
+
+    if ($("#name").val() == '' || $("#director").val() == '' || $(`#ReleaseDate`).val() == '' || $(`#videoURL`).val() == '') {
+      alert("All fields must be entered before a Sceening can be created");
+      return;
+    }
+
     let newFilm = {
       name: $("#name").val(),
       category: $("#category").val(),
