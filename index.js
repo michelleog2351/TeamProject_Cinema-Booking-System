@@ -12,6 +12,7 @@ var Theatre = require('./model/theatre');
 // var booking = require('./model/booking');
 // var ticketType = require('./model/ticketType');
 
+
 var app = express();
 app.use(cors());
 

@@ -35,7 +35,7 @@ CREATE TABLE `Film` (
   `Genre` varchar(50) NOT NULL,
   `Director` varchar(50) NOT NULL,
   `CoverImage` varchar(50) NOT NULL,
-  `VideoURL` varchar(50) NOT NULL,
+  `VideoURL` varchar(300) NOT NULL,
   `ReleaseDate` DATE NOT NULL,
   PRIMARY KEY (`FilmID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -140,11 +140,11 @@ CREATE TABLE `Capacity` (
 
 INSERT INTO `Film` (`Name`, `Category`, `Genre`, `RunningTime`, `Director`, `CoverImage`, `VideoURL`, `ReleaseDate`) 
 VALUES
-('The Dark Knight', 'Action', 'PG-13', 90,'Christopher Nolan', 'The_Dark_Knight.jpg', 'https://example.com/dark_knight', '2008-07-18'),
-('Inception', 'Sci-Fi', 'PG-13', 90, 'Christopher Nolan', 'Inception.jpg', 'https://example.com/inception', '2010-07-16'),
-('The Shawshank Redemption', 'Drama', 'R', 90, 'Frank Darabont', 'The_Shawshank_Redemption.jpg', 'https://example.com/shawshank', '1994-09-22'),
-('Interstellar', 'Sci-Fi', 'PG-13', 90,'Christopher Nolan', 'Interstellar.jpg', 'https://example.com/interstellar', '2014-11-07'),
-('The Godfather', 'Crime', 'R', 90, 'Francis Ford Coppola', 'The_Godfather.jpg', 'https://example.com/godfather', '1972-03-24');
+('The Dark Knight', 'Action', 'PG-13', 90,'Christopher Nolan', 'The_Dark_Knight.jpg', 'https://www.youtube.com/embed/TQfATDZY5Y4?si=SUfnoLnAVo0u5pGl', '2008-07-18'),
+('Inception', 'Sci-Fi', 'PG-13', 90, 'Christopher Nolan', 'Inception.jpg', 'https://www.youtube.com/embed/LifqWf0BAOA?si=zsELF9jX_wI942eU', '2010-07-16'),
+('The Shawshank Redemption', 'Drama', 'R', 90, 'Frank Darabont', 'The_Shawshank_Redemption.jpg', 'https://www.youtube.com/embed/PLl99DlL6b4?si=l5671WowLHFqEBn7', '1994-09-22'),
+('Interstellar', 'Sci-Fi', 'PG-13', 90,'Christopher Nolan', 'Interstellar.jpg', 'https://www.youtube.com/embed/zSWdZVtXT7E?si=7lCey7HbESKCehHR', '2014-11-07'),
+('The Godfather', 'Crime', 'R', 90, 'Francis Ford Coppola', 'The_Godfather.jpg', 'https://www.youtube.com/embed/UaVTIH8mujA?si=oD6qDcSZ8SnxRlph', '1972-03-24');
 
 INSERT INTO `Theatre` (`Capacity`)
 VALUES
