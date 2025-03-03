@@ -86,25 +86,57 @@ CREATE TABLE `Ticket` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `Seat` (
-  `SeatNo` INT ,
+  `SeatNo` INT AUTO_INCREMENT,
   `Cost` INT NOT NULL ,
   PRIMARY KEY (`SeatNo`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `Manager` (
+`ManagerID` INT NOT NULL AUTO_INCREMENT,
   `Name` varchar(50) NOT NULL,
   `Email` varchar(50) NOT NULL,
   `Password` varchar(50) NOT NULL,
-  PRIMARY KEY (`Email`)
+  PRIMARY KEY (`ManagerID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `Admin` (
+`AdminID` INT NOT NULL AUTO_INCREMENT,
   `Name` varchar(50) NOT NULL,
   `Email` varchar(50) NOT NULL,
   `Password` varchar(50) NOT NULL,
-  PRIMARY KEY (`Email`)
+  PRIMARY KEY (`AdminID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+CREATE TABLE `ShowingTime` (
+`TimeID` int AUTO_INCREMENT,
+  `StartTime` TIME NOT NULL,
+  PRIMARY KEY (`TimeID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+CREATE TABLE `Category` (
+`CategoryID` int AUTO_INCREMENT,
+`Category` varchar(50) NOT NULL,
+  PRIMARY KEY (`CategoryID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `AgeRating` (
+`AgeRatingID` int AUTO_INCREMENT,
+  `AgeRating` varchar(5) NOT NULL,
+  PRIMARY KEY (`AgeRatingID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `RunningTime` (
+`RunningTimeID` int AUTO_INCREMENT,
+  `RunningTime` int NOT NULL,
+  PRIMARY KEY (`RunningTimeID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `Capacity` (
+`CapacityID` int AUTO_INCREMENT,
+  `Capacity` int NOT NULL,
+  PRIMARY KEY (`CapacityID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 INSERT INTO `Film` (`Name`, `Category`, `Genre`, `RunningTime`, `Director`, `CoverImage`, `VideoURL`, `ReleaseDate`) 
 VALUES
@@ -177,6 +209,57 @@ VALUES
 ('Ivy Green', 'ivy.green@example.com', 'greenPass123'),
 ('Jack Turner', 'jack.turner@example.com', 'jackPass1234'),
 ('Lily Adams', 'lily.adams@example.com', 'lilyPass2025');
+
+
+INSERT INTO `ShowingTime` (`StartTime`)
+VALUES
+('17:00:00'),
+('18:00:00'),
+('18:30:00'),
+('19:00:00'),
+('19:30:00'),
+('20:45:00'),
+('20:00:00'),
+('21:00:00');
+
+
+INSERT INTO `AgeRating` (`AgeRating`)
+VALUES
+('G'),  
+('PG'),      
+('PG-13'),  
+('15A'),  
+('R');      
+
+INSERT INTO `Category` (`Category`)
+VALUES
+('Action'),  
+('Kids'),      
+('Sci-Fi'),  
+('Drama'), 
+('Thriller'),  
+('Comedy'),  
+('Crime');  
+
+
+INSERT INTO `RunningTime` (`RunningTime`)
+VALUES
+(75),  
+(90),  
+(110),  
+(120),      
+(130),
+(145),  
+(160);    
+
+
+INSERT INTO `Capacity` (`Capacity`)
+VALUES
+(20),  
+(30),  
+(40),  
+(50),      
+(60); 
 
 COMMIT;
 
