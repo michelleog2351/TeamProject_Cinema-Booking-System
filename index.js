@@ -93,7 +93,7 @@ app.get("/filmScreenings/:filmID", function(req,res){
 	screening.getFilmScreening(req,res);
 });
 
-app.get("/checkScreeningAvailability", function(req,res){
+app.post("/checkScreeningAvailability", function(req,res){
 	screening.checkScreeningAvailability(req,res);
 });
 

@@ -143,12 +143,12 @@ exports.getStartTime = function (req, res) {
 
 //Deletes an Screening by passing an ID
 exports.checkScreeningAvailability = function (req, res) {
-  var filmID = req.params.filmID;
-  var date = req.params.date;
-  var startTime = req.params.startTime;
+  var theatreID = req.body.theatreID;
+  var date = req.body.date;
+  var startTime = req.body.startTime;
 
-  const query = "Select * FROM screening WHERE FilmID = ?, Date = ?, StartTime = ?";
-  connection.query(query, [filmID, date, startTime], function (err, result) {
+  const query = "Select * FROM screening WHERE TheatreID = ? AND Date = ? AND StartTime = ?";
+  connection.query(query, [theatreID, date, startTime], function (err, result) {
     if (err) {
       console.error(err);
       return res.status(500).send("Error deleting Screening");
