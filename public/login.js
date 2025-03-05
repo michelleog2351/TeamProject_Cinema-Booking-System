@@ -1,7 +1,7 @@
 $(document).ready(function () {
     nav();
     footer();
-    
+
     $("#fbody").append(`
         <label class="form-label" for="email">Email</label>
         <input class="form-control" type="email" id="email" name="email" required>
@@ -19,34 +19,26 @@ $(document).ready(function () {
     `);
 
     $("#login").click(function (e) {
-        e.preventDefault();  
+        e.preventDefault();
 
-        let user = {
-            email: $("#email").val(),
-            password: $("#password").val(),
-            userType: $("#userType").val(),
-        };
+        let email = $("#email").val();
+        let password = $("#password").val();
+        let userType = $("#userType").val();
 
-        $.ajax({
-            url: "/login", 
-            method: "POST",
-            data: {
-                email: user.email,
-                password: user.password,
-                userType: user.userType 
-            },
-            success: function (response) {
-                let token = response.token;
+
+        $.post("/login", { email, password, userType }, function (response) {
+            if (response.token) {
                 sessionStorage.setItem("login", "true");
-                sessionStorage.setItem("userType", user.userType);
-                localStorage.setItem("token", token);
+                sessionStorage.setItem("userType", userType);
+                localStorage.setItem("token", response.token);
 
-                nav();
+                nav(); 
                 location.replace("http://localhost:3000/index.html");
-            },
-            error: function (err) {
+            } else {
                 alert("Invalid email or password.");
             }
+        }).fail(function () {
+            alert("Invalid email or password.");
         });
     });
 });
