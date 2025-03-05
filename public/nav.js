@@ -93,8 +93,8 @@ function nav() {
     $("#logout").click(function (e) {
         e.preventDefault();
         sessionStorage.removeItem("login");
-        sessionStorage.removeItem("userType");
-        localStorage.removeItem("token");
+        sessionStorage.removeItem("userType"); // need to make the nav page more efficient
+        localStorage.removeItem("token"); // dont need token here
 
         location.replace("/index.html");
     });

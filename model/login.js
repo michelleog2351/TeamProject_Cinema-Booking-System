@@ -3,7 +3,7 @@ var mysql = require("mysql2");
 var connection = mysql.createConnection({
   host: "localhost",
   user: "root",
-  password: "password", 
+  password: "password",
   database: "cinemaDB",
 });
 
@@ -26,8 +26,7 @@ exports.loginAdmin = function (req, res) {
       return res.status(401).json({ error: "Invalid email or password" });
     }
 
-    const token = "admin-token"; 
-    res.json({ message: "Login successful", token });
+    res.json({ message: "Login successful" }); // Token removed
   });
 };
 
@@ -45,7 +44,6 @@ exports.loginManager = function (req, res) {
       return res.status(401).json({ error: "Invalid email or password" });
     }
 
-    const token = "manager-token"; 
-    res.json({ message: "Login successful", token });
+    res.json({ message: "Login successful" }); // Token removed
   });
 };
