@@ -23,6 +23,7 @@ function nav() {
             <li class="nav-item">
                 <a class="nav-link" href="/manager/manager.html">Manager</a>
             </li>   
+            
     `;
   if (sessionStorage.getItem("login") == "true") {
     navOutPut += `
@@ -95,6 +96,6 @@ function nav() {
         sessionStorage.removeItem("userType");
         localStorage.removeItem("token");
 
-        location.replace("/login.html");
+        location.replace("/index.html");
     });
 }
