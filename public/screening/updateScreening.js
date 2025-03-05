@@ -7,8 +7,7 @@ $(`document`).ready(function () {
         `
         <div class="mb-3">
             <label  class="form-label" for="startTime">Start Time</label>
-            <select class="form-select" id="startTime" name="startTime">
-            
+            <select class="form-select" id="startTime" name="startTime"> 
             </select>
         </div>
 
@@ -50,7 +49,7 @@ $(`document`).ready(function () {
         location.replace("http://localhost:3000/screening/screening.html");
     })
 
-    $("#update").click(function (e) {
+    $("#update").click(async function (e) {
         var inputValidation = true;
         $("#warningMessage").hide(); 
         $("#dateWarningMessage").hide();
@@ -67,11 +66,14 @@ $(`document`).ready(function () {
             return;
         }
 
+        var filmID = $(`#filmSelect`).val();
+        var filmRunningTime  = await getRunningTime(filmID)
+    
         let bookedScreening = {
-            theatreID: $(`#theatreSelect`).val(),
-            date: $(`#date`).val(),
-            startTime: $(`#startTime`).val()
-
+          theatreID: $(`#theatreSelect`).val(),
+          date: $(`#date`).val(),
+          startTime: $(`#startTime`).val(),
+          runningTime: filmRunningTime
         };
 
         $.post(`http://localhost:3000/checkScreeningAvailability`, bookedScreening).done(
@@ -148,3 +150,9 @@ function getStartTime(StartTime) {
         });
     });
 }
+
+async function getRunningTime(filmID) {
+    data = await $.getJSON(`http://localhost:3000/filmRunningTime/${filmID}`);
+    console.log(data[0].RunningTime)
+    return data[0].RunningTime;
+  }

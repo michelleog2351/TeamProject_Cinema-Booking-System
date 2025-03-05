@@ -8,6 +8,11 @@
 -- select * from ticket;
 -- select * from tickettype;
 
+
+Select * FROM screening WHERE TheatreID = 1 AND Date = 2025-03-05 AND (StartTime = '17:00:00'|| (StartTime = '17:00:00'+SEC_TO_TIME(90) || StartTime = '17:00:00'- SEC_TO_TIME(90)));
+
+
+
 DROP DATABASE IF EXISTS `cinemaDB`;
 CREATE DATABASE `cinemaDB`;
 USE `cinemaDB`;

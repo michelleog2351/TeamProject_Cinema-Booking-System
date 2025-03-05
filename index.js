@@ -97,6 +97,10 @@ app.post("/checkScreeningAvailability", function(req,res){
 	screening.checkScreeningAvailability(req,res);
 });
 
+app.get("/filmRunningTime/:filmID", function(req,res){
+	screening.checkRunningTime(req,res);
+});
+
 app.post("/updateScreening/:screeningID", function(req, res) {
     screening.updateScreening(req, res);
 });
