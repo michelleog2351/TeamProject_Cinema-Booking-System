@@ -9,15 +9,23 @@ $("document").ready(function () {
 		<label class="form-label" for="name">Name</label>
 		<input class="form-control" type="text" id="name" name="name" required>
 
-		<label class="form-label" for="category">Category</label>
-		<input class="form-control" type="text" id="category" name="category" required>
+		<div class="mb-3">
+				<label class="form-label" for="runningTime">Running Time in Minutes</label>
+				<select class="form-select" id="runningTime" name="runningTime">
+				</select>
+			</div>
 
-		<label class="form-label" for="runningTime">Running Time in Minutes</label>
-		<input class="form-control" type="number" id="runningTime" name="runningTime" required>
-		
+			<div class="mb-3">
+				<label class="form-label" for="category">Category</label>
+				<select class="form-select" id="category" name="category">
+				</select>
+			</div>
 
-		<label class="form-label" for="genre">Age Rating</label>
-		<input class="form-control" type="text" id="genre" name="genre" required>
+			<div class="mb-3">
+				<label class="form-label" for="genre">Age Rating</label>
+				<select class="form-select" id="genre" name="genre">
+				</select>
+			</div>
 
 		<label class="form-label" for="director">Director</label>
 		<input class="form-control" type="text" id="director" name="director" required>
@@ -41,13 +49,14 @@ $("document").ready(function () {
 	});
 
 	$("#update").click(function () {
+		let coverImage = $("#coverImage")[0].files[0];
 		let updatedFilm = {
 			name: $("#name").val(),
 			category: $("#category").val(),
 			runningTime: $("#runningTime").val(),
 			genre: $("#genre").val(),
 			director: $("#director").val(),
-			coverImage: $("#coverImage").val(),
+			coverImage: coverImage ? coverImage.name : $("#currentCoverImage").text(),
 			videoURL: $("#videoURL").val(),
 			ReleaseDate: $("#ReleaseDate").val()
 		};
@@ -70,15 +79,54 @@ function getJsonData(filmID) {
 		let formattedDate = releaseDate.toISOString().split('T')[0];
 
 		$("#name").val(data.Name);
-		$("#category").val(data.Category);
-		$("#runningTime").val(data.RunningTime),
-		$("#genre").val(data.Genre);
 		$("#director").val(data.Director);
-		$("#coverImage").val(data.CoverImage);
+		$("#coverImage").val('');
+        $("#fileInfo").remove();
+        $("#coverImage").after(`<p id="currentCoverImage">${data.CoverImage}</p>`);
 		$("#videoURL").val(data.VideoURL);
 		$("#ReleaseDate").val(formattedDate);
+		
+		 getAgeRatingData(data.Genre);
+		 getFilmCategories(data.Category);
+		 getRunningMinutes(data.RunningTime);
+
+
 	}).fail(function () {
 		alert("Error fetching film details.");
 		location.replace("http://localhost:3000/film/film.html");
 	});
+}
+
+function getAgeRatingData(Genre) {
+    //Retrive the data from the film
+	alert("here")
+    $.getJSON(`http://localhost:3000/ageRatings`, function (data) {
+        $.each(data, function (i, value) {
+            // IF Else to check film and select the one that is currently part of the screening
+            let isSelected = (value.AgeRating === Genre) ? 'selected' : ''; 
+            $(`#genre`).append(`<option value="${value.AgeRating}" ${isSelected}>${value.AgeRating}</option>`);
+        });
+    });
+}
+
+function getRunningMinutes(RunningTime) {
+    //Retrive the data from the film
+    $.getJSON(`http://localhost:3000/runningMinutes`, function (data) {
+        $.each(data, function (i, value) {
+            // IF Else to check film and select the one that is currently part of the screening
+            let isSelected = (value.RunningTime === RunningTime) ? 'selected' : ''; 
+            $(`#runningTime`).append(`<option value="${value.RunningTime}" ${isSelected}>${value.RunningTime}</option>`);
+        });
+    });
+}
+
+function getFilmCategories(Category) {
+    //Retrive the data from the film
+    $.getJSON(`http://localhost:3000/category`, function (data) {
+        $.each(data, function (i, value) {
+            // IF Else to check film and select the one that is currently part of the screening
+            let isSelected = (value.Category === Category) ? 'selected' : ''; 
+            $(`#category`).append(`<option value="${value.Category}" ${isSelected}>${value.Category}</option>`);
+        });
+    });
 }

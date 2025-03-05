@@ -47,9 +47,9 @@ function loadFilmDetails() {
                       value.Director
                     }</p>
                     <p class="card-text"><strong>Release Date:</strong> ${releaseDate}</p>
-                    <a href="${
-                      value.VideoURL
-                    }" target="_blank" class="btn btn-primary">Watch Trailer</a>
+                    <button type="button" class="btn btn-primary" onclick="playTrailer('${value.VideoURL}')">
+                      Watch Trailer
+                    </button>
                     <button type="button" class="btn btn-secondary" onclick="location.href='cFilm.html'">
                         Go Back
                     </button>
@@ -80,3 +80,18 @@ function fetchScreenings(filmID) {
     });
   });
 }
+function playTrailer(videoURL) {
+  console.log("Video URL: " + videoURL); // Debug
+
+  $('#trailerModal').on('shown.bs.modal', function () {
+    $('#trailerVideo').attr('src', videoURL); 
+  }); 
+  $('#trailerModal').modal('show');
+}
+
+
+$('#trailerModal').on('hidden.bs.modal', function () {
+  console.log('Modal closed');
+  $('#trailerVideo').attr('src', '');
+  $('#trailerModal').attr('inert', 'true');
+});

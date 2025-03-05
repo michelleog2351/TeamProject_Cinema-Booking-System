@@ -35,7 +35,7 @@ CREATE TABLE `Film` (
   `Genre` varchar(50) NOT NULL,
   `Director` varchar(50) NOT NULL,
   `CoverImage` varchar(50) NOT NULL,
-  `VideoURL` varchar(50) NOT NULL,
+  `VideoURL` varchar(300) NOT NULL,
   `ReleaseDate` DATE NOT NULL,
   PRIMARY KEY (`FilmID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -86,33 +86,65 @@ CREATE TABLE `Ticket` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `Seat` (
-  `SeatNo` INT ,
+  `SeatNo` INT AUTO_INCREMENT,
   `Cost` INT NOT NULL ,
   PRIMARY KEY (`SeatNo`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `Manager` (
+`ManagerID` INT NOT NULL AUTO_INCREMENT,
   `Name` varchar(50) NOT NULL,
   `Email` varchar(50) NOT NULL,
   `Password` varchar(50) NOT NULL,
-  PRIMARY KEY (`Email`)
+  PRIMARY KEY (`ManagerID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `Admin` (
+`AdminID` INT NOT NULL AUTO_INCREMENT,
   `Name` varchar(50) NOT NULL,
   `Email` varchar(50) NOT NULL,
   `Password` varchar(50) NOT NULL,
-  PRIMARY KEY (`Email`)
+  PRIMARY KEY (`AdminID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `ShowingTime` (
+`TimeID` int AUTO_INCREMENT,
+  `StartTime` TIME NOT NULL,
+  PRIMARY KEY (`TimeID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
+CREATE TABLE `Category` (
+`CategoryID` int AUTO_INCREMENT,
+`Category` varchar(50) NOT NULL,
+  PRIMARY KEY (`CategoryID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `AgeRating` (
+`AgeRatingID` int AUTO_INCREMENT,
+  `AgeRating` varchar(5) NOT NULL,
+  PRIMARY KEY (`AgeRatingID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `RunningTime` (
+`RunningTimeID` int AUTO_INCREMENT,
+  `RunningTime` int NOT NULL,
+  PRIMARY KEY (`RunningTimeID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `Capacity` (
+`CapacityID` int AUTO_INCREMENT,
+  `Capacity` int NOT NULL,
+  PRIMARY KEY (`CapacityID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 INSERT INTO `Film` (`Name`, `Category`, `Genre`, `RunningTime`, `Director`, `CoverImage`, `VideoURL`, `ReleaseDate`) 
 VALUES
-('The Dark Knight', 'Action', 'PG-13', 90,'Christopher Nolan', 'The_Dark_Knight.jpg', 'https://example.com/dark_knight', '2008-07-18'),
-('Inception', 'Sci-Fi', 'PG-13', 90, 'Christopher Nolan', 'Inception.jpg', 'https://example.com/inception', '2010-07-16'),
-('The Shawshank Redemption', 'Drama', 'R', 90, 'Frank Darabont', 'The_Shawshank_Redemption.jpg', 'https://example.com/shawshank', '1994-09-22'),
-('Interstellar', 'Sci-Fi', 'PG-13', 90,'Christopher Nolan', 'Interstellar.jpg', 'https://example.com/interstellar', '2014-11-07'),
-('The Godfather', 'Crime', 'R', 90, 'Francis Ford Coppola', 'The_Godfather.jpg', 'https://example.com/godfather', '1972-03-24');
+('The Dark Knight', 'Action', 'PG-13', 90,'Christopher Nolan', 'The_Dark_Knight.jpg', 'https://www.youtube.com/embed/TQfATDZY5Y4?si=SUfnoLnAVo0u5pGl', '2008-07-18'),
+('Inception', 'Sci-Fi', 'PG-13', 90, 'Christopher Nolan', 'Inception.jpg', 'https://www.youtube.com/embed/LifqWf0BAOA?si=zsELF9jX_wI942eU', '2010-07-16'),
+('The Shawshank Redemption', 'Drama', 'R', 90, 'Frank Darabont', 'The_Shawshank_Redemption.jpg', 'https://www.youtube.com/embed/PLl99DlL6b4?si=l5671WowLHFqEBn7', '1994-09-22'),
+('Interstellar', 'Sci-Fi', 'PG-13', 90,'Christopher Nolan', 'Interstellar.jpg', 'https://www.youtube.com/embed/zSWdZVtXT7E?si=7lCey7HbESKCehHR', '2014-11-07'),
+('The Godfather', 'Crime', 'R', 90, 'Francis Ford Coppola', 'The_Godfather.jpg', 'https://www.youtube.com/embed/UaVTIH8mujA?si=oD6qDcSZ8SnxRlph', '1972-03-24');
 
 INSERT INTO `Theatre` (`Capacity`)
 VALUES
@@ -177,6 +209,57 @@ VALUES
 ('Ivy Green', 'ivy.green@example.com', 'greenPass123'),
 ('Jack Turner', 'jack.turner@example.com', 'jackPass1234'),
 ('Lily Adams', 'lily.adams@example.com', 'lilyPass2025');
+
+
+INSERT INTO `ShowingTime` (`StartTime`)
+VALUES
+('17:00:00'),
+('18:00:00'),
+('18:30:00'),
+('19:00:00'),
+('19:30:00'),
+('20:45:00'),
+('20:00:00'),
+('21:00:00');
+
+
+INSERT INTO `AgeRating` (`AgeRating`)
+VALUES
+('G'),  
+('PG'),      
+('PG-13'),  
+('15A'),  
+('R');      
+
+INSERT INTO `Category` (`Category`)
+VALUES
+('Action'),  
+('Kids'),      
+('Sci-Fi'),  
+('Drama'), 
+('Thriller'),  
+('Comedy'),  
+('Crime');  
+
+
+INSERT INTO `RunningTime` (`RunningTime`)
+VALUES
+(75),  
+(90),  
+(110),  
+(120),      
+(130),
+(145),  
+(160);    
+
+
+INSERT INTO `Capacity` (`Capacity`)
+VALUES
+(20),  
+(30),  
+(40),  
+(50),      
+(60); 
 
 COMMIT;
 

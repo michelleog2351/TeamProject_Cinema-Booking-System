@@ -12,6 +12,7 @@ var Theatre = require('./model/theatre');
 // var booking = require('./model/booking');
 // var ticketType = require('./model/ticketType');
 
+
 var app = express();
 app.use(cors());
 
@@ -44,6 +45,18 @@ app.get("/films", function(req,res){
     film.getFilms(req, res);
 });
 
+app.get("/ageRatings", function(req,res){
+    film.getAgeRatings(req, res);
+});
+
+app.get("/runningMinutes", function(req,res){
+    film.getRunningMinutes(req, res);
+});
+
+app.get("/category", function(req,res){
+    film.getFilmCategories(req, res);
+});
+
 app.get("/film/:filmID", function(req,res){
 	film.getFilm(req,res);
 });
@@ -70,6 +83,10 @@ var myServer = app.listen(3000, function() {
 
 app.get("/screenings", function(req,res){
 	screening.getScreenings(req,res);
+});
+
+app.get("/startTimes", function(req,res){
+	screening.getStartTime(req,res);
 });
 
 app.get("/filmScreenings/:filmID", function(req,res){
@@ -106,6 +123,10 @@ app.post("/createTheatre", function(req, res){
 
 app.post("/deleteTheatre/:TheatreID", function(req, res){
     Theatre.deleteTheatre(req, res);
+});
+
+app.get("/capacity", function(req,res){
+    Theatre.getCapacity(req, res);
 });
 
 
