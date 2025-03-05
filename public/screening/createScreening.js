@@ -9,8 +9,7 @@ $(document).ready(function () {
   $("#fbody").append(`
         <div class="mb-3">
             <label  class="form-label" for="startTime">Start Time</label>
-            <select class="form-select" id="startTime" name="startTime">
-            
+            <select class="form-select" id="startTime" name="startTime">   
             </select>
         </div>
 
@@ -39,7 +38,7 @@ $(document).ready(function () {
             </select>
         </div>
     `);
-  var inputValidation = true;
+  
   let today = new Date().toISOString().split('T')[0];
   $("#date").attr("min", today);
 
@@ -48,6 +47,9 @@ $(document).ready(function () {
   });
 
   $("#save").click(function () {
+    var inputValidation = true;
+    $("#warningMessage").hide(); 
+    $("#dateWarningMessage").hide();
 
     if ($(`#seatsRemaining`).val() == '') {
       $("#warningMessage").show();

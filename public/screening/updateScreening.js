@@ -15,11 +15,13 @@ $(`document`).ready(function () {
         <div class="mb-3">
             <label class="form-label" for="date">Date</label>
             <input class="form-control" type="date" name="date" id="date"></input>
+            <small id="dateWarningMessage" style="color: red; display: none;">Please enter a valid date</small>
         </div>
 
         <div class="mb-3">
             <label class="form-label" for="seatsRemaining">Seats Remaining</label>
             <input class="form-control" type="text" name="seatsRemaining" id="seatsRemaining"></input>
+            <small id="warningMessage" style="color: red; display: none;">Please enter a value</small>
         </div>
 
         <div class="mb-3">
@@ -41,7 +43,6 @@ $(`document`).ready(function () {
 
 
     getJsonData(ID);
-
     let today = new Date().toISOString().split('T')[0];
     $("#date").attr("min", today);
 
@@ -50,34 +51,53 @@ $(`document`).ready(function () {
     })
 
     $("#update").click(function (e) {
+        var inputValidation = true;
+        $("#warningMessage").hide(); 
+        $("#dateWarningMessage").hide();
 
-        if ($(`#date`).val() == '' || $(`#seatsRemaining`).val() == '') {
+        if ($(`#seatsRemaining`).val() == '') {
+            $("#warningMessage").show();
+            inputValidation = false;
+        }
+        if ($(`#date`).val() == '' || $(`#date`).val() < today) {
+            $("#dateWarningMessage").show();
+            inputValidation = false;
+        }
+        if (!inputValidation) {
             return;
         }
 
-        if ($(`#date`).val() < today) {
-            alert("The selected date cannot be in the past.");
-            return;
-        }
+        let bookedScreening = {
+            theatreID: $(`#theatreSelect`).val(),
+            date: $(`#date`).val(),
+            startTime: $(`#startTime`).val()
 
+        };
 
-        let startTime = $(`#startTime`).val();
-        let date = $(`#date`).val();
-        let seatsRemaining = $(`#seatsRemaining`).val();
-        let theatreID = $(`#theatreSelect`).val();
-        let filmID = $(`#filmSelect`).val();
+        $.post(`http://localhost:3000/checkScreeningAvailability`, bookedScreening).done(
+            function (data) {
+                if (data.length > 0)
+                    alert("Scrrening already booked try again")
+                else {
+                    let startTime = $(`#startTime`).val();
+                    let date = $(`#date`).val();
+                    let seatsRemaining = $(`#seatsRemaining`).val();
+                    let theatreID = $(`#theatreSelect`).val();
+                    let filmID = $(`#filmSelect`).val();
 
-
-        $.post(`http://localhost:3000/updateScreening/${ID}`, {
-            startTime: startTime,
-            date: date,
-            seatsRemaining: seatsRemaining,
-            theatreID: theatreID,
-            filmID: filmID
-        })
-            .done(function () {
-                location.replace("http://localhost:3000/screening/screening.html");
-            })
+                    $.post(`http://localhost:3000/updateScreening/${ID}`, {
+                        startTime: startTime,
+                        date: date,
+                        seatsRemaining: seatsRemaining,
+                        theatreID: theatreID,
+                        filmID: filmID
+                    })
+                        .done(function () {
+                            location.replace("http://localhost:3000/screening/screening.html");
+                        })
+                }
+            }
+        );
     });
 
 });
