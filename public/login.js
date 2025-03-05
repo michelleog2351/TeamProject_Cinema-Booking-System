@@ -27,26 +27,40 @@ $(document).ready(function () {
             userType: $("#userType").val(),
         };
 
-        $.ajax({
-            url: "/login", 
-            method: "POST",
-            data: {
-                email: user.email,
-                password: user.password,
-                userType: user.userType 
-            },
-            success: function (response) {
-                let token = response.token;
-                sessionStorage.setItem("login", "true");
-                sessionStorage.setItem("userType", user.userType);
-                localStorage.setItem("token", token);
+        // $.ajax({
+        //     url: "/login", 
+        //     method: "POST",
+        //     data: {
+        //         email: user.email,
+        //         password: user.password,
+        //         userType: user.userType 
+        //     },
+        //     success: function (response) {
+        //         let token = response.token;
+        //         sessionStorage.setItem("login", "true");
+        //         sessionStorage.setItem("userType", user.userType);
+        //         localStorage.setItem("token", token);
 
-                nav();
-                location.replace("http://localhost:3000/index.html");
-            },
-            error: function (err) {
-                alert("Invalid email or password.");
-            }
-        });
+        //         nav();
+        //         location.replace("http://localhost:3000/index.html");
+        //     },
+        //     error: function (err) {
+        //         alert("Invalid email or password.");
+        //     }
+        // });
+
+        // using this in jquery
+        // also need to get rid of token in nav.js
+        $.post("/login", user)
+      .done(function (response) {
+        sessionStorage.setItem("login", "true");
+        sessionStorage.setItem("userType", user.userType);
+
+        nav();
+        location.replace("http://localhost:3000/index.html");
+      })
+      .fail(function (err) {
+        alert(err.responseJSON?.error || "Invalid email or password.");
+      });
     });
 });
