@@ -2,7 +2,7 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var _ = require('underscore');
 var cors = require("cors");
-
+var login = require('./model/login');
 var admin = require('./model/admin');
 var film = require('./model/film');
 var screening = require('./model/screening');
@@ -129,30 +129,15 @@ app.post("/deleteManager/:managerID", function(req, res){
     manager.deleteManager(req, res);
 });
 
+app.post("/login", function (req, res) {
+    const { email, password, userType } = req.body;
 
-
-app.post("/login/admin", function (req, res) {
-    const { email, password } = req.body;
-
-    admin.getAdmins((admins) => {
-        const adminUser = admins.find((a) => a.Email === email && a.Password === password);
-        if (adminUser) {
-            const token = "some_generated_token";  
-            return res.json({ message: "Login successful", token });
-        }
-        res.status(401).json({ error: "Invalid email or password" });
-    });
-});
-
-app.post("/login/manager", function (req, res) {
-    const { email, password } = req.body;
-
-    manager.getManagers((managers) => {
-        const managerUser = managers.find((m) => m.Email === email && m.Password === password);
-        if (managerUser) {
-            const token = "some_generated_token";  
-            return res.json({ message: "Login successful", token });
-        }
-        res.status(401).json({ error: "Invalid email or password" });
-    });
+    // Check the userType and call the appropriate login function
+    if (userType === 'admin') {
+        login.loginAdmin(req, res);  // Admin login
+    } else if (userType === 'manager') {
+        login.loginManager(req, res); // Manager login
+    } else {
+        return res.status(400).json({ error: "Invalid user type" });
+    }
 });
