@@ -22,14 +22,17 @@ function loadFilmDetails() {
 
 $.getJSON(`http://localhost:3000/film/${filmID}`, function (value) {
 let releaseDate = new Date(value.ReleaseDate).toISOString().split("T")[0];
-$("#filmDetails").html(
-  `<div class="container mt-4">
+$("#filmDetails").html(`
+  <div class="container mt-4">
     <div class="row">
       <div class="col-md-4">
-        <img src="http://localhost:3000/images/${value.Name.replace(/\s+/g, "_")}.jpg" class="img-fluid" alt="${value.Name}">
+        <img src="http://localhost:3000/images/${value.Name.replace(/\s+/g, "_")}.jpg" 
+             class="img-fluid rounded shadow" 
+             alt="${value.Name}">
       </div>
+
       <div class="col-md-8">
-        <h2>${value.Name}</h2>
+        <h2 class="fw-bold">${value.Name}</h2>
         <p><strong>Directed by:</strong> ${value.Director}</p>
         <p><strong>Genre:</strong> ${value.Category}</p>
         <p><strong>Run Time:</strong> ${value.RunningTime} mins</p>
@@ -37,10 +40,15 @@ $("#filmDetails").html(
         <p><strong>Rating:</strong> ${value.Genre}</p>
       </div>
     </div>
-    <hr>
-    <h4>Showtimes</h4>
-    <div id="screeningDetails" class="mt-2"></div>
-  </div>`
+
+    <div class="row mt-4">
+      <div class="col-12">
+        <h4 class="fw-bold">Screenings</h4>
+        <div id="screeningDetails"></div>
+      </div>
+    </div>
+  </div>
+  `
 );
     fetchScreenings(filmID);
   }).fail(function (jqXHR, textStatus, errorThrown) {
