@@ -59,6 +59,24 @@ exports.getFilmScreening = function (req, res) {
   });
 };
 
+//This will search for independent Screening in update
+exports.checkRunningTime = function (req, res) {
+  var filmID = req.params.filmID; 
+
+  const query = "SELECT RunningTime FROM Film WHERE FilmID = ?"; //creates a query using prepared statemetns
+  connection.query(query, [filmID], function (err, rows) {
+    if (err) {
+      console.error(err);
+      return res.status(500).send("Error getting screening");
+    }
+    if (rows.length === 0) {
+      return res.status(404).send({ message: "Screening not found" });
+    }
+    res.json(rows);
+  });
+};
+
+
 //Creates a new entry of Screening by passing name, email and password
 exports.createScreening = function (req, res) {
   var startTime = req.body.startTime;
@@ -137,5 +155,39 @@ exports.getStartTime = function (req, res) {
       return res.status(500).send("Error getting films");
     }
     res.json(rows);
+  });
+};
+
+
+//Deletes an Screening by passing an ID
+exports.checkScreeningAvailability = function (req, res) {
+  var theatreID = req.body.theatreID;
+  var date = req.body.date;
+  var startTime = req.body.startTime;
+  var runningTime = req.body.runningTime;
+  const query = "SELECT * FROM screening WHERE TheatreID = ? AND Date = ? AND ( (StartTime BETWEEN ? AND ADDTIME(?, SEC_TO_TIME(?*60)))OR (StartTime BETWEEN SUBTIME(?, SEC_TO_TIME(?*60)) AND ?))";
+  connection.query(query, [theatreID, date, startTime, startTime, runningTime, startTime,runningTime,startTime ], function (err, result) {
+    if (err) {
+      console.error(err);
+      return res.status(500).send("Error deleting Screening");
+    }
+    res.json(result);
+  });
+};
+
+//Deletes an Screening by passing an ID
+exports.checkUpdateScreeningAvailability = function (req, res) {
+  var screeningID = req.body.screeningID;
+  var theatreID = req.body.theatreID;
+  var date = req.body.date;
+  var startTime = req.body.startTime;
+  var runningTime = req.body.runningTime;
+  const query = "SELECT * FROM screening WHERE ScreeningID != ? AND TheatreID = ? AND Date = ? AND ( (StartTime BETWEEN ? AND ADDTIME(?, SEC_TO_TIME(?*60)))OR (StartTime BETWEEN SUBTIME(?, SEC_TO_TIME(?*60)) AND ?))";
+  connection.query(query, [screeningID, theatreID, date, startTime, startTime, runningTime, startTime,runningTime,startTime ], function (err, result) {
+    if (err) {
+      console.error(err);
+      return res.status(500).send("Error deleting Screening");
+    }
+    res.json(result);
   });
 };

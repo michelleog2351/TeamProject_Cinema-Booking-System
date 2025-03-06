@@ -3,8 +3,10 @@ $(document).ready(function () {
   footer();
 
   $("#fbody").append(`
+    <div class="mb-3">
 		<label class="form-label" for="name">Name</label>
 		<input class="form-control" type="text" id="name" name="name" required>
+    </div>
 
     <div class="mb-3">
         <label class="form-label" for="runningTime">Running Time in Minutes</label>
@@ -24,17 +26,25 @@ $(document).ready(function () {
         </select>
     </div>
 
+    <div class="mb-3">
 		<label class="form-label" for="director">Director</label>
 		<input class="form-control" type="text" id="director" name="director" required>
+    </div>
 
+    <div class="mb-3">
 		<label class="form-label" for="coverImage">Upload Cover Image</label>
 		<input class="form-control" type="file" id="coverImage" name="coverImage">
+    </div>
 
+    <div class="mb-3">
 		<label class="form-label" for="videoURL">Video URL</label>
 		<input class="form-control" type="text" id="videoURL" name="videoURL" placeholder="e.g. https://example.com/dark_knight" required>
+    </div>
 
+    <div class="mb-3">
 		<label class="form-label" for="ReleaseDate">Release Date</label>
 		<input class="form-control" type="date" id="ReleaseDate" name="ReleaseDate" required>
+    </div>
 		<br>
 	`);
   $("#cancel").click(function () {
@@ -42,6 +52,12 @@ $(document).ready(function () {
   });
 
   $("#save").click(function () {
+
+    if ($("#name").val() == '' || $("#director").val() == '' || $(`#ReleaseDate`).val() == '' || $(`#videoURL`).val() == '') {
+      alert("All fields must be entered before a Sceening can be created");
+      return;
+    }
+
     let newFilm = {
       name: $("#name").val(),
       category: $("#category").val(),

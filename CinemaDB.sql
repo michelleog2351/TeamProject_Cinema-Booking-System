@@ -8,6 +8,11 @@
 -- select * from ticket;
 -- select * from tickettype;
 
+
+-- Select * FROM screening WHERE TheatreID = 1 AND Date = 2025-03-05 AND (StartTime = '17:00:00'|| (StartTime = '17:00:00'+SEC_TO_TIME(90) || StartTime = '17:00:00'- SEC_TO_TIME(90)));
+
+
+
 DROP DATABASE IF EXISTS `cinemaDB`;
 CREATE DATABASE `cinemaDB`;
 USE `cinemaDB`;
@@ -64,7 +69,9 @@ CREATE TABLE `Booking` (
   `NoOfSeats` INT NOT NULL,
   `Cost` Decimal(5,2) NOT NULL,
   `Email` varchar(50) NOT NULL,
-  PRIMARY KEY (`BookingID`)
+  `ScreeningID` INT NOT NULL,
+  PRIMARY KEY (`BookingID`),
+  FOREIGN KEY (`ScreeningID`) REFERENCES `Screening`(`ScreeningID`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `TicketType` (
