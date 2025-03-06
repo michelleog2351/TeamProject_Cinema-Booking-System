@@ -20,27 +20,27 @@ function loadFilmDetails() {
                   value.CoverImage
                 }" class="card-img-top img-fluid" alt="${value.Name}" style="height: 400px; object-fit: cover;"></img> */}
 
-                $.getJSON(`http://localhost:3000/film/${filmID}`, function (value) {
-                  let releaseDate = new Date(value.ReleaseDate).toISOString().split("T")[0];
-                  $("#filmDetails").html(`
-                    <div class="card" style="position: relative;">
-                      <div class="card-body" style="height: 700px;background-color: rgba(0, 0, 0, 0.3); position: relative; z-index: 2;">
-                        <h2 class="card-title">${value.Name}</h2>
-                        <p class="card-text"><strong>Category:</strong> ${value.Category}</p>
-                        <p class="card-text"><strong>Run-Time:</strong> ${value.RunningTime} mins</p>
-                        <p class="card-text"><strong>Age Rating:</strong> ${value.Genre}</p>
-                        <p class="card-text"><strong>Director:</strong> ${value.Director}</p>
-                        <p class="card-text"><strong>Release Date:</strong> ${releaseDate}</p>
-                        <button type="button" class="btn btn-primary" onclick="playTrailer('${value.VideoURL}')">Watch Trailer</button>
-                        <button type="button" class="btn btn-secondary" onclick="location.href='cFilm.html'">Go Back</button>
-                      </div>
-                      <div id="screeningDetails" class="card-body" style="background-color: rgba(0, 0, 0, 0.3); z-index: 2;">
-                        <h6>Showings</h6>
-                      </div>
-                      <img src="http://localhost:3000/images/${value.Name.replace(/\s+/g, "_")}.jpg" 
-                           class="card-img-top img-fluid" alt="${value.Name}" 
-                           style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; z-index: 1;">
-                    </div>
+$.getJSON(`http://localhost:3000/film/${filmID}`, function (value) {
+let releaseDate = new Date(value.ReleaseDate).toISOString().split("T")[0];
+  $("#filmDetails").html(`
+    <div class="card" style="position: relative; width: 100%; height: 100vh; border: none;">
+      <div class="card-body" style="position: absolute; bottom: 0; width: 100%; height: 50%; background-color: rgba(0, 0, 0, 0.7); color: white; z-index: 2; padding: 20px;">
+        <h2 class="card-title">${value.Name}</h2>
+        <p class="card-text"><strong>Category:</strong> ${value.Category}</p>
+        <p class="card-text"><strong>Run-Time:</strong> ${value.RunningTime} mins</p>
+        <p class="card-text"><strong>Age Rating:</strong> ${value.Genre}</p>
+        <p class="card-text"><strong>Director:</strong> ${value.Director}</p>
+        <p class="card-text"><strong>Release Date:</strong> ${releaseDate}</p>
+  <button type="button" class="btn btn-primary" onclick="playTrailer('${value.VideoURL}')">Watch Trailer</button>
+  <button type="button" class="btn btn-secondary" onclick="location.href='cFilm.html'">Go Back</button>
+  </div>
+    <div id="screeningDetails" class="card-body" style="position: absolute; bottom: 0; width: 100%; z-index: 2; color: white;">
+      <h6>Showings</h6>
+    </div>
+  <img src="http://localhost:3000/images/${value.Name.replace(/\s+/g, "_")}.jpg" 
+    class="card-img-top img-fluid" alt="${value.Name}" 
+  style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; z-index: 1;">
+</div>
                   `);
     fetchScreenings(filmID);
   }).fail(function (jqXHR, textStatus, errorThrown) {
