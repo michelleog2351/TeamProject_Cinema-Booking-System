@@ -48,6 +48,12 @@ $("#filmDetails").html(`
       </div>
     </div>
   </div>
+  <button type="button" class="btn btn-primary" onclick="playTrailer('${value.VideoURL}')">
+                      Watch Trailer
+                    </button>
+                    <button type="button" class="btn btn-secondary" onclick="location.href='cFilm.html'">
+                        Go Back
+                    </button>
   `
 );
     fetchScreenings(filmID);
