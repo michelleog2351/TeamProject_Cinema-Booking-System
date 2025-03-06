@@ -2,7 +2,7 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var _ = require('underscore');
 var cors = require("cors");
-
+var login = require('./model/login');
 var admin = require('./model/admin');
 var film = require('./model/film');
 var screening = require('./model/screening');
@@ -160,4 +160,19 @@ app.post("/createManager/:name?/:username?/:password?", function(req,res){
 
 app.post("/deleteManager/:managerID", function(req, res){
     manager.deleteManager(req, res);
+});
+
+app.post("/login", function (req, res) {
+    const { email, password, userType } = req.body;
+
+    //console.log(req.body); // Just for debugging to see incoming data
+
+    // Check the userType and call the appropriate login function
+    if (userType === 'admin') {
+        login.loginAdmin(req, res);  // Admin login
+    } else if (userType === 'manager') {
+        login.loginManager(req, res); // Manager login
+    } else {
+        return res.status(400).json({ error: "Invalid user type" });
+    }
 });
