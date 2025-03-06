@@ -20,7 +20,7 @@ $(`document`).ready(function () {
         <div class="mb-3">
             <label class="form-label" for="seatsRemaining">Seats Remaining</label>
             <input class="form-control" type="text" name="seatsRemaining" id="seatsRemaining"></input>
-            <small id="warningMessage" style="color: red; display: none;">Please enter a value</small>
+            <small id="warningMessage" style="color: red; display: none;">Please enter the number of remaining seats</small>
         </div>
 
         <div class="mb-3">
@@ -51,7 +51,7 @@ $(`document`).ready(function () {
 
     $("#update").click(async function (e) {
         var inputValidation = true;
-        $("#warningMessage").hide(); 
+        $("#warningMessage").hide();
         $("#dateWarningMessage").hide();
 
         if ($(`#seatsRemaining`).val() == '') {
@@ -67,33 +67,33 @@ $(`document`).ready(function () {
         }
 
         var filmID = $(`#filmSelect`).val();
-        var filmRunningTime  = await getRunningTime(filmID)
-    
+        var filmRunningTime = await getRunningTime(filmID)
+
         let bookedScreening = {
-          theatreID: $(`#theatreSelect`).val(),
-          date: $(`#date`).val(),
-          startTime: $(`#startTime`).val(),
-          runningTime: filmRunningTime
+            screeningID: ID,
+            theatreID: $(`#theatreSelect`).val(),
+            date: $(`#date`).val(),
+            startTime: $(`#startTime`).val(),
+            runningTime: filmRunningTime
         };
 
-        $.post(`http://localhost:3000/checkScreeningAvailability`, bookedScreening).done(
+        $.post(`http://localhost:3000/checkUpdateScreeningAvailability`, bookedScreening).done(
             function (data) {
                 if (data.length > 0)
                     alert("Scrrening already booked try again")
                 else {
-                    let startTime = $(`#startTime`).val();
-                    let date = $(`#date`).val();
-                    let seatsRemaining = $(`#seatsRemaining`).val();
-                    let theatreID = $(`#theatreSelect`).val();
-                    let filmID = $(`#filmSelect`).val();
 
-                    $.post(`http://localhost:3000/updateScreening/${ID}`, {
-                        startTime: startTime,
-                        date: date,
-                        seatsRemaining: seatsRemaining,
-                        theatreID: theatreID,
-                        filmID: filmID
-                    })
+                    let updateScreening = {
+                        startTime: $(`#startTime`).val(),
+                        date: $(`#date`).val(),
+                        seatsRemaining:  $(`#seatsRemaining`).val(),
+                        theatreID:  $(`#theatreSelect`).val(),
+                        filmID:  $(`#filmSelect`).val(),
+                    };
+                    console.log(updateScreening)
+
+
+                    $.post(`http://localhost:3000/updateScreening/${ID}`, updateScreening)
                         .done(function () {
                             location.replace("http://localhost:3000/screening/screening.html");
                         })
@@ -155,4 +155,4 @@ async function getRunningTime(filmID) {
     data = await $.getJSON(`http://localhost:3000/filmRunningTime/${filmID}`);
     console.log(data[0].RunningTime)
     return data[0].RunningTime;
-  }
+}

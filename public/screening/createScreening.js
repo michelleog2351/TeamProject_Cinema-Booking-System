@@ -23,7 +23,7 @@ $(document).ready(function () {
         <div class="mb-3">
         <label class="form-label" for="seatsRemaining">Seats Remaining</label>
         <input class="form-control" type="number" name="seatsRemaining" id="seatsRemaining"></input>
-        <small id="warningMessage" style="color: red; display: none;">Please enter a value</small>
+        <small id="warningMessage" style="color: red; display: none;">Please enter the number of remaining seats</small>
          </div>
 
         <div class="mb-3">

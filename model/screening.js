@@ -174,3 +174,20 @@ exports.checkScreeningAvailability = function (req, res) {
     res.json(result);
   });
 };
+
+//Deletes an Screening by passing an ID
+exports.checkUpdateScreeningAvailability = function (req, res) {
+  var screeningID = req.body.screeningID;
+  var theatreID = req.body.theatreID;
+  var date = req.body.date;
+  var startTime = req.body.startTime;
+  var runningTime = req.body.runningTime;
+  const query = "SELECT * FROM screening WHERE ScreeningID != ? AND TheatreID = ? AND Date = ? AND ( (StartTime BETWEEN ? AND ADDTIME(?, SEC_TO_TIME(?*60)))OR (StartTime BETWEEN SUBTIME(?, SEC_TO_TIME(?*60)) AND ?))";
+  connection.query(query, [screeningID, theatreID, date, startTime, startTime, runningTime, startTime,runningTime,startTime ], function (err, result) {
+    if (err) {
+      console.error(err);
+      return res.status(500).send("Error deleting Screening");
+    }
+    res.json(result);
+  });
+};
