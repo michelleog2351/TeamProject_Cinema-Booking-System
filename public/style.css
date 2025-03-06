@@ -2,7 +2,8 @@
   position: relative;
   overflow: hidden;
   border-radius: 10px;
-  height: 400px;
+  width: 226px;
+  height: 320px;
 }
 
 .overlay {
