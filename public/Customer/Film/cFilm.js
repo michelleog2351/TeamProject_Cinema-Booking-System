@@ -110,12 +110,12 @@ function fetchFilms() {
       let releaseDate = new Date(value.ReleaseDate).toISOString().split("T")[0];
       $("#filmCards").append(`
 				<div class="col-md-3 mb-3">
-					<div class="card">
+					<div class="card" style="background-color: rgba(0, 0, 0, 0.7);">
       <img src="/images/${value.Name.replace(/\s+/g, "_")}.jpg" 
           class="card-img-top img-fluid" 
           alt="${value.Name}" 
-          style="height: 500px; object-fit: contain;">						
-     <div class="card-body" style="height:auto">
+          style="height: 500px; object-fit: contain; margin:0;">						
+     <div class="card-body" style="height:auto; background-color: rgba(255,255,255);">
 							<h5 class="card-title">${value.Name}</h5>
 							<p class="card-text">${value.Category} | ${value.Genre}</p>
 							<p class="card-text"><small>Released: ${releaseDate}</small></p>
