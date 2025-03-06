@@ -26,7 +26,7 @@ exports.loginAdmin = function (req, res) {
       return res.status(401).json({ error: "Invalid email or password" });
     }
 
-    res.json({ message: "Login successful" }); // Token removed
+    res.json({ message: "Login successful" }); 
   });
 };
 
@@ -44,6 +44,6 @@ exports.loginManager = function (req, res) {
       return res.status(401).json({ error: "Invalid email or password" });
     }
 
-    res.json({ message: "Login successful" }); // Token removed
+    res.json({ message: "Login successful" }); 
   });
 };

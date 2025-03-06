@@ -153,13 +153,13 @@ app.post("/deleteManager/:managerID", function(req, res){
 app.post("/login", function (req, res) {
     const { email, password, userType } = req.body;
 
-    console.log(req.body); // Just for debugging to see incoming data
+    //console.log(req.body); // Just for debugging to see incoming data
 
     // Check the userType and call the appropriate login function
     if (userType === 'admin') {
-        login.loginAdmin(email, password, res);  // Pass email and password
+        login.loginAdmin(req, res);  // Admin login
     } else if (userType === 'manager') {
-        login.loginManager(email, password, res); // Pass email and password
+        login.loginManager(req, res); // Manager login
     } else {
         return res.status(400).json({ error: "Invalid user type" });
     }

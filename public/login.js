@@ -1,8 +1,8 @@
 $(document).ready(function () {
-    nav();
-    footer();
+  nav();
+  footer();
 
-    $("#fbody").append(`
+  $("#fbody").append(`
         <label class="form-label" for="email">Email</label>
         <input class="form-control" type="email" id="email" name="email" required>
 
@@ -18,27 +18,24 @@ $(document).ready(function () {
         <button class="btn btn-primary" id="login">Login</button>
     `);
 
-    $("#login").click(function (e) {
-        e.preventDefault();
+  $("#login").click(function (e) {
+    e.preventDefault();
 
-        let email = $("#email").val();
-        let password = $("#password").val();
-        let userType = $("#userType").val();
+    let email = $("#email").val();
+    let password = $("#password").val();
+    let userType = $("#userType").val();
 
+    $.post("/login", { email, password, userType }, function (response) {
+      if (response.token) {
+        
+        alert("Invalid email or password.");
+      } else {
+        sessionStorage.setItem("login", "true");
+        sessionStorage.setItem("userType", userType);
+        localStorage.setItem("token", response.token);
 
-        $.post("/login", { email, password, userType }, function (response) {
-            if (response.token) {
-                sessionStorage.setItem("login", "true");
-                sessionStorage.setItem("userType", userType);
-                localStorage.setItem("token", response.token);
-
-                nav(); 
-                location.replace("http://localhost:3000/index.html");
-            } else {
-                alert("Invalid email or password.");
-            }
-        }).fail(function () {
-            alert("Invalid email or password.");
-        });
+        nav();
+        location.replace("http://localhost:3000/index.html");      }
     });
+  });
 });
