@@ -21,6 +21,12 @@ $(`document`).ready(function () {
   });
 
   $("#update").click(function (e) {
+
+    if ($("#name").val() == '' || $("#email").val() == '' || $(`#password`).val() == '') {
+      alert("All fields must be entered before a Sceening can be created");
+      return;
+    }
+    
     let name = $(`#name`).val();
     let email = $(`#email`).val();
     let password = $(`#password`).val();
