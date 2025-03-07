@@ -1,26 +1,77 @@
 <html>
   <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Welcome To Our Cinema Booking System!</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-    <script src="index.js"></script>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- <link rel="stylesheet" type="text/css" href="style.css"> -->
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <script src="app.js"></script>
+    <script src="nav.js"></script>
+    <script src="footer.js"></script>
   </head>
 
   <body>
-    <hr />
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Add</th>
-          <th>Delete</th>
-          <th>Edit</th>
-        </tr>
-      </thead>
-      <tbody id="tbody"></tbody>
-    </table>
+    <div class="container-fluid">
+      <nav id="nav" class="navbar navbar-expand-sm bg-light"></nav>
+      <hr />
+
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <div class="mb-3" style="flex: 2">
+          <select id="selectFilm" class="form-select" name="selectFilm">
+            <option value="" selected>Select Film</option>
+          </select>
+        </div>
+
+        <div class="mb-3 ms-3" style="flex: 1">
+          <select id="selectDate" class="form-select" name="selectDate">
+            <option value="" selected>Select Date</option>
+          </select>
+        </div>
+
+        <div class="mb-3 ms-3" style="flex: 1">
+          <select
+            id="selectStartTime"
+            class="form-select"
+            name="selectStartTime"
+          >
+            <option value="" selected>Select Time</option>
+          </select>
+        </div>
+
+        <div class="mb-3 ms-3" style="flex: 1">
+          <button
+            type="button"
+            class="btn btn-outline-secondary"
+            style="display: flex; align-items: center"
+            title="Click here to book tickets!"
+            onclick="bookTickets()"
+          >
+            Book Tickets
+          </button>
+        </div>
+      </div>
+
+      <br />
+      <br />
+      <div id="filmCards" class="row"></div>
+
+      <button
+        class="btn btn-primary scroll-to-top-btn"
+        onclick="scrollToTop()"
+        title="Scroll to Top"
+      >
+        ↑
+      </button>
+
+      <footer
+        id="footer"
+        class="footer d-flex justify-content-center text-muted"
+      ></footer>
+    </div>
   </body>
 </html>

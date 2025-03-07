@@ -1,6 +1,6 @@
 $(`document`).ready(function () {
-    nav();
-    footer();
+  nav();
+  footer();
   $(`#fbody`).append(
     `<label  class="form-label" for="name">Name</label>
     <input class="form-control" type="text" name="name" id="name"></input>
@@ -14,10 +14,16 @@ $(`document`).ready(function () {
   );
 
   $("#cancel").click(function (e) {
-    location.replace("http://localhost:3000/admin.html");
+    location.replace("http://localhost:3000/admin/admin.html");
   });
 
   $("#save").click(function (e) {
+
+    if ($("#name").val() == '' || $("#email").val() == '' || $(`#password`).val() == '') {
+      alert("All fields must be entered before a Sceening can be created");
+      return;
+    }
+
     let name = $(`#name`).val();
     let email = $(`#email`).val();
     let password = $(`#password`).val();
@@ -26,7 +32,7 @@ $(`document`).ready(function () {
       email: email,
       password: password,
     }).done(function () {
-      location.replace("http://localhost:3000/admin.html");
+      location.replace("http://localhost:3000/admin/admin.html");
     });
   });
 });
