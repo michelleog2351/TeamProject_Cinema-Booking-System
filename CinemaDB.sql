@@ -169,13 +169,13 @@ VALUES
 ('21:00:00', '2025-02-15', 5, 4, 4),   
 ('19:30:00', '2025-02-16', 12, 5, 5);  
 
-INSERT INTO `Booking` (`NoOfSeats`, `Cost`, `Email`)
+INSERT INTO `Booking` (`NoOfSeats`, `Cost`, `Email`, `ScreeningID`)
 VALUES
-(2, 20.00, 'john.doe@example.com'),
-(4, 40.00, 'jane.smith@example.com'),
-(1, 10.00, 'bob.johnson@example.com'),
-(3, 30.00, 'alice.williams@example.com'),
-(5, 50.00, 'charlie.brown@example.com');
+(2, 20.00, 'john.doe@example.com', 1),
+(4, 40.00, 'jane.smith@example.com', 1 ),
+(1, 10.00, 'bob.johnson@example.com', 1 ),
+(3, 30.00, 'alice.williams@example.com', 1),
+(5, 50.00, 'charlie.brown@example.com', 1 );
 
 INSERT INTO `TicketType` (`Name`, `Cost`)
 VALUES
