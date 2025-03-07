@@ -22,8 +22,7 @@ $(document).ready(function () {
 
         <div class="mb-3">
         <label class="form-label" for="seatsRemaining">Seats Remaining</label>
-        <input class="form-control" type="number" name="seatsRemaining" id="seatsRemaining"></input>
-        <small id="warningMessage" style="color: red; display: none;">Please enter the number of remaining seats</small>
+        <input class="form-control" type="number" name="seatsRemaining" id="seatsRemaining" readonly></input>
          </div>
 
         <div class="mb-3">
@@ -72,7 +71,6 @@ $(document).ready(function () {
       startTime: $(`#startTime`).val(),
       runningTime: filmRunningTime
     };
-    console.log(bookedScreening);
 
     $.post(`http://localhost:3000/checkScreeningAvailability`, bookedScreening).done(
       function (data) {
@@ -98,6 +96,7 @@ $(document).ready(function () {
     );
   });
 });
+
 function getFilmData() {
   //Retrive the data from the film
   $.getJSON(`http://localhost:3000/films`, function (data) {
@@ -114,6 +113,9 @@ function getTheatreData() {
       $(`#theatreSelect`).append(`<option value=${value.TheatreID}>${value.TheatreID}</option>`);
     });
   });
+    alert($(`#theatreSelect`).val())
+    console.log($(`#theatreSelect`).val())
+    getCapacity($(`#theatreSelect`).val());
 }
 
 function getStartTime() {
@@ -129,3 +131,15 @@ async function getRunningTime(filmID) {
   console.log(data[0].RunningTime)
   return data[0].RunningTime;
 }
+
+function getCapacity(theatreCapacity) {
+  $.getJSON(`http://localhost:3000/theatreCapacity`, theatreCapacity ).done(function (data) {
+    $.each(data, function (i, value) {
+      alert("HERE");
+      $(`#seatsRemaining`).val(value.Capacity);
+    });
+  });
+}
+
+
+//Everytime Theatre changes call this function and pass the value
