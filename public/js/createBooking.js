@@ -37,8 +37,7 @@ $(document).ready(function () {
 						id="email"
 						name="email"
 						placeholder="Enter email address"
-						required
-						pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"	
+						required"	
 					/>
 				</div>
         <br>
@@ -58,7 +57,7 @@ $(document).ready(function () {
     let noOfSeats = $("#noOfSeats").val().trim();
     let cost = $("#cost").val().trim();
     let email = $("#email").val().trim();
-    let emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    //let emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
     if (!noOfSeats || isNaN(noOfSeats) || parseInt(noOfSeats) < 1) {
       alert("Please enter a valid number of seats.");
@@ -70,10 +69,10 @@ $(document).ready(function () {
     // 	return;
     //   }
 
-    if (!email.match(emailPattern)) {
-      alert("Please enter a valid email address.");
-      return;
-    }
+    // if (!email.match(emailPattern)) {
+    //   alert("Please enter a valid email address.");
+    //   return;
+    // }
 
     // create new booking object
     let newBooking = {
