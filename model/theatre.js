@@ -92,7 +92,7 @@ exports.getCapacity = function (req, res) {
 
 
 exports.getTheatreCapacity = function (req, res) {
-  var TheatreID = req.body.TheatreID;
+  var TheatreID = req.params.TheatreID;
   const query = "SELECT Capacity FROM Theatre WHERE TheatreID = ?";
   connection.query(query, [TheatreID], function (err, rows) {
     if (err) {

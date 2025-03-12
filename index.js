@@ -160,7 +160,7 @@ app.post("/deleteTheatre/:TheatreID", function(req, res){
     Theatre.deleteTheatre(req, res);
 });
 
-app.post("/theatreCapacity", function(req,res){
+app.get("/theatreCapacity/:TheatreID", function(req,res){
     Theatre.getTheatreCapacity(req, res);
 });
 

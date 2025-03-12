@@ -41,6 +41,12 @@ $(document).ready(function () {
   let today = new Date().toISOString().split('T')[0];
   $("#date").attr("min", today);
 
+  $("#theatreSelect").change(function () {
+    let selectedTheatre = $(this).val();
+    getCapacity(selectedTheatre);
+  });
+
+
   $("#cancel").click(function () {
     location.replace("http://localhost:3000/screening/screening.html");
   });
@@ -107,15 +113,15 @@ function getFilmData() {
   });
 }
 
-function getTheatreData() {
-  $.getJSON(`http://localhost:3000/Theatres`, function (data) {
+async function getTheatreData() {
+  await $.getJSON(`http://localhost:3000/Theatres`, function (data) {
     $.each(data, function (i, value) {
       $(`#theatreSelect`).append(`<option value=${value.TheatreID}>${value.TheatreID}</option>`);
     });
   });
-    alert($(`#theatreSelect`).val())
-    console.log($(`#theatreSelect`).val())
-    getCapacity($(`#theatreSelect`).val());
+  let selectedTheatre = $(`#theatreSelect`).val();
+    getCapacity(selectedTheatre);
+  
 }
 
 function getStartTime() {
@@ -128,18 +134,14 @@ function getStartTime() {
 
 async function getRunningTime(filmID) {
   data = await $.getJSON(`http://localhost:3000/filmRunningTime/${filmID}`);
-  console.log(data[0].RunningTime)
   return data[0].RunningTime;
 }
 
-function getCapacity(theatreCapacity) {
-  $.getJSON(`http://localhost:3000/theatreCapacity`, theatreCapacity ).done(function (data) {
+async function getCapacity(theatreID) {
+  await $.getJSON(`http://localhost:3000/theatreCapacity/${theatreID}`).done(function (data) {
     $.each(data, function (i, value) {
       alert("HERE");
       $(`#seatsRemaining`).val(value.Capacity);
     });
   });
 }
-
-
-//Everytime Theatre changes call this function and pass the value
