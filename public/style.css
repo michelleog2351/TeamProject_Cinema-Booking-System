@@ -1,10 +1,18 @@
 .card {
+  width: 100%; /* let the grid system handle the card width based on the window size - ensuring responsiveness*/
+  height: 400px; /* Match the height of the displayed images */
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+/* .card {
   position: relative;
   overflow: hidden;
   border-radius: 10px;
   width: 226px;
   height: 320px;
-}
+} */
 
 .overlay {
   position: absolute;
@@ -35,11 +43,17 @@
   padding: 10px 15px;
   color: white;
   border: none;
+  border-radius: 20px;
   font-size: 16px;
   cursor: pointer;
   max-width: 80%;
   width: auto; /* Ensures the button doesn’t stretch */
   margin: 0 auto;
+}
+
+.overlay-button:hover {
+  background-color: #28a745; 
+  transform: scale(1.05);
 }
 
 .scroll-to-top-btn {
