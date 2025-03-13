@@ -1,4 +1,9 @@
-$(document).ready(function () {
+$(document).ready(function () 
+{
+  nav();
+  footer();
+  var ID = localStorage.getItem("ScreeningID");
+  
   $("#fbody").append(`
 	
 
@@ -50,7 +55,7 @@ $(document).ready(function () {
   });
 
   $("#cancel").click(function () {
-    location.replace("http://localhost:3000/booking.html");
+    location.replace("http://localhost:3000/Customer/Film/cFilm.html");
   });
 
   $("#save").click(function () {

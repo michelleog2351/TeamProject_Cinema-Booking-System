@@ -1,4 +1,7 @@
-$(`document`).ready(function () {
+$(`document`).ready(function () 
+{
+  nav();
+  footer();
   var ID = localStorage.getItem("BookingID");
 
   // check if ID is valid

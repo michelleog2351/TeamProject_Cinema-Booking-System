@@ -1,4 +1,6 @@
 $(document).ready(function () {
+  nav();
+  footer();
   getJsonData();
   $(`#add`).append(
     `<button value="" class="addButton btn btn-primary">Create Booking</button>`
