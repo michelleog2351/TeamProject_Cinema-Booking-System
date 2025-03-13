@@ -21,6 +21,9 @@ app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false}));
 
+
+//ADMIN ROUTES
+
 app.get("/admin/:adminID", function(req,res){
 	admin.getAdmin(req,res);
 });
@@ -40,6 +43,13 @@ app.post("/createAdmin/:name?/:username?/:password?", function(req,res){
 app.post("/deleteAdmin/:adminID", function(req, res){
     admin.deleteAdmin(req, res);
 });
+////////////////////////////////////////////////////////////
+
+
+//Film ROUTES
+
+
+////////////////////////////////////////////////////////////
 
 app.get("/films", function(req,res){
     film.getFilms(req, res);
@@ -72,10 +82,14 @@ app.post("/createFilm", function(req, res) {
 app.post("/deleteFilm/:filmID", function (req, res) {
     film.deleteFilm(req, res);
 });
-var myServer = app.listen(3000, function() {
-    console.log("Server listening on port 3000");
-  });
 
+
+////////////////////////////////////////////////////////////
+
+//Screening Routes
+
+
+////////////////////////////////////////////////////////////
 
   app.get("/screening/:screeningID", function(req,res){
 	screening.getScreening(req,res);
@@ -117,6 +131,15 @@ app.post("/deleteScreening/:screeningID", function(req, res){
     screening.deleteScreening(req, res);
 });
 
+
+////////////////////////////////////////////////////////////
+
+
+//Theatre Routes
+
+
+////////////////////////////////////////////////////////////
+
 app.get("/theatre/:TheatreID", function(req, res){
     Theatre.getTheatre(req, res);
 });
@@ -137,9 +160,22 @@ app.post("/deleteTheatre/:TheatreID", function(req, res){
     Theatre.deleteTheatre(req, res);
 });
 
+app.get("/theatreCapacity/:TheatreID", function(req,res){
+    Theatre.getTheatreCapacity(req, res);
+});
+
 app.get("/capacity", function(req,res){
     Theatre.getCapacity(req, res);
 });
+
+
+////////////////////////////////////////////////////////////
+
+
+//Manger Routes
+
+
+////////////////////////////////////////////////////////////
 
 
 app.get("/manager/:managerID", function(req,res){
@@ -162,6 +198,8 @@ app.post("/deleteManager/:managerID", function(req, res){
     manager.deleteManager(req, res);
 });
 
+////////////////////////////////////////////////////////////
+
 app.post("/login", function (req, res) {
     const { email, password, userType } = req.body;
 
@@ -176,3 +214,8 @@ app.post("/login", function (req, res) {
         return res.status(400).json({ error: "Invalid user type" });
     }
 });
+
+
+var myServer = app.listen(3000, function() {
+    console.log("Server listening on port 3000");
+  });
