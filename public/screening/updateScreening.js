@@ -166,7 +166,6 @@ async function getRunningTime(filmID) {
 async function getCapacity(theatreID) {
     await $.getJSON(`http://localhost:3000/theatreCapacity/${theatreID}`).done(function (data) {
       $.each(data, function (i, value) {
-        alert("HERE");
         $(`#seatsRemaining`).val(value.Capacity);
       });
     });
