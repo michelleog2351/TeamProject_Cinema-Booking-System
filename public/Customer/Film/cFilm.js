@@ -55,26 +55,25 @@ function search() {
           // )}.jpg`;
           //console.log(imagePath);
 
-          $("#filmCards").append(
-            `<div class="col-md-4 mb-3">
-					 <div class="card">
-						 <img src="/images/${value.Name.replace(/\s+/g, "_")}.jpg" 
-     class="card-img-top img-fluid" 
-     alt="${value.Name}" 
-     style="height: 200px; object-fit: cover;">
-						 <div class="card-body">
-							 <h5 class="card-title">${value.Name}</h5>
-							 <p class="card-text">${value.Category} | ${value.Genre}</p>
-							 <p class="card-text"><small>Released: ${releaseDate}</small></p>
-							 <button type="button" class="btn btn-primary viewDetailsButton" data-id="${
-                 value.FilmID
-               }">
-								 View Details
-							 </button>
-						 </div>
-					 </div>
-				 </div>`
-          );
+          $("#filmCards").append(`
+            <div class="col-md-3 mb-3">
+              <div class="card" style=" background-color: rgba(0, 0, 0, 0.7);">
+          <img src="/images/${value.Name.replace(/\s+/g, "_")}.jpg" 
+              class="card-img-top img-fluid" 
+              alt="${value.Name}" 
+              style="height: 500px; object-fit: contain; margin:0;">						
+         <div class="card-body" style=" height:auto; background-color: rgba(255,255,255); border-radius: 5px;">
+                  <h5 class="card-title">${value.Name}</h5>
+                  <p class="card-text">${value.Category} | ${value.Genre}</p>
+                  <p class="card-text"><small>Released: ${releaseDate}</small></p>
+                  <button type="button" class="btn btn-primary viewDetailsButton" style="width: 100%;" data-id="${
+                    value.FilmID
+                  }">
+                    View Details
+                  </button>
+                </div>
+              </div>
+            </div>`);
         });
       }
     }
@@ -109,17 +108,17 @@ function fetchFilms() {
     $.each(data, function (i, value) {
       let releaseDate = new Date(value.ReleaseDate).toISOString().split("T")[0];
       $("#filmCards").append(`
-				<div class="col-md-4 mb-3">
-					<div class="card">
+				<div class="col-md-3 mb-3">
+					<div class="card" style="background-color: rgba(0, 0, 0, 0.7);">
       <img src="/images/${value.Name.replace(/\s+/g, "_")}.jpg" 
           class="card-img-top img-fluid" 
           alt="${value.Name}" 
-          style="height: 200px; object-fit: cover;">						
-     <div class="card-body">
+          style="height: 500px; object-fit: contain; margin:0;">						
+     <div class="card-body" style="height:auto; background-color: rgba(255,255,255); border-radius: 5px;">
 							<h5 class="card-title">${value.Name}</h5>
 							<p class="card-text">${value.Category} | ${value.Genre}</p>
 							<p class="card-text"><small>Released: ${releaseDate}</small></p>
-							<button type="button" class="btn btn-primary viewDetailsButton" data-id="${
+							<button type="button" class="btn btn-primary viewDetailsButton" style="width: 100%;" data-id="${
                 value.FilmID
               }">
 								View Details
