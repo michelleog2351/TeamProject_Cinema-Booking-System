@@ -31,7 +31,6 @@ function filmDD() {
 								</div>           
 							</div>
 						</div> 
-						<h5 class="card-title">${film.Name}</h5>
 					</div>
 				</div>`
       );
@@ -53,7 +52,7 @@ function dateDD() {
 }
 
 function startTimeDD() {
-  $.getJSON("http://localhost:3000/screenings", function (data) {
+  $.getJSON("http://localhost:3000/startTimes", function (data) {
     $("#selectStartTime").html(
       '<option value="" selected>Select Time</option>'
     );
