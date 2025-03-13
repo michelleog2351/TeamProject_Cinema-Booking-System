@@ -12,11 +12,11 @@ connection.connect(function (err) {
   console.log("Successfully connected to MySQL database cinemaDB");
 });
 
-exports.loginAdmin = function (req, res) {
-  const { email, password } = req.body;
+exports.loginUser = function (req, res) {
+  const { email, password, role } = req.body;
 
-  const query = "SELECT * FROM Admin WHERE Email = ? AND Password = ?";
-  connection.query(query, [email, password], function (err, rows) {
+  const query = "SELECT * FROM Users";
+  connection.query(query, [email, password, role], function (err, rows) {
     if (err) {
       console.error(err);
       return res.status(500).send("Error while logging in");
@@ -30,20 +30,3 @@ exports.loginAdmin = function (req, res) {
   });
 };
 
-exports.loginManager = function (req, res) {
-  const { email, password } = req.body;
-
-  const query = "SELECT * FROM Manager WHERE Email = ? AND Password = ?";
-  connection.query(query, [email, password], function (err, rows) {
-    if (err) {
-      console.error(err);
-      return res.status(500).send("Error while logging in");
-    }
-
-    if (rows.length === 0) {
-      return res.status(401).json({ error: "Invalid email or password" });
-    }
-
-    res.json({ message: "Login successful" }); 
-  });
-};

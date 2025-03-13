@@ -9,10 +9,10 @@ $(document).ready(function () {
         <label class="form-label" for="password">Password</label>
         <input class="form-control" type="password" id="password" name="password" required>
 
-        <label class="form-label" for="userType">User Type</label>
-        <select class="form-control" id="userType" name="userType" required>
-            <option value="manager">Manager</option>
-            <option value="admin">Admin</option>
+        <label class="form-label" for="role">User Type</label>
+        <select class="form-control" id="role" name="role" required>
+            <option value="Manager">Manager</option>
+            <option value="Admin">Admin</option>
         </select>
         <br>
         <button class="btn btn-primary" id="login">Login</button>
@@ -23,15 +23,15 @@ $(document).ready(function () {
 
     let email = $("#email").val();
     let password = $("#password").val();
-    let userType = $("#userType").val();
+    let role = $("#role").val();
 
-    $.post("/login", { email, password, userType }, function (response) {
+    $.post("/login", { email, password, role }, function (response) {
       if (response.token) {
         
         alert("Invalid email or password.");
       } else {
         sessionStorage.setItem("login", "true");
-        sessionStorage.setItem("userType", userType);
+        sessionStorage.setItem("role", role);
         localStorage.setItem("token", response.token);
 
         nav();

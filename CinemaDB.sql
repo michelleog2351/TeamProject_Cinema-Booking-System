@@ -98,21 +98,16 @@ CREATE TABLE `Seat` (
   PRIMARY KEY (`SeatNo`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE `Manager` (
-`ManagerID` INT NOT NULL AUTO_INCREMENT,
+CREATE TABLE `User` (
+`EmployeeID` INT NOT NULL AUTO_INCREMENT,
   `Name` varchar(50) NOT NULL,
   `Email` varchar(50) NOT NULL,
   `Password` varchar(50) NOT NULL,
-  PRIMARY KEY (`ManagerID`)
+  `Role` varchar(50) NOT NULL,
+  PRIMARY KEY (`EmployeeID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-CREATE TABLE `Admin` (
-`AdminID` INT NOT NULL AUTO_INCREMENT,
-  `Name` varchar(50) NOT NULL,
-  `Email` varchar(50) NOT NULL,
-  `Password` varchar(50) NOT NULL,
-  PRIMARY KEY (`AdminID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 
 CREATE TABLE `ShowingTime` (
 `TimeID` int AUTO_INCREMENT,
@@ -211,21 +206,14 @@ VALUES
 (4, 10),
 (5, 20);
 
-INSERT INTO `Manager` (`Name`, `Email`, `Password`)
+INSERT INTO `User` (`Name`, `Email`, `Password`, `Role`)
 VALUES
-('Alice Johnson', 'alice.johnson@example.com', 'password123'),
+('Alice Johnson', 'alice.johnson@example.com', 'password123', `Manager`),
 ('Bob Smith', 'testMan@gmail.com', 'password123'),
-('Charlie Brown', 'charlie.brown@example.com', 'chocoCake789'),
-('Dana White', 'dana.white@example.com', 'admin@2025'),
-('Eve Black', 'eve.black@example.com', 'evePass001');
+('Charlie Brown', 'charlie.brown@example.com', 'chocoCake789', `Manager`),
+('Dana White', 'dana.white@example.com', 'admin@2025', `Manager`),
+('Eve Black', 'eve.black@example.com', 'evePass001', `Manager`);
 
-INSERT INTO `Admin` (`Name`, `Email`, `Password`)
-VALUES
-('Grace Lee', 'testAd@gmail.com', 'password123'),
-('Henry Ford', 'henry.ford@example.com', 'fordPassword2025'),
-('Ivy Green', 'ivy.green@example.com', 'greenPass123'),
-('Jack Turner', 'jack.turner@example.com', 'jackPass1234'),
-('Lily Adams', 'lily.adams@example.com', 'lilyPass2025');
 
 
 INSERT INTO `ShowingTime` (`StartTime`)

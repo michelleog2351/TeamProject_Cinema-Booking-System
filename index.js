@@ -8,7 +8,7 @@ var film = require('./model/film');
 var screening = require('./model/screening');
 var Theatre = require('./model/theatre');
 // var ticket = require('./model/ticket');
- var manager = require('./model/manager');
+ var manager = require('./model/user');
 // var booking = require('./model/booking');
 // var ticketType = require('./model/ticketType');
 
@@ -21,25 +21,6 @@ app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false}));
 
-app.get("/admin/:adminID", function(req,res){
-	admin.getAdmin(req,res);
-});
-
-app.get("/admins", function(req,res){
-	admin.getAdmins(req,res);
-});
-
-app.post("/updateAdmin/:adminID", function(req, res) {
-    admin.updateAdmin(req, res);
-});
-
-app.post("/createAdmin/:name?/:username?/:password?", function(req,res){
-	admin.createAdmin(req,res);
-});
-
-app.post("/deleteAdmin/:adminID", function(req, res){
-    admin.deleteAdmin(req, res);
-});
 
 app.get("/films", function(req,res){
     film.getFilms(req, res);
@@ -142,35 +123,35 @@ app.get("/capacity", function(req,res){
 });
 
 
-app.get("/manager/:managerID", function(req,res){
+app.get("/user/:EmployeeID", function(req,res){
 	manager.getManager(req,res);
 });
 
-app.get("/managers", function(req,res){
+app.get("/users", function(req,res){
 	manager.getManagers(req,res);
 });
 
-app.post("/updateManager/:managerID", function(req, res) {
+app.post("/updateUser/:EmployeeID", function(req, res) {
     manager.updateManager(req, res);
 });
 
-app.post("/createManager/:name?/:username?/:password?", function(req,res){
+app.post("/createUser/:name?/:username?/:password?/:role?", function(req,res){
 	manager.createManager(req,res);
 });
 
-app.post("/deleteManager/:managerID", function(req, res){
+app.post("/deleteUser/:EmployeeID", function(req, res){
     manager.deleteManager(req, res);
 });
 
 app.post("/login", function (req, res) {
-    const { email, password, userType } = req.body;
+    const { email, password, role } = req.body;
 
     //console.log(req.body); // Just for debugging to see incoming data
 
     // Check the userType and call the appropriate login function
-    if (userType === 'admin') {
+    if (role === 'admin') {
         login.loginAdmin(req, res);  // Admin login
-    } else if (userType === 'manager') {
+    } else if (role === 'manager') {
         login.loginManager(req, res); // Manager login
     } else {
         return res.status(400).json({ error: "Invalid user type" });

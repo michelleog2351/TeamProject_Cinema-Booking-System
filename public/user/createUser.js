@@ -10,16 +10,19 @@ $(`document`).ready(function () {
     
     <label class="form-label" for="password">Password</label>
     <input class="form-control" type="password" name="password" id="password"></input>
+
+    <label class="form-label" for="role">role</label>
+    <input class="form-control" type="role" name="role" id="role"></input>
     <br>`
   );
 
   $("#cancel").click(function (e) {
-    location.replace("http://localhost:3000/admin/admin.html");
+    location.replace("http://localhost:3000/user/user.html");
   });
 
   $("#save").click(function (e) {
 
-    if ($("#name").val() == '' || $("#email").val() == '' || $(`#password`).val() == '') {
+    if ($("#name").val() == '' || $("#email").val() == '' || $(`#password`).val() == '' || $(`#role`).val() == '') {
       alert("All fields must be entered before a Sceening can be created");
       return;
     }
@@ -27,12 +30,16 @@ $(`document`).ready(function () {
     let name = $(`#name`).val();
     let email = $(`#email`).val();
     let password = $(`#password`).val();
-    $.post(`http://localhost:3000/createAdmin`, {
+    let role = $(`#role`).val();
+
+    $.post(`http://localhost:3000/createUser`, {
       name: name,
       email: email,
       password: password,
+      role: role,
+
     }).done(function () {
-      location.replace("http://localhost:3000/admin/admin.html");
+      location.replace("http://localhost:3000/user/user.html");
     });
   });
 });
