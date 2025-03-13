@@ -19,7 +19,7 @@ $(`document`).ready(function () {
 
         <div class="mb-3">
             <label class="form-label" for="seatsRemaining">Seats Remaining</label>
-            <input class="form-control" type="text" name="seatsRemaining" id="seatsRemaining"></input>
+            <input class="form-control" type="text" name="seatsRemaining" id="seatsRemaining" readonly></input>
             <small id="warningMessage" style="color: red; display: none;">Please enter the number of remaining seats</small>
         </div>
 
@@ -48,6 +48,11 @@ $(`document`).ready(function () {
     $("#cancel").click(function (e) {
         location.replace("http://localhost:3000/screening/screening.html");
     })
+
+    $("#theatreSelect").change(function () {
+        let selectedTheatre = $(this).val();
+        getCapacity(selectedTheatre);
+      });
 
     $("#update").click(async function (e) {
         var inputValidation = true;
@@ -117,6 +122,7 @@ function getJsonData(ID) {
         getFilmData(data.FilmID);
         getTheatreData(data.TheatreID);
         getStartTime(data.StartTime);
+        getCapacity(data.TheatreID);
 
 
     });
@@ -156,3 +162,11 @@ async function getRunningTime(filmID) {
     console.log(data[0].RunningTime)
     return data[0].RunningTime;
 }
+
+async function getCapacity(theatreID) {
+    await $.getJSON(`http://localhost:3000/theatreCapacity/${theatreID}`).done(function (data) {
+      $.each(data, function (i, value) {
+        $(`#seatsRemaining`).val(value.Capacity);
+      });
+    });
+  }

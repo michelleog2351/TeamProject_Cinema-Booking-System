@@ -22,8 +22,7 @@ $(document).ready(function () {
 
         <div class="mb-3">
         <label class="form-label" for="seatsRemaining">Seats Remaining</label>
-        <input class="form-control" type="number" name="seatsRemaining" id="seatsRemaining"></input>
-        <small id="warningMessage" style="color: red; display: none;">Please enter the number of remaining seats</small>
+        <input class="form-control" type="number" name="seatsRemaining" id="seatsRemaining" readonly></input>
          </div>
 
         <div class="mb-3">
@@ -41,6 +40,12 @@ $(document).ready(function () {
   
   let today = new Date().toISOString().split('T')[0];
   $("#date").attr("min", today);
+
+  $("#theatreSelect").change(function () {
+    let selectedTheatre = $(this).val();
+    getCapacity(selectedTheatre);
+  });
+
 
   $("#cancel").click(function () {
     location.replace("http://localhost:3000/screening/screening.html");
@@ -72,7 +77,6 @@ $(document).ready(function () {
       startTime: $(`#startTime`).val(),
       runningTime: filmRunningTime
     };
-    console.log(bookedScreening);
 
     $.post(`http://localhost:3000/checkScreeningAvailability`, bookedScreening).done(
       function (data) {
@@ -98,6 +102,7 @@ $(document).ready(function () {
     );
   });
 });
+
 function getFilmData() {
   //Retrive the data from the film
   $.getJSON(`http://localhost:3000/films`, function (data) {
@@ -108,12 +113,15 @@ function getFilmData() {
   });
 }
 
-function getTheatreData() {
-  $.getJSON(`http://localhost:3000/Theatres`, function (data) {
+async function getTheatreData() {
+  await $.getJSON(`http://localhost:3000/Theatres`, function (data) {
     $.each(data, function (i, value) {
       $(`#theatreSelect`).append(`<option value=${value.TheatreID}>${value.TheatreID}</option>`);
     });
   });
+  let selectedTheatre = $(`#theatreSelect`).val();
+    getCapacity(selectedTheatre);
+  
 }
 
 function getStartTime() {
@@ -126,6 +134,13 @@ function getStartTime() {
 
 async function getRunningTime(filmID) {
   data = await $.getJSON(`http://localhost:3000/filmRunningTime/${filmID}`);
-  console.log(data[0].RunningTime)
   return data[0].RunningTime;
+}
+
+async function getCapacity(theatreID) {
+  await $.getJSON(`http://localhost:3000/theatreCapacity/${theatreID}`).done(function (data) {
+    $.each(data, function (i, value) {
+      $(`#seatsRemaining`).val(value.Capacity);
+    });
+  });
 }
