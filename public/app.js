@@ -17,7 +17,7 @@ function filmDD() {
 
       $("#filmCards").append(
         `<br />
-				<div class="col-md-3 col-sm-6 mb-3">
+				<div class="col-md-2 col-sm-6 mb-3">
 					<div class="card">
 						<img src="images/${film.Name.replace(/\s+/g, "_")}.jpg" 
 							class="card-img-top img-fluid w-100"
