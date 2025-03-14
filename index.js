@@ -10,7 +10,7 @@ var Theatre = require('./model/theatre');
 // var ticket = require('./model/ticket');
  var manager = require('./model/manager');
 // var booking = require('./model/booking');
-// var ticketType = require('./model/ticketType');
+var ticketType = require('./model/ticketType');
 
 
 var app = express();
@@ -130,6 +130,19 @@ app.post("/createScreening", function(req,res){
 app.post("/deleteScreening/:screeningID", function(req, res){
     screening.deleteScreening(req, res);
 });
+
+////////////////////////////////////////////////////////////
+
+
+//Theatre Routes
+
+
+////////////////////////////////////////////////////////////
+
+app.get("/ticketTypes", function(req,res){
+	ticketType.getTicketTickets(req,res);
+});
+
 
 
 ////////////////////////////////////////////////////////////

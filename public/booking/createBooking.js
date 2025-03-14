@@ -1,52 +1,9 @@
-$(document).ready(function () 
-{
+$(document).ready(function () {
   nav();
   footer();
-  var ID = localStorage.getItem("ScreeningID");
-  
-  $("#fbody").append(`
-	
-
-				<div class="mb-3">
-					<label class="form-label" for="noOfSeats">No. Seats</label>
-					<input
-						class="form-control"
-						type="number"
-						id="noOfSeats"
-						name="noOfSeats"
-						placeholder="Enter total number of seats"
-						min="1"
-						required
-					/>
-				</div>
-
-				<div class="mb-3">
-					<label class="form-label" for="cost">Total Cost (€)</label>
-					<input
-						class="form-control"
-						type="number"
-						id="cost"
-						name="cost"
-						placeholder="Total cost (€)"
-						step="0.01"
-						required
-						readonly
-						/>
-				</div>
-
-				<div class="mb-3">
-					<label class="form-label" for="email">Email</label>
-					<input
-						class="form-control"
-						type="email"
-						id="email"
-						name="email"
-						placeholder="Enter email address"
-						required"	
-					/>
-				</div>
-        <br>
-    `);
+  var ID = localStorage.getItem("ViewScreeningID");
+  getTicketTypeData();
+  getScreeningData(ID);
 
   $("#noOfSeats").on("input", function () {
     let seats = parseInt($(this).val()) || 0; // Ensure value entered is a number
@@ -59,6 +16,11 @@ $(document).ready(function ()
   });
 
   $("#save").click(function () {
+    //NOTE
+    //HAVE to post to screening the seats remianing change
+
+    // Check system time and check scrrening time if 
+
     let noOfSeats = $("#noOfSeats").val().trim();
     let cost = $("#cost").val().trim();
     let email = $("#email").val().trim();
@@ -110,3 +72,69 @@ $(document).ready(function ()
     });
   });
 });
+
+function getTicketTypeData() {
+  $.getJSON(`http://localhost:3000/ticketTypes`, function (data) {
+    $.each(data, async function (i, value) {
+      $(`#ticketTableBody`).append(
+        `<tr>
+        <td id="filmID${value.Name}">${value.Name}</td>
+        <td id="startTime${value.Cost}">${value.Cost}</td>
+        <td>
+        <div class="d-flex align-items-center">
+        <button class="subtract btn btn-danger" value=${i}>-</button>
+        <input class="form-control  w-25" type="number" id="amount${i}" name="amount" min="0" max="100" readonly value="0">
+        <button class="add btn btn-success" value=${i}>+</button>
+        </div>
+        </td>
+        </tr>`
+      );
+    });
+    $(".subtract").click(function (e) {
+      i = e.target.value;
+      var decrease = $(`#amount${i}`).val()-1
+      $(`#amount${i}`).val(decrease)
+      console.log(decrease)
+      console.log($(`#amount${i}`).val())
+
+      
+    });
+  
+    $(".add").click(function (e) {
+      i = e.target.value;
+
+      var increase = $(`#amount${i}`).val()+1
+      $(`#amount${i}`).value(increase)
+      console.log(increase)
+      console.log($(`#amount${i}`).val())
+    });
+  
+  });
+
+}
+
+function getScreeningData(ID) {
+  $.getJSON(`http://localhost:3000/screening/${ID}`, async function (data) {
+    // Ensure data is an object, and access it directly
+    let screeningDate = new Date(data.Date);
+    let formattedDate = screeningDate.toISOString().split("T")[0];
+    let filmname = await getFilmData(data.FilmID);
+
+    $(`#tbody`).append(
+      `<tr>
+      <td id="filmID${filmname}">${filmname}</td>
+      <td id="startTime${data.StartTime}">${data.StartTime}</td>
+      <td id="date${formattedDate}">${formattedDate}</td>
+      <td id="theatreID${data.TheatreID}">${data.TheatreID}</td>
+      <td id="seatsRemaining${data.SeatsRemaining}">${data.SeatsRemaining}</td>
+      </tr>`
+    );
+  });
+}
+
+async function getFilmData(ID) {
+  data = await $.getJSON(`http://localhost:3000/film/${ID}`);
+  return data.Name;
+}
+
+function updatePrice() {}

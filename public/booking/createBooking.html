@@ -16,10 +16,32 @@
   <body>
     <div class="container-fluid">
       <nav id="nav" class="navbar navbar-expand-sm bg-light"></nav>
-      <hr />
+      <hr/>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Film Name</th>
+            <th>Start Time</th>
+            <th>Date</th>
+            <th>Theatre</th>
+            <th>Seats Remaining</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+      <hr/>
       <h1>Create a Booking</h1>
       <hr />
-      <form id="fbody" method="post"></form>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Ticket Types</th>
+            <th>Price</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody id="ticketTableBody"></tbody>
+      </table>
       <hr />
       <button id="cancel" class="btn btn-secondary">Cancel</button>
       <button id="save" class="btn btn-primary">Save</button>
