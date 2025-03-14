@@ -11,7 +11,7 @@ $(`document`).ready(function () {
     <label class="form-label" for="password">Password</label>
     <input class="form-control" type="password" name="password" id="password"></input>
 
-    <label class="form-label" for="role">role</label>
+    <label class="form-label" for="role">Role</label>
     <input class="form-control" type="role" name="role" id="role"></input>
     <br>`
   );

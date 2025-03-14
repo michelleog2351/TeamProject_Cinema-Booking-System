@@ -15,7 +15,7 @@ connection.connect(function (err) {
 exports.loginUser = function (req, res) {
   const { email, password, role } = req.body;
 
-  const query = "SELECT * FROM Users";
+  const query = "SELECT * FROM User";
   connection.query(query, [email, password, role], function (err, rows) {
     if (err) {
       console.error(err);

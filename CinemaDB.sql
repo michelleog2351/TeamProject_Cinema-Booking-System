@@ -1,4 +1,4 @@
--- select * from admin;
+ select * from user;
 -- select * from booking;
 -- select * from film;
 -- select * from manager;
@@ -208,11 +208,11 @@ VALUES
 
 INSERT INTO `User` (`Name`, `Email`, `Password`, `Role`)
 VALUES
-('Alice Johnson', 'alice.johnson@example.com', 'password123', `Manager`),
-('Bob Smith', 'testMan@gmail.com', 'password123'),
-('Charlie Brown', 'charlie.brown@example.com', 'chocoCake789', `Manager`),
-('Dana White', 'dana.white@example.com', 'admin@2025', `Manager`),
-('Eve Black', 'eve.black@example.com', 'evePass001', `Manager`);
+('Alice Johnson', 'alice.johnson@example.com', 'password123', "Manager"),
+('Bob Smith', 'testMan@gmail.com', 'password123', "Manager"),
+('Charlie Brown', 'charlie.brown@example.com', 'chocoCake789', "Manager"),
+('Dana White', 'dana.white@example.com', 'admin@2025', "Manager"),
+('Eve Black', 'eve.black@example.com', 'evePass001', "Manager");
 
 
 

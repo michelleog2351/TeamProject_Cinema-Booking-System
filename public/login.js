@@ -9,11 +9,6 @@ $(document).ready(function () {
         <label class="form-label" for="password">Password</label>
         <input class="form-control" type="password" id="password" name="password" required>
 
-        <label class="form-label" for="role">User Type</label>
-        <select class="form-control" id="role" name="role" required>
-            <option value="Manager">Manager</option>
-            <option value="Admin">Admin</option>
-        </select>
         <br>
         <button class="btn btn-primary" id="login">Login</button>
     `);

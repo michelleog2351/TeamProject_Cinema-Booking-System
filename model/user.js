@@ -17,7 +17,7 @@ connection.connect(function (err) {
 });
 
 //This populates the table on default page for testing cruds
-exports.getUser = function (req, res) {
+exports.getUsers = function (req, res) {
   connection.query("SELECT * FROM User", function (err, rows, fields) {
     if (err) throw err;
 
@@ -49,7 +49,7 @@ exports.createUser = function (req, res) {
   var password = req.body.password;
   var role = req.body.role;
 
-  const query = "INSERT INTO User (Name, Email, Password) VALUES (?, ?, ?)"; //Prepared statments
+  const query = "INSERT INTO User (Name, Email, Password, Role) VALUES (?, ?, ?, ?)"; //Prepared statments
   connection.query(query, [name, email, password, role], function (err, result) {
     if (err) {
       console.error(err);

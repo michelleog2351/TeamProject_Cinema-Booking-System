@@ -3,12 +3,11 @@ var bodyParser = require("body-parser");
 var _ = require('underscore');
 var cors = require("cors");
 var login = require('./model/login');
-var admin = require('./model/admin');
 var film = require('./model/film');
 var screening = require('./model/screening');
 var Theatre = require('./model/theatre');
 // var ticket = require('./model/ticket');
- var manager = require('./model/user');
+ var user = require('./model/user');
 // var booking = require('./model/booking');
 // var ticketType = require('./model/ticketType');
 
@@ -124,23 +123,23 @@ app.get("/capacity", function(req,res){
 
 
 app.get("/user/:EmployeeID", function(req,res){
-	manager.getManager(req,res);
+	user.getUser(req,res);
 });
 
 app.get("/users", function(req,res){
-	manager.getManagers(req,res);
+	user.getUsers(req,res);
 });
 
 app.post("/updateUser/:EmployeeID", function(req, res) {
-    manager.updateManager(req, res);
+    user.updateUser(req, res);
 });
 
 app.post("/createUser/:name?/:username?/:password?/:role?", function(req,res){
-	manager.createManager(req,res);
+	user.createUser(req,res);
 });
 
 app.post("/deleteUser/:EmployeeID", function(req, res){
-    manager.deleteManager(req, res);
+    user.deleteUser(req, res);
 });
 
 app.post("/login", function (req, res) {
