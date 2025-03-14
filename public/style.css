@@ -1,10 +1,18 @@
 .card {
+  width: 100%; /* let the grid system handle the card width based on the window size - ensuring the responsiveness*/
+  height: 400px; /* Matches the height of the images now */
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+/* .card {
   position: relative;
   overflow: hidden;
   border-radius: 10px;
   width: 226px;
   height: 320px;
-}
+} */
 
 .overlay {
   position: absolute;
@@ -31,15 +39,22 @@
 }
 
 .overlay-button {
+  background-color: var(--highlight-color);
   display: inline-block;
   padding: 10px 15px;
   color: white;
   border: none;
+  border-radius: 20px;
   font-size: 16px;
   cursor: pointer;
   max-width: 80%;
   width: auto; /* Ensures the button doesn’t stretch */
   margin: 0 auto;
+}
+
+.overlay-button:hover{
+  background-color: darkblue;
+  text-decoration: none; 
 }
 
 .scroll-to-top-btn {
@@ -62,8 +77,8 @@
 }
 
 .scroll-to-top-btn:active {
-  background-color: #004494; /* Even darker blue when clicked */
-  transform: scale(0.95); /* Slightly shrink to mimic a press effect */
+  background-color: #004494; /* darker blue when clicked */
+  transform: scale(0.95); /* Slightly shrinks */
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.15); /* Soften the shadow */
 }
 

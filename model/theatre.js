@@ -89,3 +89,16 @@ exports.getCapacity = function (req, res) {
     res.json(rows);
   });
 };
+
+
+exports.getTheatreCapacity = function (req, res) {
+  var TheatreID = req.params.TheatreID;
+  const query = "SELECT Capacity FROM Theatre WHERE TheatreID = ?";
+  connection.query(query, [TheatreID], function (err, rows) {
+    if (err) {
+      console.error(err);
+      return res.status(500).send("Error getting films");
+    }
+    res.json(rows);
+  });
+};
