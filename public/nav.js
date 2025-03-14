@@ -53,20 +53,16 @@ function nav() {
     `;
 
     if (sessionStorage.getItem("login") === "true") {
-        let userType = sessionStorage.getItem("userType");
 
-        if (userType === "admin") {
+        if (role === "Admin") {
             navOutPut += `
                 <li class="nav-item">
-                    <a class="nav-link" href="/admin/admin.html">Admin</a>
-                    <li class="nav-item">
                   <a class="nav-link" href="/film/film.html">Film</a>
-              </li>
                 </li>`;
-        } else if (userType === "manager") {
+        } else if (role === "Manager") {
             navOutPut += `
                 <li class="nav-item">
-                    <a class="nav-link" href="/manager/manager.html">Manager</a>
+                    <a class="nav-link" href="/user/user.html">Users</a>
                     <li class="nav-item">
                   <a class="nav-link" href="/screening/screening.html">Screening</a>
                 </li>
@@ -93,8 +89,6 @@ function nav() {
     $("#logout").click(function (e) {
         e.preventDefault();
         sessionStorage.removeItem("login");
-        sessionStorage.removeItem("userType"); // need to make the nav page more efficient
-        localStorage.removeItem("token"); // dont need token here
 
         location.replace("/index.html");
     });

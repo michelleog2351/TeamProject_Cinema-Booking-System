@@ -26,7 +26,6 @@ $(document).ready(function () {
         alert("Invalid email or password.");
       } else {
         sessionStorage.setItem("login", "true");
-        sessionStorage.setItem("role", role);
         localStorage.setItem("token", response.token);
 
         nav();

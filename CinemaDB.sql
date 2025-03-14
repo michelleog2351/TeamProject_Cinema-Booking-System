@@ -1,4 +1,4 @@
- select * from user;
+ -- select * from user;
 -- select * from booking;
 -- select * from film;
 -- select * from manager;
