@@ -108,6 +108,11 @@ $("document").ready(function () {
         }
 
         let coverImage = $("#coverImage")[0].files[0];
+		// <img src="/images/${value.Name.replace(/\s+/g, "_")}.jpg" 
+		// class="card-img-top img-fluid" 
+		// alt="${value.Name}" 
+		// style="height: 500px; object-fit: contain; margin:0;">						
+
 
         let updatedFilm = {
             name: $("#name").val(),
