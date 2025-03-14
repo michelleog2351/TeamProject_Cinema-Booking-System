@@ -2,6 +2,7 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var _ = require('underscore');
 var cors = require("cors");
+const fileUpload = require("express-fileupload");
 var login = require('./model/login');
 var admin = require('./model/admin');
 var film = require('./model/film');
@@ -20,7 +21,7 @@ app.use(express.static('public'));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false}));
-
+app.use(fileUpload());
 
 //ADMIN ROUTES
 

@@ -1,4 +1,5 @@
 var mysql = require("mysql2");
+const path = require("path");
 
 var connection = mysql.createConnection({
   host: "localhost",
@@ -9,9 +10,10 @@ var connection = mysql.createConnection({
 
 connection.connect(function (err) {
   if (err) throw err;
-  console.log(`Sucessfully connected to MySQL database cinemaDB`);
+  console.log(`Successfully connected to MySQL database cinemaDB`);
 });
 
+// Get all films
 exports.getFilms = function (req, res) {
   connection.query("SELECT * FROM film", function (err, rows) {
     if (err) {
@@ -22,6 +24,7 @@ exports.getFilms = function (req, res) {
   });
 };
 
+// Get a single film by ID
 exports.getFilm = function (req, res) {
   var filmID = req.params.filmID;
   const query = "SELECT * FROM film WHERE FilmID = ?";
@@ -37,65 +40,72 @@ exports.getFilm = function (req, res) {
   });
 };
 
+// Add a new film with image upload
 exports.createFilm = function (req, res) {
-  var name = req.body.name;
-  var category = req.body.category;
-  var runningTime = req.body.runningTime;
-  var genre = req.body.genre;
-  var director = req.body.director;
-  var coverImage = req.body.coverImage;
-  var videoURL = req.body.videoURL;
-  var ReleaseDate = req.body.ReleaseDate;
-  const query =
-    "INSERT INTO film (Name, Category, RunningTime, Genre, Director, CoverImage, VideoURL, ReleaseDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-  connection.query(
-    query,
-    [
-      name,
-      category,
-      runningTime,
-      genre,
-      director,
-      coverImage,
-      videoURL,
-      ReleaseDate,
-    ],
-    function (err, result) {
-      if (err) {
-        console.error(err);
-        return res.status(500).send("Error adding film");
+  if (!req.files || !req.files.image) {
+    return res.status(400).send("No image uploaded.");
+  }
+
+  const { name, category, runningTime, genre, director, videoURL, ReleaseDate } = req.body;
+  const image = req.files.image;
+
+  // Define image upload path
+  const uploadPath = path.join(__dirname, "../public/images", `${Date.now()}_${image.name}`);
+
+  // Move image to the upload directory
+  image.mv(uploadPath, (err) => {
+    if (err) return res.status(500).send(err);
+
+    const imagePath = `/images/${Date.now()}_${image.name}`; // Store relative path for serving
+
+    const query = "INSERT INTO film (Name, Category, RunningTime, Genre, Director, CoverImage, VideoURL, ReleaseDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    connection.query(
+      query,
+      [name, category, runningTime, genre, director, imagePath, videoURL, ReleaseDate],
+      function (err, result) {
+        if (err) {
+          console.error(err);
+          return res.status(500).send("Error adding film");
+        }
+        res.send({ message: "Film added successfully!", filmID: result.insertId });
       }
-      res.send({ message: "Film added", filmID: result.insertId });
-    }
-  );
+    );
+  });
 };
 
+// Update film details
 exports.updateFilm = function (req, res) {
   var filmID = req.params.filmID;
-  var name = req.body.name;
-  var category = req.body.category;
-  var runningTime = req.body.runningTime;
-  var genre = req.body.genre;
-  var director = req.body.director;
-  var coverImage = req.body.coverImage;
-  var videoURL = req.body.videoURL;
-  var ReleaseDate = req.body.ReleaseDate;
-  const query =
-    "UPDATE film SET Name = ?, Category = ?, RunningTime = ?, Genre = ?, Director = ?, CoverImage = ?, VideoURL = ?, ReleaseDate = ? WHERE FilmID = ?";
-  connection.query(
-    query,
-    [
-      name,
-      category,
-      runningTime,
-      genre,
-      director,
-      coverImage,
-      videoURL,
-      ReleaseDate,
-      filmID,
-    ],
-    function (err, result) {
+  var { name, category, runningTime, genre, director, videoURL, ReleaseDate } = req.body;
+
+  let query = "UPDATE film SET Name = ?, Category = ?, RunningTime = ?, Genre = ?, Director = ?, VideoURL = ?, ReleaseDate = ? WHERE FilmID = ?";
+  let queryParams = [name, category, runningTime, genre, director, videoURL, ReleaseDate, filmID];
+
+  // Check if an image is uploaded
+  if (req.files && req.files.image) {
+    const image = req.files.image;
+    const uploadPath = path.join(__dirname, "../public/images", `${Date.now()}_${image.name}`);
+    
+    image.mv(uploadPath, (err) => {
+      if (err) return res.status(500).send(err);
+
+      const imagePath = `/images/${Date.now()}_${image.name}`;
+      query = "UPDATE film SET Name = ?, Category = ?, RunningTime = ?, Genre = ?, Director = ?, CoverImage = ?, VideoURL = ?, ReleaseDate = ? WHERE FilmID = ?";
+      queryParams = [name, category, runningTime, genre, director, imagePath, videoURL, ReleaseDate, filmID];
+
+      connection.query(query, queryParams, function (err, result) {
+        if (err) {
+          console.error(err);
+          return res.status(500).send("Error updating film");
+        }
+        if (result.affectedRows === 0) {
+          return res.status(404).send({ message: "Film not found" });
+        }
+        res.send({ message: "Film updated successfully" });
+      });
+    });
+  } else {
+    connection.query(query, queryParams, function (err, result) {
       if (err) {
         console.error(err);
         return res.status(500).send("Error updating film");
@@ -104,10 +114,11 @@ exports.updateFilm = function (req, res) {
         return res.status(404).send({ message: "Film not found" });
       }
       res.send({ message: "Film updated successfully" });
-    }
-  );
+    });
+  }
 };
 
+// Delete a film
 exports.deleteFilm = function (req, res) {
   var filmID = req.params.filmID;
 
@@ -124,8 +135,7 @@ exports.deleteFilm = function (req, res) {
   });
 };
 
-
-
+// Get age ratings
 exports.getAgeRatings = function (req, res) {
   connection.query("SELECT * FROM AgeRating", function (err, rows) {
     if (err) {
@@ -136,7 +146,7 @@ exports.getAgeRatings = function (req, res) {
   });
 };
 
-
+// Get running minutes
 exports.getRunningMinutes = function (req, res) {
   connection.query("SELECT * FROM RunningTime", function (err, rows) {
     if (err) {
@@ -147,6 +157,7 @@ exports.getRunningMinutes = function (req, res) {
   });
 };
 
+// Get film categories
 exports.getFilmCategories = function (req, res) {
   connection.query("SELECT * FROM Category", function (err, rows) {
     if (err) {
