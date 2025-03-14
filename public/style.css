@@ -1,3 +1,11 @@
+.navbar {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: 1000; 
+  padding: 10px 20px;
+}
+
 .card {
   width: 100%; /* let the grid system handle the card width based on the window size - ensuring the responsiveness*/
   height: 400px; /* Matches the height of the images now */

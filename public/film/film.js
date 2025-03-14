@@ -30,7 +30,7 @@ function getJsonData() {
                   /\s+/g,
                   "_"
                 )}.jpg" alt="Cover" width="50"></td>
-                <td><a href="${value.VideoURL}" target="_blank">Watch</a></td>
+                <td><a href="${value.VideoURL}" target="_blank">Watch Trailer</a></td>
                 <td id="ReleaseDate${formattedDate}">${formattedDate}</td>
                 <td><button type="button" class="updateButton btn btn-secondary" value="${
                   value.FilmID
