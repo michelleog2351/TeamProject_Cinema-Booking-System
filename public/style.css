@@ -11,7 +11,7 @@ body {
 }
 
 .card {
-  width: 100%; /* let the grid system handle the card width based on the window size - ensuring the responsiveness*/
+  width: 100%; /* let the grid system handle the card width based on the window size - ensuring responsiveness*/
   height: 400px; /* Matches the height of the images now */
   position: relative;
   overflow: hidden;
