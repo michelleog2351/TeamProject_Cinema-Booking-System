@@ -1,3 +1,15 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.container-fluid {
+  flex: 1; /* Push footer to bottom of page */
+}
+
 .card {
   width: 100%; /* let the grid system handle the card width based on the window size - ensuring the responsiveness*/
   height: 400px; /* Matches the height of the images now */
@@ -82,4 +94,8 @@
 }
 
 .book-tickets-btn {
+}
+
+footer {
+  width: 100%;
 }
