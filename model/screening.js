@@ -191,3 +191,26 @@ exports.checkUpdateScreeningAvailability = function (req, res) {
     res.json(result);
   });
 };
+
+exports.updateSeatsRemaining = function (req, res) {
+  var screeningID = req.body.screeningID;
+  var seatsRemaining = req.body.seatsRemaining;
+
+  const query =
+    "UPDATE Screening SET seatsRemaining = ? WHERE ScreeningID = ?";
+
+  connection.query(
+    query,
+    [seatsRemaining, screeningID],
+    function (err, result) {
+      if (err) {
+        console.error(err);
+        return res.status(500).send("Error updating Screening");
+      }
+      if (result.affectedRows === 0) {
+        return res.status(404).send({ message: "Screening not found" });
+      }
+      res.send({ message: "Screening updated successfully" });
+    }
+  );
+};

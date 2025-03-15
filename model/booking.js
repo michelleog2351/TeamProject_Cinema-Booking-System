@@ -38,13 +38,13 @@ exports.getBooking = function (req, res) {
 };
 
 exports.createBooking = function (req, res) {
-  //var id = req.params.id;
   var noOfSeats = req.body.noOfSeats;
   var cost = req.body.cost;
   var email = req.body.email;
+  var screeningID = req.body.screeningID
 
-  const query = "INSERT INTO Booking (NoOfSeats, Cost, Email) VALUES (?, ?, ?)";
-  connection.query(query, [noOfSeats, cost, email], function (err, result) {
+  const query = "INSERT INTO Booking (NoOfSeats, Cost, Email, screeningID) VALUES (?, ?, ?, ?)";
+  connection.query(query, [noOfSeats, cost, email, screeningID], function (err, result) {
     if (err) {
       console.error(err);
       return res.status(500).send("Error adding new booking");
@@ -89,5 +89,18 @@ exports.deleteBooking = function (req, res) {
       return res.status(404).send({ message: "Booking not found" });
     }
     res.send({ message: "Booking deleted successfully" });
+  });
+};
+
+exports.bookedSeats = function (req, res) {
+  var screeningID = req.params.ScreeningID;
+
+  const query = "SELECT SUM(NoOfSeats) AS totalBookedSeats  FROM Booking WHERE ScreeningID = ?";
+  connection.query(query, [screeningID], function (err, result) {
+    if (err) {
+      console.error(err);
+      return res.status(500).send("Error fetching booked seats");
+    }
+    res.json({ totalBookedSeats: result[0].totalBookedSeats });
   });
 };

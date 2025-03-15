@@ -12,10 +12,11 @@
     <script src="createBooking.js"></script>
     <script src="../nav.js"></script>
     <script src="../footer.js"></script>
+    <link rel="stylesheet" type="text/css" href="../theme.css" />
   </head>
   <body>
     <div class="container-fluid">
-      <nav id="nav" class="navbar navbar-expand-sm bg-light"></nav>
+      <nav id="nav" class="navbar navbar-expand-sm bg-primary"></nav>
       <hr/>
       <table class="table table-hover">
         <thead>
@@ -30,7 +31,7 @@
         <tbody id="tbody"></tbody>
       </table>
       <hr/>
-      <h1>Create a Booking</h1>
+      <h1>Make a Booking</h1>
       <hr />
       <table class="table table-hover">
         <thead>
@@ -42,7 +43,11 @@
         </thead>
         <tbody id="ticketTableBody"></tbody>
       </table>
-      <hr />
+      <hr/>
+      <label class="form-label" for="email">Enter your email so we can send you your tickets</label>
+      <input class="form-control" type="text" name="email" id="email"></input>
+      <hr>
+      <h1>Price:<div id="totalCost">0.00</div></h1>
       <button id="cancel" class="btn btn-secondary">Cancel</button>
       <button id="save" class="btn btn-primary">Save</button>
     </div>

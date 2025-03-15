@@ -8,8 +8,8 @@ var film = require('./model/film');
 var screening = require('./model/screening');
 var Theatre = require('./model/theatre');
 // var ticket = require('./model/ticket');
- var manager = require('./model/manager');
-// var booking = require('./model/booking');
+var manager = require('./model/manager');
+var booking = require('./model/booking');
 var ticketType = require('./model/ticketType');
 
 
@@ -131,10 +131,14 @@ app.post("/deleteScreening/:screeningID", function(req, res){
     screening.deleteScreening(req, res);
 });
 
+app.post("/seatsRemaining/", function(req, res){
+  screening.updateSeatsRemaining(req, res);
+});
+
 ////////////////////////////////////////////////////////////
 
 
-//Theatre Routes
+//TicketType Routes
 
 
 ////////////////////////////////////////////////////////////
@@ -142,6 +146,39 @@ app.post("/deleteScreening/:screeningID", function(req, res){
 app.get("/ticketTypes", function(req,res){
 	ticketType.getTicketTickets(req,res);
 });
+
+
+////////////////////////////////////////////////////////////
+
+//Booking Routes
+
+
+////////////////////////////////////////////////////////////
+
+app.get("/bookings", function(req,res){
+	booking.createBooking(req,res);
+});
+
+app.get("/booking/:BookingID", function(req,res){
+	booking.createBooking(req,res);
+});
+
+app.post("/createBooking", function(req,res){
+	booking.createBooking(req,res);
+});
+
+app.post("/updateBooking/:TheatreID", function(req, res){
+  Theatre.updateTheatre(req, res);
+});
+
+app.post("/deleteBooking/:TheatreID", function(req, res){
+  Theatre.updateTheatre(req, res);
+});
+
+app.get("/bookedSeats/:ScreeningID", function(req,res){
+	booking.bookedSeats(req,res);
+});
+
 
 
 

@@ -3,7 +3,6 @@ $(`document`).ready(function () {
     footer();
     var ID = localStorage.getItem("ScreeningID");
     $(`#fbody`).append(
-
         `
         <div class="mb-3">
             <label  class="form-label" for="startTime">Start Time</label>
@@ -38,9 +37,6 @@ $(`document`).ready(function () {
         </div>
         `
     );
-
-
-
     getJsonData(ID);
     let today = new Date().toISOString().split('T')[0];
     $("#date").attr("min", today);
@@ -51,8 +47,8 @@ $(`document`).ready(function () {
 
     $("#theatreSelect").change(function () {
         let selectedTheatre = $(this).val();
-        getCapacity(selectedTheatre);
-      });
+        getAvailableSeats(selectedTheatre, ID);
+    });
 
     $("#update").click(async function (e) {
         var inputValidation = true;
@@ -91,9 +87,9 @@ $(`document`).ready(function () {
                     let updateScreening = {
                         startTime: $(`#startTime`).val(),
                         date: $(`#date`).val(),
-                        seatsRemaining:  $(`#seatsRemaining`).val(),
-                        theatreID:  $(`#theatreSelect`).val(),
-                        filmID:  $(`#filmSelect`).val(),
+                        seatsRemaining: $(`#seatsRemaining`).val(),
+                        theatreID: $(`#theatreSelect`).val(),
+                        filmID: $(`#filmSelect`).val(),
                     };
                     console.log(updateScreening)
 
@@ -110,7 +106,7 @@ $(`document`).ready(function () {
 });
 
 function getJsonData(ID) {
-    $.getJSON(`http://localhost:3000/screening/${ID}`, function (data) {
+    $.getJSON(`http://localhost:3000/screening/${ID}`, async function (data) {
         // Ensure data is an object, and access it directly
         let screeningDate = new Date(data.Date);
         let formattedDate = screeningDate.toISOString().split('T')[0];
@@ -122,7 +118,7 @@ function getJsonData(ID) {
         getFilmData(data.FilmID);
         getTheatreData(data.TheatreID);
         getStartTime(data.StartTime);
-        getCapacity(data.TheatreID);
+        await getAvailableSeats(data.TheatreID, ID);
 
 
     });
@@ -164,9 +160,24 @@ async function getRunningTime(filmID) {
 }
 
 async function getCapacity(theatreID) {
-    await $.getJSON(`http://localhost:3000/theatreCapacity/${theatreID}`).done(function (data) {
-      $.each(data, function (i, value) {
-        $(`#seatsRemaining`).val(value.Capacity);
-      });
-    });
-  }
+    data = await $.getJSON(`http://localhost:3000/theatreCapacity/${theatreID}`)
+        //console.log(data[0].Capacity)
+        return parseInt(data[0].Capacity)
+
+}
+
+async function getBookedSeats(ID) {
+    data = await $.getJSON(`http://localhost:3000/bookedSeats/${ID}`)
+        //let totalBooked = parseInt(data.totalBookedSeats);
+        console.log(data.totalBookedSeats)
+        return parseInt(data.totalBookedSeats);
+}
+async function getAvailableSeats(theatreID, screeningID) {
+    let theatreCapacity = await getCapacity(theatreID);
+    console.log(theatreCapacity)
+    let bookedSeats = await getBookedSeats(screeningID);
+    console.log(bookedSeats)
+    let availableSeats = theatreCapacity - bookedSeats;
+    console.log(availableSeats)
+    $("#seatsRemaining").val(availableSeats);
+}
