@@ -139,3 +139,18 @@ function fetchFilms() {
     alert("Failed to load films.");
   });
 }
+
+function scrollToTop() {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
+}
+
+$(window).scroll(function () {
+  if ($(this).scrollTop() > 50) {
+    $(".scroll-to-top-btn").fadeIn();
+  } else {
+    $(".scroll-to-top-btn").fadeOut();
+  }
+});

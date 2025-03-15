@@ -72,3 +72,11 @@ function scrollToTop() {
     behavior: "smooth",
   });
 }
+
+$(window).scroll(function () {
+  if ($(this).scrollTop() > 50) {
+    $(".scroll-to-top-btn").fadeIn();
+  } else {
+    $(".scroll-to-top-btn").fadeOut();
+  }
+});
