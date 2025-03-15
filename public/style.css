@@ -6,14 +6,6 @@
   border-radius: 10px;
 }
 
-/* .card {
-  position: relative;
-  overflow: hidden;
-  border-radius: 10px;
-  width: 226px;
-  height: 320px;
-} */
-
 .overlay {
   position: absolute;
   top: -100%;
@@ -52,9 +44,9 @@
   margin: 0 auto;
 }
 
-.overlay-button:hover{
+.overlay-button:hover {
   background-color: darkblue;
-  text-decoration: none; 
+  text-decoration: none;
 }
 
 .scroll-to-top-btn {
