@@ -26,13 +26,12 @@ $(document).ready(function () {
       alert("Not enough seats availble, try another screening");
       return;
     }
+
     let today = new Date();
     let currentTime = today.getTime();
-
-    let selectedDate = $("#date").val();
-    let selectedTime = $("#startTime").val();
-
-    let screeningDateTime = new Date(`${selectedDate}T${selectedTime}`);
+    let selectedDate = $("#date").text();
+    let selectedTime = $("#startTime").text();
+    let screeningDateTime = new Date(`${selectedDate}T${selectedTime}Z`);
 
     if (screeningDateTime.getTime() <= currentTime) {
       alert("Screening has already begun");
@@ -47,7 +46,6 @@ $(document).ready(function () {
       screeningID: ID
     };
 
-    //console.log(newBooking)
 
     $.post(`http://localhost:3000/createBooking`, newBooking)
       .done(function () {
@@ -56,7 +54,8 @@ $(document).ready(function () {
         console.log(newBooking.noOfSeats)
         console.log(parseInt($(`#seatsRemaining`).text() - newBooking.noOfSeats))
         updateSeatsRemaining(ID, parseInt($(`#seatsRemaining`).text() - newBooking.noOfSeats));
-        location.replace("http://localhost:3000/booking.html");
+        location.replace("http://localhost:3000/booking/booking.html");
+        location.replace("http://localhost:3000/Customer/Film/cFilm.html");
       })
       .fail(function () {
         alert("Error creating booking.");
@@ -125,6 +124,10 @@ function getScreeningData(ID) {
     $(`#tbody`).append(
       `<tr>
       <td id="filmID${filmname}">${filmname}</td>
+      <td><img src="../../images/${filmname.replace(
+                  /\s+/g,
+                  "_"
+                )}.jpg" alt="Cover" width="50"></td>
       <td id="startTime">${data.StartTime}</td>
       <td id="date">${formattedDate}</td>
       <td id="theatreID${data.TheatreID}">${data.TheatreID}</td>
@@ -147,7 +150,6 @@ function updatePrice() {
   totalCost = parseFloat(totalCost + (item * $(`#amount${index}`).val()))
   });
   $(`#totalCost`).text(totalCost.toFixed(2));
-  console.log(totalNumberOfSeats)
 }
 
 function updateSeatsRemaining(screeningID, newSeatsRemaining) {

@@ -7,7 +7,7 @@ $(document).ready(function () {
   );
 
   $(document).on("click", ".addButton", function () {
-    location.replace("http://localhost:3000/createBooking.html");
+    location.replace("http://localhost:3000/booking/createBooking.html");
   });
 });
 
@@ -17,10 +17,10 @@ function getJsonData() {
       $(`#tbody`).append(
         `<tr>
 				<td id="bookingID" >${value.BookingID}</td>
-				<td id="noOfSeats${value.NoOfSeats}">${value.NoOfSeats}</td>
+				<td id="noOfSeats${value.BookingID}">${value.NoOfSeats}</td>
 				<td id="cost${value.Cost}">€${value.Cost}</td>
 				<td id="email${value.Email}">${value.Email}</td>
-
+        <td id="screening${value.BookingID}">${value.ScreeningID}</td>
 				<td><button type="button" class="updateButton btn btn-secondary" value="${value.BookingID}">Edit</button></td>
 				<td><button type="button" class="deleteButton btn btn-danger" value="${value.BookingID}">Delete</button></td>
 				</tr>`
@@ -30,16 +30,33 @@ function getJsonData() {
     $(".updateButton").click(function (e) {
       let ID = e.target.value;
       localStorage.setItem("BookingID", ID);
-      location.replace("http://localhost:3000/updateBooking.html");
+      location.replace("http://localhost:3000/booking/updateBooking.html");
     });
 
-    $(".deleteButton").click(function (e) {
+    $(".deleteButton").click(async function (e) {
       let ID = e.target.value;
-      $.post(`http://localhost:3000/deleteBooking/${ID}`, {
-        BookingID: ID,
-      }).done(function () {
-        location.replace("http://localhost:3000/booking.html");
+      
+
+      screeningID = parseInt($(`#screening${ID}`).text());
+      screeningData = await $.getJSON(`http://localhost:3000/screening/${screeningID}`);
+
+      newSeatsAvailable = parseInt($(`#noOfSeats${ID}`).text());
+      SeatsRemaining = screeningData.SeatsRemaining
+      SeatsRemaining += newSeatsAvailable
+      updateSeatsRemaining(screeningID, SeatsRemaining)
+
+      $.post(`http://localhost:3000/deleteBooking/${ID}`)
+      .done(function () {
+          location.replace("http://localhost:3000/booking/booking.html");
       });
     });
   });
+}
+
+function updateSeatsRemaining(screeningID, newSeatsRemaining) {
+  let updateSeatsRemaining = {
+    screeningID: screeningID,
+    seatsRemaining: newSeatsRemaining
+  }
+  $.post(`http://localhost:3000/seatsRemaining`, updateSeatsRemaining)
 }

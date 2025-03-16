@@ -92,6 +92,17 @@ exports.deleteBooking = function (req, res) {
   });
 };
 
+exports.deleteAllBookings = function (req, res) {
+
+  const query = "DELETE From Booking";
+  connection.query(query, function (err, result) {
+    if (err) {
+      console.error(err);
+    }
+    res.send({ message: "Booking deleted successfully" });
+  });
+};
+
 exports.bookedSeats = function (req, res) {
   var screeningID = req.params.ScreeningID;
 

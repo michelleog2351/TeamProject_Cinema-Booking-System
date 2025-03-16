@@ -156,28 +156,34 @@ app.get("/ticketTypes", function(req,res){
 ////////////////////////////////////////////////////////////
 
 app.get("/bookings", function(req,res){
-	booking.createBooking(req,res);
+	booking.getBookings(req,res);
 });
 
 app.get("/booking/:BookingID", function(req,res){
-	booking.createBooking(req,res);
+	booking.getBooking(req,res);
 });
 
 app.post("/createBooking", function(req,res){
 	booking.createBooking(req,res);
 });
 
-app.post("/updateBooking/:TheatreID", function(req, res){
-  Theatre.updateTheatre(req, res);
+app.post("/updateBooking/:BookingID", function(req, res){
+  booking.updateBooking(req, res);
 });
 
-app.post("/deleteBooking/:TheatreID", function(req, res){
-  Theatre.updateTheatre(req, res);
+app.post("/deleteBooking/:bookingID", function(req, res){
+  booking.deleteBooking(req, res);
+});
+
+app.post("/deleteAllBookings", function(req, res){
+  booking.deleteAllBookings(req, res);
 });
 
 app.get("/bookedSeats/:ScreeningID", function(req,res){
 	booking.bookedSeats(req,res);
 });
+
+
 
 
 

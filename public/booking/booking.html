@@ -8,16 +8,21 @@
       rel="stylesheet"
     />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="booking.js"></script>
     <script src="../nav.js"></script>
     <script src="../footer.js"></script>
+    <link rel="stylesheet" type="text/css" href="../theme.css" />
   </head>
 
   <body>
     <div class="container-fluid">
+      <nav id="nav" class="navbar navbar-expand-sm bg-primary" sticky-top></nav>
       <hr />
+      
       <h1>Booking Details Information</h1>
       <hr />
       <div id="add"></div>
+      <div id="delete"></div>
       <br />
       <table class="table table-bordered">
         <thead>
@@ -26,6 +31,8 @@
             <th><strong>No. Seats</strong></th>
             <th><strong>Cost</strong></th>
             <th><strong>Email</strong></th>
+            <th>ScreeningID</th>
+            <th></th>
             <th></th>
           </tr>
         </thead>
