@@ -27,7 +27,7 @@ function filmDD() {
 							<div class="overlay">
 								<div class="overlay-content">
 									<a href="Customer/Film/filmDetails.html?filmID=${film.FilmID}"
-									class="btn btn-primary">Watch: ${film.Name} Now</a> 
+									class="btn btn-primary overlay-button">Watch: ${film.Name} Now</a> 
 								</div>           
 							</div>
 						</div> 
