@@ -10,6 +10,14 @@ body {
   flex: 1; /* Push footer to bottom of page */
 }
 
+.navbar-toggler-icon {
+  transition: transform 0.3s ease;
+}
+
+.navbar-toggler:is(.collapsed) .navbar-toggler-icon {
+  transform: rotate(180deg);
+}
+
 .card {
   width: 100%; /* let the grid system handle the card width based on the window size - ensuring responsiveness*/
   height: 400px; /* Matches the height of the images now */
