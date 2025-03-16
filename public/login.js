@@ -15,10 +15,11 @@ $(document).ready(function () {
             <option value="admin">Admin</option>
         </select>
         <br>
-        <button class="btn btn-primary" id="login">Login</button>
+        <button class="btn btn-primary" id="login" type="button">Login</button>
     `);
 
-  $("#login").click(function (e) {
+
+  $(document).on("click", "#login", function (e) {
     e.preventDefault();
 
     let email = $("#email").val();
@@ -27,7 +28,6 @@ $(document).ready(function () {
 
     $.post("/login", { email, password, userType }, function (response) {
       if (response.token) {
-        
         alert("Invalid email or password.");
       } else {
         sessionStorage.setItem("login", "true");
@@ -35,7 +35,8 @@ $(document).ready(function () {
         localStorage.setItem("token", response.token);
 
         nav();
-        location.replace("http://localhost:3000/index.html");      }
+        location.replace("http://localhost:3000/index.html");
+      }
     });
   });
 });

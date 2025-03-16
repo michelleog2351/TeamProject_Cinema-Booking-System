@@ -1,136 +1,74 @@
 function nav() {
-  var navOutPut = /*`
-    <div class="container d-flex justify-content-center"> 
-        <ul class="navbar-nav" style="padding: 15px 15px 15px 15px">
-            <li class="nav-item">
-                <a class="nav-link" href="/index.html">Home</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/Customer/Film/cFilm.html">Now Showing</a>
-            </li> 
-            <li class="nav-item">
-                <a class="nav-link" href="/film/film.html">Film</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/screening/screening.html">Screening</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/theatre/theatre.html">Theatre</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/admin/admin.html">Admin</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/manager/manager.html">Manager</a>
-            </li>   
-            
-    `*/
-    
-    
-    `<nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">Navbar</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarColor01">
-        <ul class="navbar-nav me-auto">
-        <li class="nav-item">
-        <a class="nav-link" href="/index.html">Home</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="/Customer/Film/cFilm.html">Now Showing</a>
-    </li> 
-    <li class="nav-item">
-        <a class="nav-link" href="/film/film.html">Film</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="/screening/screening.html">Screening</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="/theatre/theatre.html">Theatre</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="/admin/admin.html">Admin</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="/manager/manager.html">Manager</a>
-    </li>
-        </ul>
-      </div>
-    </div>
-  </nav>`;
-  if (sessionStorage.getItem("login") == "true") {
-    navOutPut += `
-        <li class="nav-item">
-        <a class="nav-link" href="/admin.html">Admin</a>
-        </li> |
-        <li class="nav-item">
-        <a class="nav-link" href="/logout.html">Logout</a>
-        </li> |`;
-  } else {
-    navOutPut += `<li class="nav-item">
-        <a class="nav-link" href="/login.html">Login</a> 
-        </li>`;
-  }
-  navOutPut += `</ul></div>`;
-  $("nav").html(navOutPut);
-    var navOutPut = `
-      <div class="container d-flex justify-content-center"> 
-          <ul class="navbar-nav w-100 d-flex" style="padding: 15px 15px 15px 15px">
-              <li class="nav-item">
-                  <a class="nav-link" href="/index.html">Home</a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link" href="/Customer/Film/cFilm.html">Now Showing</a>
-              </li> 
-              
-    `;
+  var isLoggedIn = sessionStorage.getItem("login") === "true";
+  var userType = sessionStorage.getItem("userType");
 
-    if (sessionStorage.getItem("login") === "true") {
-        let userType = sessionStorage.getItem("userType");
+  var navOutPut = `
+      <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+          <div class="container-fluid">
+              <a class="navbar-brand" href="/index.html">Our Cinema</a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="container d-flex justify-content-center"> 
+                  <ul class="navbar-nav w-100 d-flex" style="padding: 15px 15px 15px 15px">`;
 
-        if (userType === "admin") {
-            navOutPut += `
-                <li class="nav-item">
-                    <a class="nav-link" href="/admin/admin.html">Admin</a>
-                    <li class="nav-item">
-                  <a class="nav-link" href="/film/film.html">Film</a>
-              </li>
-                </li>`;
-        } else if (userType === "manager") {
-            navOutPut += `
-                <li class="nav-item">
-                    <a class="nav-link" href="/manager/manager.html">Manager</a>
-                    <li class="nav-item">
-                  <a class="nav-link" href="/screening/screening.html">Screening</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="/theatre/theatre.html">Theatre</a>
-                </li>
-                </li>`;
-        }
+  navOutPut += `
+              <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav me-auto">
+                  <li class="nav-item">
+                      <a class="nav-link" href="/index.html">Home</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="/Customer/Film/cFilm.html">Now Showing</a>
+                  </li>`;
 
-        navOutPut += `
-            <li class="nav-item ms-auto">
-                <a class="nav-link" href="#" id="logout">Logout</a>
-            </li>`;
-    } else {
-        navOutPut += `
-            <li class="nav-item ms-auto">
-                <a class="nav-link" href="/login.html">Login</a> 
-            </li>`;
+  if (isLoggedIn) {
+    if (userType === "admin") {
+      navOutPut += `
+                  <li class="nav-item">
+                      <a class="nav-link" href="/admin/admin.html">Admin</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="/film/film.html">Film</a>
+                  </li>`;
+    } else if (userType === "manager") {
+      navOutPut += `
+                  <li class="nav-item">
+                      <a class="nav-link" href="/manager/manager.html">Manager</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="/screening/screening.html">Screening</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/theatre/theatre.html">Theatre</a>
+                  </li>`;
     }
 
-    navOutPut += `</ul></div>`;
-    $("nav").html(navOutPut);
+    navOutPut += `
+              </ul>
+              <ul class="navbar-nav ms-auto">
+                  <li class="nav-item">
+                      <a class="nav-link" href="#" id="logout">Logout</a>
+                  </li>
+              </ul>`;
+  } else {
+    navOutPut += `
+              <ul class="navbar-nav ms-auto">
+                  <li class="nav-item">
+                      <a class="nav-link" href="/login.html" id="login">Login</a>
+                  </li>
+              </ul>`;
+  }
 
-    $("#logout").click(function (e) {
-        e.preventDefault();
-        sessionStorage.removeItem("login");
-        sessionStorage.removeItem("userType"); // need to make the nav page more efficient
-        localStorage.removeItem("token"); // dont need token here
+  navOutPut += `</ul></div></div></nav>`;
+  $("nav").html(navOutPut);
 
-        location.replace("/index.html");
-    });
+  // Logout functionality
+  $("#logout").click(function (e) {
+    e.preventDefault();
+    sessionStorage.removeItem("login");
+    sessionStorage.removeItem("userType"); 
+    localStorage.removeItem("token"); 
+    location.replace("/index.html");
+  });
 }

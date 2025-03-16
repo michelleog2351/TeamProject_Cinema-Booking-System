@@ -21,33 +21,29 @@
 
     <div class="container-fluid">
       <hr />
-      <div class="d-flex justify-content-between align-items-center mb-3">
-        <div class="mb-3" style="flex: 2">
+      <div class="row g-3 mb-3">
+        <div class="col-12 col-md-3">
           <select id="selectFilm" class="form-select" name="selectFilm">
             <option value="" selected>Select Film</option>
           </select>
         </div>
-
-        <div class="mb-3 ms-3" style="flex: 1">
+    
+        <div class="col-12 col-md-3">
           <select id="selectDate" class="form-select" name="selectDate">
             <option value="" selected>Select Date</option>
           </select>
         </div>
-
-        <div class="mb-3 ms-3" style="flex: 1">
-          <select
-            id="selectStartTime"
-            class="form-select"
-            name="selectStartTime"
-          >
+    
+        <div class="col-12 col-md-3">
+          <select id="selectStartTime" class="form-select" name="selectStartTime">
             <option value="" selected>Select Time</option>
           </select>
         </div>
-
-        <div class="mb-3 ms-3" style="flex: 1">
+    
+        <div class="col-12 col-md-3">
           <button
             type="button"
-            class="btn btn-primary"
+            class="btn btn-primary w-100"
             style="display: none; align-items: center;"
             title="Click here to book tickets!"
             onclick="bookTickets()"
@@ -56,11 +52,12 @@
           </button>
         </div>
       </div>
+    
       <br />
       <h2 class="text-center">Now Showing at Our Cinema</h2>
       <br />
       <div id="filmCards" class="row"></div>
-
+    
       <button
         class="btn btn-info scroll-to-top-btn"
         onclick="scrollToTop()"
@@ -69,6 +66,7 @@
         <h1>↑</h1>
       </button>
     </div>
+    
     <footer
       id="footer"
       class="footer d-flex justify-content-center text-muted"
