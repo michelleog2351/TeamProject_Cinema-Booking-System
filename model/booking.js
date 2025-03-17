@@ -106,7 +106,7 @@ exports.deleteAllBookings = function (req, res) {
 exports.bookedSeats = function (req, res) {
   var screeningID = req.params.ScreeningID;
 
-  const query = "SELECT SUM(NoOfSeats) AS totalBookedSeats  FROM Booking WHERE ScreeningID = ?";
+  const query = "SELECT IFNULL(SUM(NoOfSeats), 0) AS totalBookedSeats FROM Booking WHERE ScreeningID = ?";
   connection.query(query, [screeningID], function (err, result) {
     if (err) {
       console.error(err);

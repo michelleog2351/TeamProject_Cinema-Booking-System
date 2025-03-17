@@ -169,15 +169,11 @@ async function getCapacity(theatreID) {
 async function getBookedSeats(ID) {
     data = await $.getJSON(`http://localhost:3000/bookedSeats/${ID}`)
         //let totalBooked = parseInt(data.totalBookedSeats);
-        console.log(data.totalBookedSeats)
         return parseInt(data.totalBookedSeats);
 }
 async function getAvailableSeats(theatreID, screeningID) {
     let theatreCapacity = await getCapacity(theatreID);
-    console.log(theatreCapacity)
     let bookedSeats = await getBookedSeats(screeningID);
-    console.log(bookedSeats)
     let availableSeats = theatreCapacity - bookedSeats;
-    console.log(availableSeats)
     $("#seatsRemaining").val(availableSeats);
 }

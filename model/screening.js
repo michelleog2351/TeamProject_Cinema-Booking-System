@@ -18,7 +18,7 @@ connection.connect(function (err) {
 
 //This populates the table on default page for testing cruds
 exports.getScreenings = function (req, res) {
-  connection.query("SELECT * FROM Screening", function (err, rows, fields) {
+  connection.query("SELECT * FROM Screening ORDER BY TheatreID, Date, StartTime", function (err, rows, fields) {
     if (err) throw err;
 
     res.send(JSON.stringify(rows));
@@ -165,8 +165,10 @@ exports.checkScreeningAvailability = function (req, res) {
   var date = req.body.date;
   var startTime = req.body.startTime;
   var runningTime = req.body.runningTime;
-  const query = "SELECT * FROM screening WHERE TheatreID = ? AND Date = ? AND ( (StartTime BETWEEN ? AND ADDTIME(?, SEC_TO_TIME(?*60)))OR (StartTime BETWEEN SUBTIME(?, SEC_TO_TIME(?*60)) AND ?))";
-  connection.query(query, [theatreID, date, startTime, startTime, runningTime, startTime,runningTime,startTime ], function (err, result) {
+         
+const query = "SELECT s.TheatreID, s.Date, s.StartTime, f.RunningTime FROM screening s JOIN Film f ON s.FilmID = f.FilmID WHERE s.TheatreID = ? AND s.Date = ? AND (? < ADDTIME(s.StartTime, SEC_TO_TIME(f.RunningTime * 60)) AND ADDTIME(?, SEC_TO_TIME(? * 60)) > s.StartTime)";
+  
+  connection.query(query, [theatreID, date, startTime, startTime, runningTime], function (err, result) {
     if (err) {
       console.error(err);
       return res.status(500).send("Error deleting Screening");
@@ -182,8 +184,10 @@ exports.checkUpdateScreeningAvailability = function (req, res) {
   var date = req.body.date;
   var startTime = req.body.startTime;
   var runningTime = req.body.runningTime;
-  const query = "SELECT * FROM screening WHERE ScreeningID != ? AND TheatreID = ? AND Date = ? AND ( (StartTime BETWEEN ? AND ADDTIME(?, SEC_TO_TIME(?*60)))OR (StartTime BETWEEN SUBTIME(?, SEC_TO_TIME(?*60)) AND ?))";
-  connection.query(query, [screeningID, theatreID, date, startTime, startTime, runningTime, startTime,runningTime,startTime ], function (err, result) {
+
+  const query = "SELECT s.TheatreID, s.Date, s.StartTime, f.RunningTime FROM screening s JOIN Film f ON s.FilmID = f.FilmID WHERE s.ScreeningID != ? AND s.TheatreID = ? AND s.Date = ? AND (? < ADDTIME(s.StartTime, SEC_TO_TIME(f.RunningTime * 60)) AND ADDTIME(?, SEC_TO_TIME(? * 60)) > s.StartTime)";
+
+  connection.query(query, [screeningID, theatreID, date, startTime, startTime, runningTime], function (err, result) {
     if (err) {
       console.error(err);
       return res.status(500).send("Error deleting Screening");
