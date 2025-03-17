@@ -10,12 +10,24 @@ body {
   flex: 1; /* Push footer to bottom of page */
 }
 
+.navbar {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+}
+
 .navbar-toggler-icon {
   transition: transform 0.3s ease;
 }
 
 .navbar-toggler:is(.collapsed) .navbar-toggler-icon {
   transform: rotate(180deg);
+}
+
+.table {
+  overflow-x: auto;
+  white-space: nowrap;
 }
 
 .card {

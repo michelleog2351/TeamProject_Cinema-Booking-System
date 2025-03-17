@@ -69,3 +69,15 @@ function nav() {
     location.replace("/index.html");
   });
 }
+
+// added this function here rather than going thru all the files to add this to all tables
+// allow only the table to scroll horizontally without affecting navbar
+// keep the navbar fixed at the top
+$(document).ready(function () {
+  $("table").each(function () {
+      if (!$(this).parent().hasClass("table-responsive")) {
+          $(this).wrap('<div class="table-responsive"></div>');
+      }
+  });
+});
+
