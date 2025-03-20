@@ -21,7 +21,6 @@ function getJsonData() {
 				<td id="cost${value.Cost}">€${value.Cost}</td>
 				<td id="email${value.Email}">${value.Email}</td>
         <td id="screening${value.BookingID}">${value.ScreeningID}</td>
-				<td><button type="button" class="updateButton btn btn-secondary" value="${value.BookingID}">Edit</button></td>
 				<td><button type="button" class="deleteButton btn btn-danger" value="${value.BookingID}">Delete</button></td>
 				</tr>`
       );
