@@ -14,7 +14,7 @@ $(document).ready(function () {
 
   $("#save").click(function () {
 
-    if ($("#email").val() == '') {
+    if ($("#email").val() == '' || $("#email").val().indexOf("@")==-1 || $("#email").val().indexOf("@atu.ie")==-1) {
       alert("Must enter a valid email");
       return;
     }
