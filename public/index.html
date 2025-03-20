@@ -50,7 +50,6 @@
             class="book-tickets-btn"
             style="display: flex; align-items: center"
             title="Click here to book tickets!"
-            onclick="bookTickets()"
           >
             Book Tickets
           </button>
@@ -60,8 +59,25 @@
       <div class="text-center my-4">
         <h2>Now Showing at our Cinema</h2>
       </div>
-
+      <div id="filmRows" class="mt-3 d-none">
+        <h4>Available Films</h4>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Start Time</th>
+              <th>Date</th>
+              <th>Seats Remaining</th>
+              <th>Theatre</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="screeningstBody"></tbody>
+        </table>
+      </div>
+      
+      <div id="filmRows" class="row"></div>
       <br />
+
       <div id="filmCards" class="row"></div>
 
       <button

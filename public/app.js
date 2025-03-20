@@ -4,6 +4,7 @@ $(document).ready(function () {
   filmDD();
   dateDD();
   startTimeDD();
+  bookTickets();
 });
 
 function filmDD() {
@@ -41,56 +42,92 @@ function filmDD() {
       );
     });
   });
+
+  // Trigger fetching screenings on film selection
+  $("#selectFilm").change(function () {
+    let filmID = $(this).val();
+    fetchScreenings(filmID);
+  });
 }
 
 function dateDD() {
   $.getJSON("http://localhost:3000/screenings", function (data) {
-    //const today = new Date().toISOString().split("T")[0]; // Get today's date
-
     $("#selectDate").html(
       '<option value="screenings" selected>Select Date</option>'
     );
 
     $.each(data, function (i, screening) {
       let date = new Date(screening.Date).toISOString().split("T")[0];
-      // if (date >= today) {
-      // Only show today or future dates
       $("#selectDate").append(`<option value="${date}">${date}</option>`);
-      //}
     });
   });
 }
 
 function startTimeDD() {
-  const now = new Date();
-  const currentTime = now.toTimeString().split(" ")[0]; // Current time in HH:MM:SS
-
   $.getJSON("http://localhost:3000/startTimes", function (data) {
     $("#selectStartTime").html(
       '<option value="" selected>Select Time</option>'
     );
 
     $.each(data, function (i, screening) {
-      // Only show times later than the current time for today
-      if (screening.Date === now.toISOString().split("T")[0]) {
-        if (screening.StartTime > currentTime) {
-          $("#selectStartTime").append(
-            `<option value="${screening.StartTime}">${screening.StartTime}</option>`
-          );
-        }
-      } else {
-        // For future dates, show all times
-        $("#selectStartTime").append(
-          `<option value="${screening.StartTime}">${screening.StartTime}</option>`
-        );
-      }
+      $("#selectStartTime").append(
+        `<option value="${screening.StartTime}">${screening.StartTime}</option>`
+      );
     });
+  });
+}
+
+function fetchScreenings(filmID) {
+  $("#screeningsTableBody").empty(); // Clear existing rows
+
+  if (!filmID) {
+    $("#screeningsContainer").addClass("d-none"); // Hide table if no film selected
+    return;
+  }
+
+  $.getJSON(`http://localhost:3000/filmScreenings/${filmID}`, function (data) {
+    if (data.length > 0) {
+      $("#filmRows").removeClass("d-none");
+      $.each(data, function (i, value) {
+        let formattedDate = new Date(value.Date).toISOString().split("T")[0];
+        $("#screeningstBody").append(`
+          <tr>
+            <td>${value.StartTime}</td>
+            <td>${formattedDate}</td>
+            <td>${value.SeatsRemaining}</td>
+            <td>${value.TheatreID}</td>
+            <td><button class="btn btn-primary book-btn" id="${value.ScreeningID}">Book</button></td>
+          </tr>
+        `);
+      });
+    } else {
+      $("#filmRows").addClass("d-none");
+    }
+  });
+}
+
+function bookTickets() {
+  $(".book-tickets-btn").click(function () {
+    var filmID = $("#selectFilm").val();
+    var date = $("#selectDate").val();
+    var time = $("#selectStartTime").val();
+
+    if (filmID && date && time) {
+      window.location.href = `Customer/Film/filmDetails.html?filmID=${filmID}&date=${date}&time=${time}`;
+    } else {
+      alert("Please select a film, date, and time.");
+    }
   });
 }
 
 function scrollToTop() {
   window.scrollTo({
     top: 0,
-    behavior: "smooth"
+    behavior: "smooth",
   });
 }
+
+$(document).on("click", ".book-btn", function () {
+  let screeningID = $(this).data("id");
+  window.location.href = `Customer/Film/filmDetails.html?screeningID=${screeningID}`;
+});
