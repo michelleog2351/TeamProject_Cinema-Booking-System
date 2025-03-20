@@ -117,10 +117,11 @@ body {
   font-size: 50px;
   font-weight: bolder;
   text-align: center;
-  line-height: 80px;
+  line-height: 70px;
   cursor: pointer;
   display: none;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.2s ease;
 }
 
 .scroll-to-top-btn:active {
