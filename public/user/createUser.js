@@ -2,7 +2,7 @@ $(`document`).ready(function () {
   nav();
   footer();
   $(`#fbody`).append(
-    `<label  class="form-label" for="name">Name</label>
+    `<label class="form-label" for="name">Name</label>
     <input class="form-control" type="text" name="name" id="name"></input>
 
     <label class="form-label" for="email">Email</label>
@@ -12,7 +12,11 @@ $(`document`).ready(function () {
     <input class="form-control" type="password" name="password" id="password"></input>
 
     <label class="form-label" for="role">Role</label>
-    <input class="form-control" type="role" name="role" id="role"></input>
+    <select class="form-control" name="role" id="role">
+      <option value="">Select Role</option>
+      <option value="Manager">Manager</option>
+      <option value="Admin">Admin</option>
+    </select>
     <br>`
   );
 
@@ -21,9 +25,8 @@ $(`document`).ready(function () {
   });
 
   $("#save").click(function (e) {
-
     if ($("#name").val() == '' || $("#email").val() == '' || $(`#password`).val() == '' || $(`#role`).val() == '') {
-      alert("All fields must be entered before a Sceening can be created");
+      alert("All fields must be entered before a User can be created");
       return;
     }
 
@@ -37,7 +40,6 @@ $(`document`).ready(function () {
       email: email,
       password: password,
       role: role,
-
     }).done(function () {
       location.replace("http://localhost:3000/user/user.html");
     });

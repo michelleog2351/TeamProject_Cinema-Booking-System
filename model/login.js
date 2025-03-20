@@ -15,30 +15,27 @@ connection.connect(function (err) {
 exports.loginUser = function (req, res) {
   const { email, password } = req.body;
 
-  connection.query('SELECT * FROM User WHERE email = ?', [email], function (err, rows) {
+  connection.query('SELECT * FROM User WHERE Email = ?', [email], function (err, rows) {
       if (err) {
           console.error('Database error:', err);
           return res.status(500).json({ error: 'Error checking credentials' });
       }
 
       if (rows.length === 0) {
-          console.log('No user found with the provided email');
           return res.status(401).json({ error: 'Invalid email or password' });
       }
 
       const user = rows[0];
-      
+
       if (user.Password.toLowerCase() !== password.toLowerCase()) {
-          console.log('Password mismatch for user:', email);
           return res.status(401).json({ error: 'Invalid email or password' });
       }
 
-if (user.Role.toLowerCase() !== 'admin' && user.Role.toLowerCase() !== 'manager') {
-  return res.status(403).json({ error: 'Forbidden: Invalid role' });
-}
+      if (user.Role.toLowerCase() !== 'admin' && user.Role.toLowerCase() !== 'manager') {
+          return res.status(403).json({ error: 'Forbidden: Invalid role' });
+      }
 
-      
+      res.json({ message: 'Login successful', role: user.Role });
 
-      return res.json({ message: 'Login successful', role: user.Role });
   });
 };

@@ -167,14 +167,12 @@ app.post("/deleteUser/:EmployeeID", function(req, res){
 ////////////////////////////////////////////////////////////
 
 app.post("/login", function (req, res) {
-    const { email, password } = req.body;  
+    const { email, password } = req.body;
 
     console.log(req.body);
 
     login.loginUser(req, res);
 });
-
-
 
 var myServer = app.listen(3000, function() {
     console.log("Server listening on port 3000");
