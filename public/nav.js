@@ -26,6 +26,8 @@ function nav() {
       if (role === "Admin") {
         userNav = `
             <li class="nav-item"><a class="nav-link" href="/film/film.html">Film</a></li>
+            <li class="nav-item"><a class="nav-link" href="/user/user.html">User</a></li>
+
           <li class="nav-item">
             <button class="btn btn-danger" id="logout">Logout</button>
           </li>`;
@@ -33,6 +35,7 @@ function nav() {
         userNav = `
             <li class="nav-item"><a class="nav-link" href="/theatre/theatre.html">Theatre</a></li>
             <li class="nav-item"><a class="nav-link" href="/screening/screening.html">Screening</a></li>
+            <li class="nav-item"><a class="nav-link" href="/user/user.html">User</a></li>
 
           <li class="nav-item">
             <button class="btn btn-danger" id="logout">Logout</button>

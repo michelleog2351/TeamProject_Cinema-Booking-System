@@ -29,19 +29,18 @@ $(`document`).ready(function () {
       alert("All fields must be entered before a User can be created");
       return;
     }
-
-    let name = $(`#name`).val();
-    let email = $(`#email`).val();
-    let password = $(`#password`).val();
-    let role = $(`#role`).val();
-
-    $.post(`http://localhost:3000/createUser`, {
-      name: name,
-      email: email,
-      password: password,
-      role: role,
-    }).done(function () {
-      location.replace("http://localhost:3000/user/user.html");
-    });
-  });
+  
+    let name = $("#name").val();
+    let email = $("#email").val();
+    let password = $("#password").val();
+    let role = $("#role").val();
+  
+    $.post(`http://localhost:3000/createUser`, { name, email, password, role })
+      .done(function () {
+        location.replace("http://localhost:3000/user/user.html");
+      })
+      .fail(function (xhr) {
+        alert(xhr.responseJSON?.error || "Error creating user");
+      });
+  });  
 });
