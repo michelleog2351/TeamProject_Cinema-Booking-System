@@ -9,59 +9,73 @@ $(document).ready(function () {
 
 function filmDD() {
   $.getJSON("http://localhost:3000/films", function (data) {
-    // sorts the film names in alphabetical order
-    data.sort(function (a, b) {
-      return a.Name.localeCompare(b.Name);
-    });
+    // Sort films alphabetically
+    data.sort((a, b) => a.Name.localeCompare(b.Name));
 
-    $("#selectFilm").html('<option value="" selected>Select Film</option>');
+    let selectFilm = $("#selectFilm");
+    let filmCards = $("#filmCards");
+
+    selectFilm.html('<option value="" selected>Show All Films</option>');
+    filmCards.empty(); // Clear previous content
 
     $.each(data, function (i, film) {
-      $("#selectFilm").append(
+      // Populate the dropdown
+      selectFilm.append(
         `<option value="${film.FilmID}">${film.Name}</option>`
       );
+
+      // Display all film cards initially
+      filmCards.append(createFilmCard(film));
     });
   });
 
+  // Handle dropdown selection change
   $("#selectFilm").change(function () {
     let filmID = $(this).val();
-    
-    // Clear any previous film cards
-    $("#filmCards").empty();
-    
-    // If a film is selected, display its card
-    if (filmID) {
-      $.getJSON(`http://localhost:3000/films/${filmID}`, function (film) {      
-        $("#filmCards").append(
-        `<br />
-				<div class="col-md-2 col-sm-6 mb-3">
-					<div class="card">
-						<img src="images/${film.Name.replace(/\s+/g, "_")}.jpg" 
-							class="card-img-top img-fluid w-100"
-							alt="${film.Name}"
-							style="height: 400px; object-fit: cover; border-radius: 10px;"
-						/>
-							<div class="overlay">
-								<div class="overlay-content">
-									<a href="Customer/Film/filmDetails.html?filmID=${film.FilmID}"
-									class="btn btn-primary">Watch: ${film.Name} Now</a> 
-								</div>           
-							</div>
-						</div> 
-					</div>
-				</div>`
-      );
+    let filmCards = $("#filmCards");
+
+    filmCards.empty(); // Clear existing cards
+
+    $.getJSON("http://localhost:3000/films", function (data) {
+      if (filmID) {
+        // Show only the selected film
+        let selectedFilm = data.find(film => film.FilmID == filmID);
+        if (selectedFilm) filmCards.append(createFilmCard(selectedFilm));
+
+        fetchScreenings(filmID);
+      } else {
+        // Show all films again
+        $.each(data, function (i, film) {
+          filmCards.append(createFilmCard(film));
+        });
+
+        $("#screeningsTbody").empty();
+      }
     });
-  }
   });
 }
 
-  // Trigger fetching screenings on film selection
-  $("#selectFilm").change(function () {
-    let filmID = $(this).val();
-    fetchScreenings(filmID);
-  });
+// Helper function to create film card
+function createFilmCard(film) {
+  return `
+    <br />
+    <div class="col-md-2 col-sm-6 mb-3">
+      <div class="card">
+        <img src="images/${film.Name.replace(/\s+/g, "_")}.jpg" 
+          class="card-img-top img-fluid w-100"
+          alt="${film.Name}"
+          style="height: 400px; object-fit: cover; border-radius: 10px;"
+        />
+        <div class="overlay">
+          <div class="overlay-content">
+            <a href="Customer/Film/filmDetails.html?filmID=${film.FilmID}"
+            class="btn btn-primary">Watch: ${film.Name} Now</a> 
+          </div>           
+        </div>
+      </div> 
+    </div>`;
 }
+
 
 function dateDD() {
   $.getJSON("http://localhost:3000/screenings", function (data) {
@@ -91,10 +105,10 @@ function startTimeDD() {
 }
 
 function fetchScreenings(filmID) {
-  $("#screeningsTableBody").empty(); // Clear existing rows
+  $("#screeningsTBody").empty(); // Clear existing rows
 
   if (!filmID) {
-    $("#screeningsContainer").addClass("d-none"); // Hide table if no film selected
+    $("#filmRows").addClass("d-none"); // Hide table if no film selected
     return;
   }
 
