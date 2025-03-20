@@ -20,8 +20,19 @@ function filmDD() {
       $("#selectFilm").append(
         `<option value="${film.FilmID}">${film.Name}</option>`
       );
+    });
+  });
 
-      $("#filmCards").append(
+  $("#selectFilm").change(function () {
+    let filmID = $(this).val();
+    
+    // Clear any previous film cards
+    $("#filmCards").empty();
+    
+    // If a film is selected, display its card
+    if (filmID) {
+      $.getJSON(`http://localhost:3000/films/${filmID}`, function (film) {      
+        $("#filmCards").append(
         `<br />
 				<div class="col-md-2 col-sm-6 mb-3">
 					<div class="card">
@@ -41,7 +52,9 @@ function filmDD() {
 				</div>`
       );
     });
+  }
   });
+}
 
   // Trigger fetching screenings on film selection
   $("#selectFilm").change(function () {
