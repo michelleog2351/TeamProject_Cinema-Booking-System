@@ -1,24 +1,20 @@
 {
-  "name": "cinema-project",
+  "name": "teamproject_cinema-booking-system",
   "version": "1.0.0",
+  "description": "Web Application for a Cinema Booking System - 2025\r - Worth 100% Continuous Assessment",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
-  "description": "",
   "dependencies": {
-    "axios": "^1.7.9",
     "body-parser": "^1.20.3",
-    "cheerio": "^1.0.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
-    "mysql": "^2.18.1",
     "mysql2": "^3.12.0",
-    "underscore": "^1.13.7",
-    "upper-case": "^3.0.0"
+    "underscore": "^1.13.7"
   },
   "devDependencies": {
     "nodemon": "^3.1.9"
