@@ -2,6 +2,7 @@ $(document).ready(function () {
   nav();
   footer();
   loadFilmDetails();
+  
 });
 
 function loadFilmDetails() {
@@ -70,12 +71,14 @@ $("#filmDetails").html(`
   </div>
   `
 );
+
     fetchScreenings(filmID);
   }).fail(function (jqXHR, textStatus, errorThrown) {
     console.error("Failed to load film details:", textStatus, errorThrown);
     alert("Failed to load film details.");
     location.href = "cFilm.html";
   });
+
 }
 
 function fetchScreenings(filmID) {
@@ -89,9 +92,18 @@ function fetchScreenings(filmID) {
           <td id="date${formattedDate}">${formattedDate}</td>
           <td id="seatsRemaining${value.SeatsRemaining}">${value.SeatsRemaining}</td>
           <td id="theatreID${value.TheatreID}">${value.TheatreID}</td>
-          <td><button type="button" class="updateButton btn btn-primary" value="${value.ScreeningID}">Book</button></td>
+          <td><button type="button" class="bookingButton btn btn-primary" value="${value.ScreeningID}">Book</button></td>
           </tr>`
       );
+      $(".bookingButton").click(function(e){
+        console.log(e.target.value);;
+        let ID = e.target.value;
+      
+        localStorage.setItem("ViewScreeningID", ID);
+        location.replace("http://localhost:3000/booking/createBooking.html");
+      
+      
+        });
     });
   });
 }
@@ -110,3 +122,4 @@ $('#trailerModal').on('hidden.bs.modal', function () {
   $('#trailerVideo').attr('src', '');
   $('#trailerModal').attr('inert', 'true');
 });
+

@@ -12,9 +12,13 @@ $(`document`).ready(function () {
           <label class="form-label" for="password">Password</label>
           <input class="form-control" type="password" name="password" id="password"></input>
 
-          <label class="form-label" for="role">role</label>
-          <input class="form-control" type="role" name="role" id="role"></input>
-          <br>`
+          <label class="form-label" for="role">Role</label>
+    <select class="form-control" name="role" id="role">
+      <option value="">Select Role</option>
+      <option value="Manager">Manager</option>
+      <option value="Admin">Admin</option>
+    </select>
+    <br>`
     );
   
     getJsonData(ID);
