@@ -7,10 +7,9 @@ var film = require('./model/film');
 var screening = require('./model/screening');
 var Theatre = require('./model/theatre');
 // var ticket = require('./model/ticket');
-var manager = require('./model/manager');
 var booking = require('./model/booking');
 var ticketType = require('./model/ticketType');
-
+var user =require('./model/user')
 
 var app = express();
 app.use(cors());
@@ -19,10 +18,6 @@ app.use(express.static("public"));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-
-
-//ADMIN ROUTES
-
 
 app.get("/films", function (req, res) {
   film.getFilms(req, res);
