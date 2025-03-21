@@ -3,15 +3,13 @@ var bodyParser = require("body-parser");
 var _ = require("underscore");
 var cors = require("cors");
 var login = require('./model/login');
-var admin = require('./model/admin');
 var film = require('./model/film');
 var screening = require('./model/screening');
 var Theatre = require('./model/theatre');
 // var ticket = require('./model/ticket');
-var manager = require('./model/manager');
 var booking = require('./model/booking');
 var ticketType = require('./model/ticketType');
-
+var user =require('./model/user')
 
 var app = express();
 app.use(cors());
@@ -20,36 +18,6 @@ app.use(express.static("public"));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-
-
-//ADMIN ROUTES
-
-app.get("/admin/:adminID", function (req, res) {
-  admin.getAdmin(req, res);
-});
-
-app.get("/admins", function (req, res) {
-  admin.getAdmins(req, res);
-});
-
-app.post("/updateAdmin/:adminID", function (req, res) {
-  admin.updateAdmin(req, res);
-});
-
-app.post("/createAdmin/:name?/:username?/:password?", function (req, res) {
-  admin.createAdmin(req, res);
-});
-
-app.post("/deleteAdmin/:adminID", function (req, res) {
-  admin.deleteAdmin(req, res);
-});
-////////////////////////////////////////////////////////////
-
-
-//Film ROUTES
-
-
-////////////////////////////////////////////////////////////
 
 app.get("/films", function (req, res) {
   film.getFilms(req, res);
@@ -229,53 +197,38 @@ app.get("/capacity", function (req, res) {
 });
 
 
-////////////////////////////////////////////////////////////
 
 
-//Manger Routes
-
-
-////////////////////////////////////////////////////////////
-
-
-app.get("/manager/:managerID", function (req, res) {
-  manager.getManager(req, res);
+app.get("/user/:EmployeeID", function(req,res){
+	user.getUser(req,res);
 });
 
-app.get("/managers", function (req, res) {
-  manager.getManagers(req, res);
+app.get("/users", function(req,res){
+	user.getUsers(req,res);
 });
 
-app.post("/updateManager/:managerID", function (req, res) {
-  manager.updateManager(req, res);
+app.post("/updateUser/:EmployeeID", function(req, res) {
+    user.updateUser(req, res);
 });
 
-app.post("/createManager/:name?/:username?/:password?", function (req, res) {
-  manager.createManager(req, res);
+app.post("/createUser/:name?/:username?/:password?/:role?", function(req,res){
+	user.createUser(req,res);
 });
 
-app.post("/deleteManager/:managerID", function (req, res) {
-  manager.deleteManager(req, res);
+app.post("/deleteUser/:EmployeeID", function(req, res){
+    user.deleteUser(req, res);
 });
 
 ////////////////////////////////////////////////////////////
 
 app.post("/login", function (req, res) {
-  const { email, password, userType } = req.body;
+    const { email, password } = req.body;
 
-  //console.log(req.body); // Just for debugging to see incoming data
+    console.log(req.body);
 
-  // Check the userType and call the appropriate login function
-  if (userType === 'admin') {
-    login.loginAdmin(req, res);  // Admin login
-  } else if (userType === 'manager') {
-    login.loginManager(req, res); // Manager login
-  } else {
-    return res.status(400).json({ error: "Invalid user type" });
-  }
+    login.loginUser(req, res);
 });
 
-
-var myServer = app.listen(3000, function () {
-  console.log("Server listening on port 3000");
-});
+var myServer = app.listen(3000, function() {
+    console.log("Server listening on port 3000");
+  });
