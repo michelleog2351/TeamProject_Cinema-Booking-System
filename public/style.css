@@ -52,9 +52,9 @@
   margin: 0 auto;
 }
 
-.overlay-button:hover{
+.overlay-button:hover {
   background-color: darkblue;
-  text-decoration: none; 
+  text-decoration: none;
 }
 
 .scroll-to-top-btn {
@@ -89,5 +89,6 @@
   border-radius: 5px; /* Square the corners when hovered over */
 }
 
-.book-tickets-btn {
+.footer {
+  background-color: #1e3852;
 }
