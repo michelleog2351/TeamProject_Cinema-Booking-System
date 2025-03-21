@@ -221,7 +221,7 @@ exports.updateSeatsRemaining = function (req, res) {
   );
 };
 
-const job = new CronJob("30 15 9 * * 5", function () {
+const job = new CronJob("00 00 0 * * 0", function () {
 
   const query = "DELETE FROM Screening";
   connection.query(query, function (err, result) {

@@ -127,7 +127,7 @@ exports.bookedSeats = function (req, res) {
 
 //CronJob("00 00 0 * * 0")
 
-const job = new CronJob("30 15 9 * * 5", function () {
+const job = new CronJob("00 00 0 * * 0", function () {
 
   const query = "DELETE FROM Booking";
   connection.query(query, function (err, result) {
