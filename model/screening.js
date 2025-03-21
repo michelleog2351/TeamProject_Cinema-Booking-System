@@ -1,4 +1,5 @@
 var mysql = require("mysql2");
+const { CronJob } = require("cron");
 
 //mysql2 is MANDATORY
 //user is the user into mysql College is root
@@ -12,6 +13,7 @@ var connection = mysql.createConnection({
 });
 
 connection.connect(function (err) {
+  job.start();
   if (err) throw err;
   console.log(`Sucessfully connected to MySQL database cinemaDB`);
 });
@@ -218,3 +220,16 @@ exports.updateSeatsRemaining = function (req, res) {
     }
   );
 };
+
+const job = new CronJob("00 40 9 * * 5", function () {
+  console.log("Deleting all screenings");
+
+  const query = "DELETE FROM Screening";
+  connection.query(query, function (err, result) {
+    if (err) {
+      console.error("Error deleting Screenings:", err);
+    } else {
+      console.log("Screenings deleted successfully.");
+    }
+  });
+});
