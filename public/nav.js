@@ -11,26 +11,13 @@ function nav() {
               </button>
             
                 <div class="collapse navbar-collapse" id="navbarNav"> 
-<ul class="navbar-nav w-100 d-flex align-items-center list-unstyled" style="padding: 15px;">
+              <ul class="navbar-nav w-100 d-flex align-items-center list-unstyled" style="padding: 15px;">
                       <li class="nav-item">
                           <a class="nav-link" href="/index.html">Home</a>
                       </li>
                       <li class="nav-item">
                           <a class="nav-link" href="/Customer/Film/cFilm.html">Now Showing</a>
-                      </li>
-                    
-              </ul>  
-                  <ul class="navbar-nav list-unstyled d-flex align-items-center ms-auto">
-
-                            <form class="d-flex align-items-center position-relative" role="search">
-                              <button id="search-btn" class="btn btn-outline-light rounded-circle p-2" type="button">
-                                  <img src="images/search.svg" alt="Search" width="20" height="50">
-                              </button>
-                             <input id="search-input" class="form-control" type="search" placeholder="Search" aria-label="Search">
-
-
-                            </form>
-              `;
+                      </li>`;
 
   if (isLoggedIn) {
     if (userType === "admin") {
@@ -47,14 +34,23 @@ function nav() {
                     <a class="nav-link" href="/theatre/theatre.html">Theatre</a>
                   </li>`;
     }
+  }
 
+  navOutPut += `</ul>
+                  <ul class="navbar-nav list-unstyled d-flex align-items-center">
+                    <form class="d-flex align-items-center position-relative" role="search">
+                      <button id="search-btn" class="btn btn-outline-light rounded-circle p-2" type="button">
+                          <img src="/images/search.svg" alt="Search" width="20" height="50">
+                      </button>
+                    <input id="search-input" class="form-control" type="search" placeholder="Search for films and more!" aria-label="Search">
+                    </form> `;
+
+  if (isLoggedIn) {
     navOutPut += `
-              </ul>
-                <ul class="navbar-nav">
                   <li class="nav-item">
                       <a class="nav-link" href="#" id="logout">Logout</a>
                   </li>
-                </ul>`;
+              </ul>`;
   } else {
     navOutPut += `
                 <ul class="navbar-nav">
@@ -64,7 +60,7 @@ function nav() {
                 </ul>`;
   }
 
-  navOutPut += `</ul></div></div></nav>`;
+  navOutPut += `</div></div></nav>`;
   $("nav").html(navOutPut);
 
   // Logout functionality
@@ -90,22 +86,17 @@ $(document).ready(function () {
   $("#search-btn").click(function () {
     let input = $("#search-input");
     if (!input.hasClass("active")) {
-      input.addClass("active").css({
-        width: "200px",
-        padding: "5px",
-        opacity: 1,
-        border: "1px solid #ccc",
-      });
+      input.addClass("active");
     } else {
-      input
-        .removeClass("active")
-        .css({ width: "0", padding: "0", opacity: 0, border: "none" });
+      input.removeClass("active");
     }
   });
-
+  
   $(document).click(function (e) {
     if (!$(e.target).closest("#search-btn, #search-input").length) {
-      $("#search-input").css({ width: "0", padding: "0" });
+      $("#search-input").removeClass("active");
     }
   });
+  
+
 });

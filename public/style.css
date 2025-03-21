@@ -25,6 +25,12 @@ body {
   transform: rotate(180deg);
 }
 
+#search-btn,
+#search-input {
+  margin: 0;
+  padding: 5px;
+}
+
 #search-btn {
   background-color: transparent;
   border: none;
@@ -32,18 +38,18 @@ body {
 }
 
 #search-input {
-  border-radius: 20px;
+  border-radius: 10px;
   padding: 5px;
   width: 0;
   opacity: 0;
   overflow: hidden;
-  transition: width 0.3s ease-in-out;
+  border: 1px solid transparent; 
+  transition: width 0.3s ease-in-out, opacity 0.2s ease-in-out, border 0.3s;
 }
 
 #search-input.active {
-  width: 200px;
+  width: 250px;
   opacity: 1;
-  padding: 5px;
   border: 1px solid #ccc;
 }
 

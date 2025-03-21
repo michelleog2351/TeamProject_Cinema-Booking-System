@@ -40,7 +40,7 @@ function search() {
           .show();
       } else {
         $("#noFilmsAlert")
-          .text(`No film results found for '${searchInput}'. Please try again.`)
+          .text(`Sorry, no film results were found for '${searchInput}'. Please try again.`)
           .show();
       }
     } else {
@@ -154,6 +154,6 @@ $(document).ready(function () {
   });
 
   scrollTopBtn.click(function () {
-    $("html, body").animate({ scrollTop: 0 }, 1200);
+    $("html, body").animate({ scrollTop: 0 }, 120);
   });
 });

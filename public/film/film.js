@@ -2,12 +2,31 @@ $(document).ready(function () {
   nav();
   footer();
   getJsonData();
-  $(`#add`).append(
+  $("#add").append(
     `<button type="button" class="addButton btn btn-primary">Add</button>`
   );
 
   $(".addButton").click(function () {
     location.replace("http://localhost:3000/film/createFilm.html");
+  });
+});
+
+$(document).ready(function () {
+  $("#sortButton").click(sortFilmNames);
+});
+
+$(document).ready(function () {
+  var scrollTopBtn = $(".scroll-to-top-btn");
+  $(window).on("scroll", function () {
+    if ($(this).scrollTop() > 50) {
+      scrollTopBtn.fadeIn().css("visibility", "visible");
+    } else {
+      scrollTopBtn.fadeOut().css("visibility", "hidden");
+    }
+  });
+
+  scrollTopBtn.click(function () {
+    $("html, body").animate({ scrollTop: 0 }, 120);
   });
 });
 
@@ -58,14 +77,11 @@ function getJsonData() {
     });
   });
 }
+
 let sortOrder = "name_asc"; // Default sort order
 
 function sortFilmNames() {
   $.getJSON(`http://localhost:3000/films`, function (data) {
-    // if (!sortOrder) {
-    // 	sortOrder = "name_asc";
-    // }
-
     sortOrder = sortOrder === "name_asc" ? "name_desc" : "name_asc";
 
     // Sorting functionality - sort from A-Z or Z-A
@@ -119,8 +135,3 @@ function updateSortButton() {
     sortButton.attr("title", "Sort films from A-Z");
   }
 }
-
-// Event listener for sorting button
-$(document).ready(function () {
-  $("#sortButton").click(sortFilmNames);
-});

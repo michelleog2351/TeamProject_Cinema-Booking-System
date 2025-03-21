@@ -8,6 +8,8 @@ $(document).ready(function () {
 
 function filmDD() {
   $.getJSON("http://localhost:3000/films", function (data) {
+    data.sort((a, b) => a.Name.localeCompare(b.Name));
+
     $("#selectFilm").html('<option value="" selected>Select Film</option>');
 
     $.each(data, function (i, film) {
@@ -41,6 +43,8 @@ function filmDD() {
 
 function dateDD() {
   $.getJSON("http://localhost:3000/screenings", function (data) {
+    data.sort((a, b) => a.Date.localeCompare(b.Date));
+
     $("#selectDate").html(
       '<option value="screenings" selected>Select Date</option>'
     );
@@ -54,6 +58,8 @@ function dateDD() {
 
 function startTimeDD() {
   $.getJSON("http://localhost:3000/screenings", function (data) {
+    data.sort((a, b) => a.StartTime.localeCompare(b.StartTime));
+
     $("#selectStartTime").html(
       '<option value="" selected>Select Time</option>'
     );
@@ -63,13 +69,6 @@ function startTimeDD() {
         `<option value="${screening.StartTime}">${screening.StartTime}</option>`
       );
     });
-  });
-}
-
-function scrollToTop() {
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth",
   });
 }
 
@@ -85,6 +84,6 @@ $(document).ready(function () {
   });
 
   scrollTopBtn.click(function () {
-    $("html, body").animate({ scrollTop: 0 }, 1200);
+    $("html, body").animate({ scrollTop: 0 }, 120);
   });
 });

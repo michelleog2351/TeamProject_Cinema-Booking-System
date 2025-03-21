@@ -27,24 +27,28 @@
             <option value="" selected>Select Film</option>
           </select>
         </div>
-    
+
         <div class="col-12 col-md-3">
           <select id="selectDate" class="form-select" name="selectDate">
             <option value="" selected>Select Date</option>
           </select>
         </div>
-    
+
         <div class="col-12 col-md-3">
-          <select id="selectStartTime" class="form-select" name="selectStartTime">
+          <select
+            id="selectStartTime"
+            class="form-select"
+            name="selectStartTime"
+          >
             <option value="" selected>Select Time</option>
           </select>
         </div>
-    
+
         <div class="col-12 col-md-3">
           <button
             type="button"
             class="btn btn-primary w-100"
-            style="display: none; align-items: center;"
+            style="display: none; align-items: center"
             title="Click here to book tickets!"
             onclick="bookTickets()"
           >
@@ -52,21 +56,17 @@
           </button>
         </div>
       </div>
-    
+
       <br />
       <h2 class="text-center">Now Showing at Our Cinema</h2>
       <br />
       <div id="filmCards" class="row"></div>
-    
-      <button
-        class="btn btn-info scroll-to-top-btn"
-        onclick="scrollToTop()"
-        title="Scroll to Top"
-      >
+
+      <button class="btn btn-info scroll-to-top-btn" title="Scroll to Top">
         <h1>↑</h1>
       </button>
     </div>
-    
+
     <footer
       id="footer"
       class="footer d-flex justify-content-center text-muted"

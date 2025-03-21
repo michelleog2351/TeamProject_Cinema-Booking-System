@@ -2,7 +2,7 @@ $(`document`).ready(function () {
   nav();
   footer();
   getJsonData();
-  $(`#add`).append(
+  $("#add").append(
     `<button type="button" class="addButton btn btn-primary">Add</button>`
   );
 
@@ -40,3 +40,19 @@ function getJsonData() {
     });
   });
 }
+
+$(document).ready(function () {
+  var scrollTopBtn = $(".scroll-to-top-btn");
+
+  $(window).on("scroll", function () {
+    if ($(this).scrollTop() > 50) {
+      scrollTopBtn.fadeIn().css("visibility", "visible");
+    } else {
+      scrollTopBtn.fadeOut().css("visibility", "hidden");
+    }
+  });
+
+  scrollTopBtn.click(function () {
+    $("html, body").animate({ scrollTop: 0 }, 120);
+  });
+});
