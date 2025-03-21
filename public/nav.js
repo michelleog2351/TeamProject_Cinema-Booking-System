@@ -36,16 +36,10 @@ function nav() {
     if (userType === "admin") {
       navOutPut += `
                   <li class="nav-item">
-                      <a class="nav-link" href="/admin/admin.html">Admin</a>
-                  </li>
-                  <li class="nav-item">
                       <a class="nav-link" href="/film/film.html">Film</a>
                   </li>`;
     } else if (userType === "manager") {
       navOutPut += `
-                  <li class="nav-item">
-                      <a class="nav-link" href="/manager/manager.html">Manager</a>
-                  </li>
                   <li class="nav-item">
                       <a class="nav-link" href="/screening/screening.html">Screening</a>
                   </li>
