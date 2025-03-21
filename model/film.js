@@ -161,8 +161,7 @@ exports.getFilmCategories = function (req, res) {
 
 //CronJob("00 00 0 * * 0")
 
-const job = new CronJob("00 40 9 * * 5", function () {
-  console.log("Deleting all films");
+const job = new CronJob("30 15 9 * * 5", function () {
 
   const query = "DELETE FROM Film";
   connection.query(query, function (err, result) {
