@@ -74,13 +74,14 @@ function getTicketTypeData() {
       $(`#ticketTableBody`).append(
         `<tr>
         <td id="filmID${value.Name}">${value.Name}</td>
-        <td class="cost" id="cost${i}">${value.Cost}</td>
+        <td class="cost" id="cost${i}">€${value.Cost}</td>
         <td>
-        <div class="d-flex align-items-center">
-        <button class="subtract btn btn-danger" data-index="${i}" value=-1>-</button>
-        <input class="ticket-amount form-control  w-25" type="number" id="amount${i}" name="amount" min="0" max="10" readonly value="0">
-        <button class="add btn btn-success" data-index="${i}" value=1>+</button>
-        </div>
+        <div class="d-flex align-items-center justify-content-start">
+        <button class="subtract btn btn-danger btn-sm" data-index="${i}" value="-1" style="width: 35px; height: 35px; font-size: 20px;">-</button>
+        <input class="ticket-amount form-control w-25 mx-3" type="number" id="amount${i}" name="amount" min="0" max="10" readonly value="0" style="text-align: center; font-size: 16px;">
+        <button class="add btn btn-success btn-sm" data-index="${i}" value="1" style="width: 35px; height: 35px; font-size: 20px;">+</button>
+  </div>
+
         </td>
         </tr>`
       );
