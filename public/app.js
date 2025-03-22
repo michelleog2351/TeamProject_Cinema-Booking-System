@@ -8,6 +8,8 @@ $(document).ready(function () {
 
 function filmDD() {
   $.getJSON("http://localhost:3000/films", function (data) {
+    data.sort((a, b) => a.Name.localeCompare(b.Name));
+
     $("#selectFilm").html('<option value="" selected>Select Film</option>');
 
     $.each(data, function (i, film) {
@@ -27,7 +29,7 @@ function filmDD() {
 							<div class="overlay">
 								<div class="overlay-content">
 									<a href="Customer/Film/filmDetails.html?filmID=${film.FilmID}"
-									class="btn btn-primary">Watch: ${film.Name} Now</a> 
+									class="btn btn-primary overlay-button">Watch: ${film.Name} Now</a> 
 								</div>           
 							</div>
 						</div> 
@@ -41,6 +43,8 @@ function filmDD() {
 
 function dateDD() {
   $.getJSON("http://localhost:3000/screenings", function (data) {
+    data.sort((a, b) => a.Date.localeCompare(b.Date));
+
     $("#selectDate").html(
       '<option value="screenings" selected>Select Date</option>'
     );
@@ -54,6 +58,8 @@ function dateDD() {
 
 function startTimeDD() {
   $.getJSON("http://localhost:3000/screenings", function (data) {
+    data.sort((a, b) => a.StartTime.localeCompare(b.StartTime));
+
     $("#selectStartTime").html(
       '<option value="" selected>Select Time</option>'
     );
@@ -66,9 +72,18 @@ function startTimeDD() {
   });
 }
 
-function scrollToTop() {
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth",
+$(document).ready(function () {
+  var scrollTopBtn = $(".scroll-to-top-btn");
+
+  $(window).on("scroll", function () {
+    if ($(this).scrollTop() > 50) {
+      scrollTopBtn.fadeIn().css("visibility", "visible");
+    } else {
+      scrollTopBtn.fadeOut().css("visibility", "hidden");
+    }
   });
-}
+
+  scrollTopBtn.click(function () {
+    $("html, body").animate({ scrollTop: 0 }, 120);
+  });
+});

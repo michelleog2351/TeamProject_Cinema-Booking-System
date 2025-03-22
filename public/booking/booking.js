@@ -34,19 +34,19 @@ function getJsonData() {
 
     $(".deleteButton").click(async function (e) {
       let ID = e.target.value;
-      
 
       screeningID = parseInt($(`#screening${ID}`).text());
-      screeningData = await $.getJSON(`http://localhost:3000/screening/${screeningID}`);
+      screeningData = await $.getJSON(
+        `http://localhost:3000/screening/${screeningID}`
+      );
 
       newSeatsAvailable = parseInt($(`#noOfSeats${ID}`).text());
-      SeatsRemaining = screeningData.SeatsRemaining
-      SeatsRemaining += newSeatsAvailable
-      updateSeatsRemaining(screeningID, SeatsRemaining)
+      SeatsRemaining = screeningData.SeatsRemaining;
+      SeatsRemaining += newSeatsAvailable;
+      updateSeatsRemaining(screeningID, SeatsRemaining);
 
-      $.post(`http://localhost:3000/deleteBooking/${ID}`)
-      .done(function () {
-          location.replace("http://localhost:3000/booking/booking.html");
+      $.post(`http://localhost:3000/deleteBooking/${ID}`).done(function () {
+        location.replace("http://localhost:3000/booking/booking.html");
       });
     });
   });
@@ -55,7 +55,23 @@ function getJsonData() {
 function updateSeatsRemaining(screeningID, newSeatsRemaining) {
   let updateSeatsRemaining = {
     screeningID: screeningID,
-    seatsRemaining: newSeatsRemaining
-  }
-  $.post(`http://localhost:3000/seatsRemaining`, updateSeatsRemaining)
+    seatsRemaining: newSeatsRemaining,
+  };
+  $.post(`http://localhost:3000/seatsRemaining`, updateSeatsRemaining);
 }
+
+$(document).ready(function () {
+  var scrollTopBtn = $(".scroll-to-top-btn");
+  $(window).on("scroll", function () {
+    if ($(this).scrollTop() > 50) {
+      scrollTopBtn.fadeIn().css("visibility", "visible");
+    } else {
+      scrollTopBtn.fadeOut().css("visibility", "hidden");
+    }
+  });
+
+  scrollTopBtn.click(function () {
+    $("html, body").animate({ scrollTop: 0 }, 120);
+  });
+});
+

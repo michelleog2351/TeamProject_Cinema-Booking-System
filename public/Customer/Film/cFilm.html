@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html> causes navbar to be shorter than others --> 
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -13,13 +13,16 @@
     <script src="cFilm.js"></script>
     <script src="../../nav.js"></script>
     <script src="../../footer.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../style.css" />
     <link rel="stylesheet" type="text/css" href="../../theme.css" />
   </head>
+
   <body>
-    <div class="container-fluid">
-      <nav id="nav"></nav>
+    <nav id="nav" class="navbar navbar-expand-lg bg-primary sticky-top"></nav>
+
+    <div class="container">
       <hr />
-      <h1>Films</h1>
+      <h1>Now Showing</h1>
       <hr />
       <div class="d-flex justify-content-between align-items-center mb-3">
         <div class="mb-3" style="flex: 2">
@@ -52,12 +55,20 @@
         class="alert alert-info mb-3"
         style="display: none; max-width: 830px; margin-top: 15px"
       >
-        No films found matching your search criteria. Please try again.
+        Sorry, no films were found matching your search criteria. Please try again.
       </div>
 
       <div id="filmCards" class="row"></div>
+      <button
+        class="btn btn-info scroll-to-top-btn"
+        onclick="scrollToTop()"
+        title="Scroll to Top"
+      >
+        <h1>↑</h1>
+      </button>
       <hr />
-      <footer id="footer" class="footer d-flex justify-content-center"></footer>
     </div>
+    <br />
+    <footer id="footer" class="footer d-flex justify-content-center"></footer>
   </body>
 </html>

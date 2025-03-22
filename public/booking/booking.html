@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Booking Details Page</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <link
@@ -11,34 +13,40 @@
     <script src="booking.js"></script>
     <script src="../nav.js"></script>
     <script src="../footer.js"></script>
+    <link rel="stylesheet" type="text/css" href="../style.css" />
     <link rel="stylesheet" type="text/css" href="../theme.css" />
   </head>
 
   <body>
-    <div class="container-fluid">
-      <nav id="nav" sticky-top></nav>
-      <hr />
+    <nav id="nav" class="navbar navbar-expand-lg bg-primary sticky-top"></nav>
 
-      <h1>Booking Details Information</h1>
+    <div class="container-fluid">
+      <hr />
+      <h1>Booking Details</h1>
       <hr />
       <div id="add"></div>
       <div id="delete"></div>
       <br />
-      <table class="table table-bordered">
+      <table class="table table-hover">
         <thead>
           <tr>
             <th><strong>Booking ID</strong></th>
             <th><strong>No. Seats</strong></th>
             <th><strong>Cost</strong></th>
             <th><strong>Email</strong></th>
-            <th>ScreeningID</th>
-            <th></th>
-            <th></th>
+            <th><strong>ScreeningID</strong></th>
           </tr>
         </thead>
         <tbody id="tbody"></tbody>
       </table>
+      <div>
+        <button class="btn btn-info scroll-to-top-btn" title="Scroll to Top">
+          <h1>↑</h1>
+        </button>
+      </div>
       <hr />
     </div>
+    <br />
+    <footer id="footer" class="footer d-flex justify-content-center"></footer>
   </body>
 </html>
