@@ -90,7 +90,6 @@ exports.getCapacity = function (req, res) {
   });
 };
 
-
 exports.getTheatreCapacity = function (req, res) {
   var TheatreID = req.params.TheatreID;
   const query = "SELECT Capacity FROM Theatre WHERE TheatreID = ?";

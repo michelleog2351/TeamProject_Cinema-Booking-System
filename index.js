@@ -2,14 +2,14 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var _ = require("underscore");
 var cors = require("cors");
-var login = require('./model/login');
-var film = require('./model/film');
-var screening = require('./model/screening');
-var Theatre = require('./model/theatre');
+var login = require("./model/login");
+var film = require("./model/film");
+var screening = require("./model/screening");
+var Theatre = require("./model/theatre");
 // var ticket = require('./model/ticket');
-var booking = require('./model/booking');
-var ticketType = require('./model/ticketType');
-var user =require('./model/user')
+var booking = require("./model/booking");
+var ticketType = require("./model/ticketType");
+var user = require("./model/user");
 
 var app = express();
 app.use(cors());
@@ -51,11 +51,9 @@ app.post("/deleteFilm/:filmID", function (req, res) {
   film.deleteFilm(req, res);
 });
 
-
 ////////////////////////////////////////////////////////////
 
 //Screening Routes
-
 
 ////////////////////////////////////////////////////////////
 
@@ -109,9 +107,7 @@ app.post("/screeningDates", function (req, res) {
 
 ////////////////////////////////////////////////////////////
 
-
 //TicketType Routes
-
 
 ////////////////////////////////////////////////////////////
 
@@ -119,11 +115,9 @@ app.get("/ticketTypes", function (req, res) {
   ticketType.getTicketTickets(req, res);
 });
 
-
 ////////////////////////////////////////////////////////////
 
 //Booking Routes
-
 
 ////////////////////////////////////////////////////////////
 
@@ -155,16 +149,9 @@ app.get("/bookedSeats/:ScreeningID", function (req, res) {
   booking.bookedSeats(req, res);
 });
 
-
-
-
-
-
 ////////////////////////////////////////////////////////////
 
-
 //Theatre Routes
-
 
 ////////////////////////////////////////////////////////////
 
@@ -196,39 +183,39 @@ app.get("/capacity", function (req, res) {
   Theatre.getCapacity(req, res);
 });
 
-
-
-
-app.get("/user/:EmployeeID", function(req,res){
-	user.getUser(req,res);
+app.get("/user/:EmployeeID", function (req, res) {
+  user.getUser(req, res);
 });
 
-app.get("/users", function(req,res){
-	user.getUsers(req,res);
+app.get("/users", function (req, res) {
+  user.getUsers(req, res);
 });
 
-app.post("/updateUser/:EmployeeID", function(req, res) {
-    user.updateUser(req, res);
+app.post("/updateUser/:EmployeeID", function (req, res) {
+  user.updateUser(req, res);
 });
 
-app.post("/createUser/:name?/:username?/:password?/:role?", function(req,res){
-	user.createUser(req,res);
-});
+app.post(
+  "/createUser/:name?/:username?/:password?/:role?",
+  function (req, res) {
+    user.createUser(req, res);
+  }
+);
 
-app.post("/deleteUser/:EmployeeID", function(req, res){
-    user.deleteUser(req, res);
+app.post("/deleteUser/:EmployeeID", function (req, res) {
+  user.deleteUser(req, res);
 });
 
 ////////////////////////////////////////////////////////////
 
 app.post("/login", function (req, res) {
-    const { email, password } = req.body;
+  const { email, password } = req.body;
 
-    console.log(req.body);
+  console.log(req.body);
 
-    login.loginUser(req, res);
+  login.loginUser(req, res);
 });
 
-var myServer = app.listen(3000, function() {
-    console.log("Server listening on port 3000");
-  });
+var myServer = app.listen(3000, function () {
+  console.log("Server listening on port 3000");
+});

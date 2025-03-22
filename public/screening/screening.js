@@ -2,6 +2,8 @@ $(document).ready(function () {
   nav();
   footer();
   getJsonData();
+  theatreDD();
+
   $("#add").append(
     `<button type="button" class="addButton btn btn-primary">Add</button>`
   );
@@ -12,21 +14,35 @@ $(document).ready(function () {
 });
 
 async function getJsonData() {
+  let selectedTheatreID = $("#selectTheatre").val();
+
   await $.getJSON(`http://localhost:3000/screenings`, function (data) {
+    $("#tbody").empty();
+
     $.each(data, async function (i, value) {
+      if (
+        selectedTheatreID &&
+        selectedTheatreID !== "" &&
+        value.TheatreID !== selectedTheatreID
+      ) {
+        return; // Skip this screening if it doesn't match the selected theatre
+      }
+
       let screeningDate = new Date(value.Date);
       let formattedDate = screeningDate.toISOString().split("T")[0];
+
       let filmname = await getFilmData(value.FilmID);
+
       $(`#tbody`).append(
         `<tr>
-                <td id="startTime${value.StartTime}">${value.StartTime}</td>
-                <td id="date${formattedDate}">${formattedDate}</td>
-                <td id="seatsRemaining${value.SeatsRemaining}">${value.SeatsRemaining}</td>
-                <td id="theatreID${value.TheatreID}">${value.TheatreID}</td>
-                <td id="filmID${filmname}">${filmname}</td>
-                <td><button type="button" class="updateButton btn btn-secondary" value="${value.ScreeningID}">Update</button></td>
-                <td><button type="button" class="deleteButton btn btn-danger" value="${value.ScreeningID}">Delete</button></td>
-                </tr>`
+								<td id="startTime${value.StartTime}">${value.StartTime}</td>
+								<td id="date${formattedDate}">${formattedDate}</td>
+								<td id="seatsRemaining${value.SeatsRemaining}">${value.SeatsRemaining}</td>
+								<td id="theatreID${value.TheatreID}">${value.TheatreID}</td>
+								<td id="filmID${filmname}">${filmname}</td>
+								<td><button type="button" class="updateButton btn btn-secondary" value="${value.ScreeningID}">Update</button></td>
+								<td><button type="button" class="deleteButton btn btn-danger" value="${value.ScreeningID}">Delete</button></td>
+								</tr>`
       );
     });
 
@@ -50,18 +66,76 @@ async function getFilmData(ID) {
   return data.Name;
 }
 
-$(document).ready(function () {
-    var scrollTopBtn = $(".scroll-to-top-btn");
-  
-    $(window).on("scroll", function () {
-      if ($(this).scrollTop() > 50) {
-        scrollTopBtn.fadeIn().css("visibility", "visible");
-      } else {
-        scrollTopBtn.fadeOut().css("visibility", "hidden");
-      }
-    });
-  
-    scrollTopBtn.click(function () {
-      $("html, body").animate({ scrollTop: 0 }, 120);
+function theatreDD() {
+  $.getJSON("http://localhost:3000/theatres", function (data) {
+    data.sort((a, b) => String(a.TheatreID).localeCompare(String(b.TheatreID)));
+
+    let selectTheatre = $("#selectTheatre");
+    let screeningsTbody = $("#tbody");
+
+    selectTheatre.html('<option value="" selected>All Theatres</option>');
+    screeningsTbody.empty(); // Clear any previous screenings
+
+    $.each(data, function (i, theatre) {
+      selectTheatre.append(
+        `<option value="${theatre.TheatreID}">${theatre.TheatreID}</option>`
+      );
     });
   });
+
+  $("#selectTheatre").change(function () {
+    let theatreID = $(this).val();
+    let screeningsTbody = $("#tbody");
+
+    screeningsTbody.empty(); // Clear existing screenings
+
+    $.getJSON("http://localhost:3000/screenings", function (data) {
+      if (theatreID) {
+        // Filter by selected theatre ID
+        let filteredScreenings = data.filter(
+          (screening) => screening.TheatreID == theatreID
+        );
+        $.each(filteredScreenings, function (i, screening) {
+          screeningsTbody.append(createScreeningRow(screening));
+        });
+      } else {
+        // Show all screenings again
+        $.each(data, function (i, screening) {
+          screeningsTbody.append(createScreeningRow(screening)); // Display all screenings
+        });
+      }
+    });
+  });
+}
+
+// Helper method to create a row for each screening
+async function createScreeningRow(screening) {
+  let formattedDate = new Date(screening.Date).toISOString().split("T")[0];
+  let filmName = await getFilmData(screening.FilmID);
+
+  return `<tr>
+    <td>${screening.StartTime}</td>
+    <td>${formattedDate}</td>
+    <td>${screening.SeatsRemaining}</td>
+    <td>${screening.TheatreID}</td>
+    <td>${filmName}</td>
+    <td><button type="button" class="updateButton btn btn-secondary" value="${screening.ScreeningID}">Update</button></td>
+    <td><button type="button" class="deleteButton btn btn-danger" value="${screening.ScreeningID}">Delete</button></td>
+  </tr>`;
+}
+
+$(document).ready(function () {
+  var scrollTopBtn = $(".scroll-to-top-btn");
+
+  $(window).on("scroll", function () {
+    if ($(this).scrollTop() > 50) {
+      scrollTopBtn.fadeIn().css("visibility", "visible");
+    } else {
+      scrollTopBtn.fadeOut().css("visibility", "hidden");
+    }
+  });
+
+  scrollTopBtn.click(function () {
+    $("html, body").animate({ scrollTop: 0 }, 120);
+  });
+});
