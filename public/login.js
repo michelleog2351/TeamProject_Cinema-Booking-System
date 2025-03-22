@@ -2,22 +2,26 @@ $(document).ready(function () {
   nav();
   footer();
 
-  // Append login form dynamically
-  $("#fbody").html(`
-      <label class="form-label" for="email">Email</label>
-      <input class="form-control" type="email" id="email" name="email" required>
-      <label class="form-label" for="password">Password</label>
-      <input class="form-control" type="password" id="password" name="password" required>
-      <br>
-      <button class="btn btn-primary" id="login">Login</button>
-  `);
+  $("#fbody").append(`
+    <div class="mb-3">
+        <label class="form-label" for="email">Email</label>
+        <input class="form-control" type="email" id="email" name="email" placeholder="example@domain.com" required>
+    </div>
 
-  // Fix: Proper login handler
+    <div class="mb-3">
+        <label class="form-label" for="password">Password</label>
+        <input class="form-control" type="password" id="password" name="password" required>
+    </div>
+
+    <button class="btn btn-primary" id="login">Login</button>
+`);
+
   $(document).on("click", "#login", function (e) {
     e.preventDefault();
 
     let email = $("#email").val();
     let password = $("#password").val();
+    let role = $("#role").val();
 
     $.post("/login", { email, password }, function (response) {
       if (response.error) {

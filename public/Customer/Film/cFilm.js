@@ -40,7 +40,9 @@ function search() {
           .show();
       } else {
         $("#noFilmsAlert")
-          .text(`Sorry, no film results were found for '${searchInput}'. Please try again.`)
+          .text(
+            `Sorry, no film results were found for '${searchInput}'. Please try again.`
+          )
           .show();
       }
     } else {
@@ -72,7 +74,6 @@ function search() {
         </div>`);
     });
 
-    // Handle View Details button click
     $(document).on("click", ".viewDetailsButton", function () {
       let filmID = $(this).data("id");
       console.log("Selected Film ID:", filmID);
@@ -93,7 +94,6 @@ function clearFilter() {
   // Reset
   fetchFilms(); // This will fetch and display all films again
 
-  // Focus on the search input field after clearing
   $("#searchInput").focus();
 }
 

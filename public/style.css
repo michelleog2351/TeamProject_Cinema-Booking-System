@@ -10,6 +10,11 @@ body {
   flex: 1; /* Push footer to bottom of page */
 }
 
+label{
+  font-weight: bold;
+  /* color: #325d88; */
+}
+
 .navbar {
   position: fixed;
   width: 100%;
