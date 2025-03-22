@@ -16,7 +16,7 @@ function nav() {
                       <li class="nav-item"><a class="nav-link" href="/Customer/Film/cFilm.html">Now Showing</a></li>`;
 
   // $("body").prepend(navOutput);
-  setTimeout(() => {
+  // setTimeout(() => {
     // let userNav = "";
     // navOutPut = "";
 
@@ -72,7 +72,7 @@ function nav() {
       localStorage.removeItem("token");
       location.replace("/index.html");
     });
-  });
+  // });
 }
 
 // Ensures table responsiveness
