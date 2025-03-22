@@ -5,7 +5,7 @@ $(document).ready(function () {
   theatreDD();
 
   $("#add").append(
-    `<button type="button" class="addButton btn btn-primary">Add</button>`
+    `<button type="button" class="addButton btn btn-primary">Create Screening</button>`
   );
 
   $(".addButton").click(function () {
@@ -16,25 +16,33 @@ $(document).ready(function () {
 async function getJsonData() {
   let selectedTheatreID = $("#selectTheatre").val();
 
-  await $.getJSON(`http://localhost:3000/screenings`, function (data) {
-    $("#tbody").empty();
+  //await $.getJSON(`http://localhost:3000/screenings`, function (data) {
 
-    $.each(data, async function (i, value) {
-      if (
-        selectedTheatreID &&
-        selectedTheatreID !== "" &&
-        value.TheatreID !== selectedTheatreID
-      ) {
-        return; // Skip this screening if it doesn't match the selected theatre
-      }
+  let data = await $.getJSON(`http://localhost:3000/screenings`);
+  $("#tbody").empty();
 
-      let screeningDate = new Date(value.Date);
-      let formattedDate = screeningDate.toISOString().split("T")[0];
+  let filteredScreenings;
+  if (selectedTheatreID) {
+    filteredScreenings = data.filter(
+      (value) => value.TheatreID == selectedTheatreID
+    );
+  } else {
+    filteredScreenings = data;
+  }
 
+  // let screeningDate = new Date(value.Date);
+  // let formattedDate = screeningDate.toISOString().split("T")[0];
+
+  // let filmname = await getFilmData(value.FilmID);
+
+  // $(`#tbody`).append(
+  //   `<tr>
+  let rows = await Promise.all(
+    filteredScreenings.map(async (value) => {
+      let formattedDate = new Date(value.Date).toISOString().split("T")[0];
       let filmname = await getFilmData(value.FilmID);
 
-      $(`#tbody`).append(
-        `<tr>
+      return `<tr>
 								<td id="startTime${value.StartTime}">${value.StartTime}</td>
 								<td id="date${formattedDate}">${formattedDate}</td>
 								<td id="seatsRemaining${value.SeatsRemaining}">${value.SeatsRemaining}</td>
@@ -42,27 +50,32 @@ async function getJsonData() {
 								<td id="filmID${filmname}">${filmname}</td>
 								<td><button type="button" class="updateButton btn btn-secondary" value="${value.ScreeningID}">Update</button></td>
 								<td><button type="button" class="deleteButton btn btn-danger" value="${value.ScreeningID}">Delete</button></td>
-								</tr>`
-      );
-    });
+								</tr>`;
+      //   );
+      // });
+    })
+  );
 
-    $(document).on("click", ".updateButton", function (e) {
-      let ID = e.target.value;
-      localStorage.setItem("ScreeningID", ID);
-      location.replace("http://localhost:3000/screening/updateScreening.html");
-    });
+  // Append all rows at once
+  $("#tbody").append(rows.join(""));
 
-    $(document).on("click", ".deleteButton", function (e) {
-      let ID = e.target.value;
-      $.post(`http://localhost:3000/deleteScreening/${ID}`).done(function () {
-        location.replace("http://localhost:3000/screening/screening.html");
-      });
+  $(document).on("click", ".updateButton", function (e) {
+    let ID = e.target.value;
+    localStorage.setItem("ScreeningID", ID);
+    location.replace("http://localhost:3000/screening/updateScreening.html");
+  });
+
+  $(document).on("click", ".deleteButton", function (e) {
+    let ID = e.target.value;
+    $.post(`http://localhost:3000/deleteScreening/${ID}`).done(function () {
+      location.replace("http://localhost:3000/screening/screening.html");
     });
   });
+  // });
 }
 
 async function getFilmData(ID) {
-  data = await $.getJSON(`http://localhost:3000/film/${ID}`);
+  let data = await $.getJSON(`http://localhost:3000/film/${ID}`);
   return data.Name;
 }
 
@@ -83,28 +96,29 @@ function theatreDD() {
     });
   });
 
-  $("#selectTheatre").change(function () {
+  $("#selectTheatre").change(async function () {
+    console.log("Dropdown changed:", $(this).val());
+
     let theatreID = $(this).val();
     let screeningsTbody = $("#tbody");
 
-    screeningsTbody.empty(); // Clear existing screenings
+    screeningsTbody.empty(); // clear
+    $("#noScreeningsAlert").hide(); // hide
 
-    $.getJSON("http://localhost:3000/screenings", function (data) {
-      if (theatreID) {
-        // Filter by selected theatre ID
-        let filteredScreenings = data.filter(
-          (screening) => screening.TheatreID == theatreID
-        );
-        $.each(filteredScreenings, function (i, screening) {
-          screeningsTbody.append(createScreeningRow(screening));
-        });
-      } else {
-        // Show all screenings again
-        $.each(data, function (i, screening) {
-          screeningsTbody.append(createScreeningRow(screening)); // Display all screenings
-        });
-      }
-    });
+    let data = await $.getJSON("http://localhost:3000/screenings");
+    let filteredScreenings = theatreID
+      ? data.filter((screening) => screening.TheatreID == theatreID)
+      : data;
+    if (filteredScreenings.length === 0) {
+      screeningsTbody.empty();
+
+      // If there are no screenings for the selected theatre
+      $("#noScreeningsAlert").show();
+    } else {
+      let rows = await Promise.all(filteredScreenings.map(createScreeningRow));
+      screeningsTbody.append(rows.join("")); // adds all generated rows to the <tbody>,
+      // .join ensures the rows are added as proper HTML rather than as an array
+    }
   });
 }
 

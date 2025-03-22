@@ -17,26 +17,27 @@ function nav() {
 
   // $("body").prepend(navOutput);
   // setTimeout(() => {
-    // let userNav = "";
-    // navOutPut = "";
+  // let userNav = "";
+  // navOutPut = "";
 
-    if (isLoggedIn) {
-      // navOutPut += `<li class="nav-item"><a class="nav-link" href="/user/user.html">User</a></li>`;
+  if (isLoggedIn) {
+    // navOutPut += `<li class="nav-item"><a class="nav-link" href="/user/user.html">User</a></li>`;
 
-      if (role === "Admin") {
-        navOutPut += `
+    if (role === "Admin") {
+      navOutPut += `
         <li class="nav-item"><a class="nav-link" href="/film/film.html">Film</a></li>
         <li class="nav-item"><a class="nav-link" href="/booking/booking.html">Booking</a></li>`;
-      }
-
-      if (role === "Manager") {
-        navOutPut += `
-        <li class="nav-item"><a class="nav-link" href="/theatre/theatre.html">Theatre</a></li>
-        <li class="nav-item"><a class="nav-link" href="/screening/screening.html">Screening</a></li>`;
-      }
     }
 
-    navOutPut += `</ul>
+    if (role === "Manager") {
+      navOutPut += `
+        <li class="nav-item"><a class="nav-link" href="/screening/screening.html">Screening</a></li>
+        <li class="nav-item"><a class="nav-link" href="/theatre/theatre.html">Theatre</a></li>
+`;
+    }
+  }
+
+  navOutPut += `</ul>
                   <ul class="navbar-nav list-unstyled d-flex align-items-center">
                     <form class="d-flex align-items-center position-relative" role="search">
                       <button id="search-btn" class="btn btn-outline-light rounded-circle p-2" type="button">
@@ -45,33 +46,33 @@ function nav() {
                       <input id="search-input" class="form-control" type="search" placeholder="Search for films and more!" aria-label="Search">
                     </form>`;
 
-    if (isLoggedIn) {
-      navOutPut += `
+  if (isLoggedIn) {
+    navOutPut += `
                   <li class="nav-item">
                     <a class="nav-link" href="/user/user.html">User</a>
-                  </li>;
+                  </li>
 
                   <li class="nav-item">
                       <button class="btn btn-danger" id="logout">Logout</button>
                   </li>`;
-    } else {
-      navOutPut += `
+  } else {
+    navOutPut += `
                   <li class="nav-item">
                       <a class="nav-link" href="/login.html" id="login">Login</a>
                   </li>`;
-    }
+  }
 
-    navOutPut += `</ul></div></div></nav>`;
+  navOutPut += `</ul></div></div></nav>`;
 
-    $("nav").html(navOutPut);
+  $("nav").html(navOutPut);
 
-    $("#logout").click(function (e) {
-      e.preventDefault();
-      sessionStorage.removeItem("login");
-      sessionStorage.removeItem("role");
-      localStorage.removeItem("token");
-      location.replace("/index.html");
-    });
+  $("#logout").click(function (e) {
+    e.preventDefault();
+    sessionStorage.removeItem("login");
+    sessionStorage.removeItem("role");
+    localStorage.removeItem("token");
+    location.replace("/index.html");
+  });
   // });
 }
 
