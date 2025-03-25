@@ -26,15 +26,21 @@ function filmDD() {
     });
   });
 
+  $("#selectDate").prop("disabled", true);
+  $("#selectStartTime").prop("disabled", true);
+
   // Handle dropdown film selection change
   $("#selectFilm").change(function () {
     let filmID = $(this).val();
     let filmCards = $("#filmCards");
 
-    $("#selectDate").html('<option value="" selected>Select Date</option>');
+    // reset the date and time when new film name is selected, initially set to false until film name selected
+    $("#selectDate")
+      .html('<option value="" selected>Select Date</option>')
+      .prop("disabled", false);
     $("#selectStartTime").html(
       '<option value="" selected>Select Time</option>'
-    );
+    ).prop('disabled', false);
 
     filmCards.empty(); // Clear existing cards
 
