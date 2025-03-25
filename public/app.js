@@ -16,20 +16,17 @@ function filmDD() {
     let filmCards = $("#filmCards");
 
     selectFilm.html('<option value="" selected>Show All Films</option>');
-    filmCards.empty(); // Clear previous content
+    filmCards.empty();
 
     $.each(data, function (i, film) {
-      // Populate the dropdown
-      selectFilm.append(
-        `<option value="${film.FilmID}">${film.Name}</option>`
-      );
+      selectFilm.append(`<option value="${film.FilmID}">${film.Name}</option>`);
 
       // Display all film cards initially
       filmCards.append(createFilmCard(film));
     });
   });
 
-  // Handle dropdown selection change
+  // Handle dropdown film selection change
   $("#selectFilm").change(function () {
     let filmID = $(this).val();
     let filmCards = $("#filmCards");
@@ -39,10 +36,11 @@ function filmDD() {
     $.getJSON("http://localhost:3000/films", function (data) {
       if (filmID) {
         // Show only the selected film
-        let selectedFilm = data.find(film => film.FilmID == filmID);
+        let selectedFilm = data.find((film) => film.FilmID == filmID);
         if (selectedFilm) filmCards.append(createFilmCard(selectedFilm));
 
         fetchScreenings(filmID);
+        dateDD(filmID);
       } else {
         // Show all films again
         $.each(data, function (i, film) {
@@ -76,30 +74,56 @@ function createFilmCard(film) {
     </div>`;
 }
 
+function dateDD(filmID) {
+  if (!filmID) {
+    $("#selectDate").html('<option value="" selected>Select Date</option>');
+  }
 
-function dateDD() {
-  $.getJSON("http://localhost:3000/screenings", function (data) {
-    $("#selectDate").html(
-      '<option value="screenings" selected>Select Date</option>'
-    );
+  $.getJSON(`http://localhost:3000/filmScreenings/${filmID}`, function (data) {
+    let selectDate = $("#selectDate");
+    selectDate.html('<option value="" selected>Select Date</option>');
+
+    let specificDates = [];
 
     $.each(data, function (i, screening) {
       let date = new Date(screening.Date).toISOString().split("T")[0];
-      $("#selectDate").append(`<option value="${date}">${date}</option>`);
+
+      // check if its present in the array
+      if (!specificDates.includes(date)) {
+        selectDate.push(date); // add this to the array
+        selectDate.append(`<option value="${date}">${date}</option>`);
+      }
     });
+  });
+
+  // updating available times dynamically based on selected date
+  $("#selectDate").change(function () {
+    let filmID = $("#selectFilm").val();
+    let selectDate = $(this).val();
+    startTimeDD(filmID, selectDate);
   });
 }
 
-function startTimeDD() {
-  $.getJSON("http://localhost:3000/startTimes", function (data) {
+function startTimeDD(filmID, selectDate) {
+  if (!filmID || !selectDate) {
     $("#selectStartTime").html(
       '<option value="" selected>Select Time</option>'
     );
+    return; // this stops any unnecessary API calls
+  }
 
+  $.getJSON(`http://localhost:3000/filmScreenings/${filmID}`, function (data) {
+    $("#selectStartTime").html(
+      '<option value="" selected>Select Time</option>'
+    );
     $.each(data, function (i, screening) {
-      $("#selectStartTime").append(
-        `<option value="${screening.StartTime}">${screening.StartTime}</option>`
-      );
+      let screeningDate = new Date(screening.Date).toISOString().split("T")[0];
+
+      if (screeningDate === selectDate) {
+        $("#selectStartTime").append(
+          `<option value="${screening.StartTime}">${screening.StartTime}</option>`
+        );
+      }
     });
   });
 }
@@ -150,7 +174,7 @@ function bookTickets() {
 function scrollToTop() {
   window.scrollTo({
     top: 0,
-    behavior: "smooth",
+    behavior: "smooth"
   });
 }
 
