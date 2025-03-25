@@ -31,6 +31,11 @@ function filmDD() {
     let filmID = $(this).val();
     let filmCards = $("#filmCards");
 
+    $("#selectDate").html('<option value="" selected>Select Date</option>');
+    $("#selectStartTime").html(
+      '<option value="" selected>Select Time</option>'
+    );
+
     filmCards.empty(); // Clear existing cards
 
     $.getJSON("http://localhost:3000/films", function (data) {
@@ -90,7 +95,7 @@ function dateDD(filmID) {
 
       // check if its present in the array
       if (!specificDates.includes(date)) {
-        selectDate.push(date); // add this to the array
+        specificDates.push(date); // add this to the array
         selectDate.append(`<option value="${date}">${date}</option>`);
       }
     });
@@ -141,7 +146,7 @@ function fetchScreenings(filmID) {
       $("#filmRows").removeClass("d-none");
       $.each(data, function (i, value) {
         let formattedDate = new Date(value.Date).toISOString().split("T")[0];
-        $("#screeningstBody").append(`
+        $("#screeningsTBody").append(`
           <tr>
             <td>${value.StartTime}</td>
             <td>${formattedDate}</td>
