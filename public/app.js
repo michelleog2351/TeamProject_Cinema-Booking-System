@@ -16,96 +16,168 @@ function filmDD() {
     let filmCards = $("#filmCards");
 
     selectFilm.html('<option value="" selected>Show All Films</option>');
-    filmCards.empty(); // Clear previous content
+    filmCards.empty();
 
     $.each(data, function (i, film) {
-      // Populate the dropdown
-      selectFilm.append(
-        `<option value="${film.FilmID}">${film.Name}</option>`
-      );
+      selectFilm.append(`<option value="${film.FilmID}">${film.Name}</option>`);
 
       // Display all film cards initially
       filmCards.append(createFilmCard(film));
     });
   });
 
-  // Handle dropdown selection change
+  $("#selectDate").prop("disabled", true);
+  $("#selectStartTime").prop("disabled", true);
+
+  // Handle dropdown film selection change
   $("#selectFilm").change(function () {
     let filmID = $(this).val();
     let filmCards = $("#filmCards");
 
+    // reset the date and time when new film name is selected, initially set to false until film name selected
+    $("#selectDate")
+      .html('<option value="" selected>Select Date</option>')
+      .prop("disabled", false);
+    $("#selectStartTime")
+      .html('<option value="" selected>Select Time</option>')
+      .prop("disabled", false);
+
     filmCards.empty(); // Clear existing cards
+    if (filmID) {
+      $.getJSON(`http://localhost:3000/film/${filmID}`, function (film) {
+        // let releaseDate = new Date(value.ReleaseDate)
+        //   .toISOString()
+        //   .split("T")[0];
 
-    $.getJSON("http://localhost:3000/films", function (data) {
-      if (filmID) {
+        $("#filmRows").html(`
+				<div class="container mt-4">
+					<div class="row">
+						<div class="col-md-4">
+						<div class="position-relative">
+							<img src="http://localhost:3000/images/${film.Name.replace(/\s+/g, "_")}.jpg" 
+								class="img-fluid rounded shadow" 
+								alt="${film.Name}"">
+								 <div class="overlay">
+					<div class="overlay-content">
+						<a href="Customer/Film/filmDetails.html?filmID=${film.FilmID}"
+						class="btn btn-primary">Watch: ${film.Name} Now</a> 
+					</div>           
+				</div>
+				</div>
+						</div>
+
+						<div class="col-md-8">
+							<h2 class="fw-bold">${film.Name}</h2>
+							<p>
+							<img src="http://localhost:3000/images/${film.Genre.replace(/\s+/g, "_")}.jpg" 
+								class="img-fluid rounded shadow" 
+								alt="${film.Name}" 
+								style="height:30px; width:30px;"> | ${film.Category} | ${film.RunningTime} mins
+							</p>					
+						<div id="screeningsTbody" class="mt-3"></div>
+						</div>
+					</div>
+				</div>
+			`);
+      });
+
+      fetchScreenings(filmID);
+      dateDD(filmID);
+    } else {
+      $.getJSON("http://localhost:3000/films", function (data) {
         // Show only the selected film
-        let selectedFilm = data.find(film => film.FilmID == filmID);
-        if (selectedFilm) filmCards.append(createFilmCard(selectedFilm));
+        // let selectedFilm = data.find((film) => film.FilmID == filmID);
+        // if (selectedFilm) filmCards.append(createFilmCard(selectedFilm));
 
-        fetchScreenings(filmID);
-      } else {
         // Show all films again
         $.each(data, function (i, film) {
           filmCards.append(createFilmCard(film));
         });
+      });
+      $("#screeningsTbody").empty();
 
-        $("#screeningsTbody").empty();
-      }
-    });
+      $("#filmRows").html("");
+    }
   });
 }
 
 // Helper function to create film card
 function createFilmCard(film) {
   return `
-    <br />
-    <div class="col-md-2 col-sm-6 mb-3">
-      <div class="card">
-        <img src="images/${film.Name.replace(/\s+/g, "_")}.jpg" 
-          class="card-img-top img-fluid w-100"
-          alt="${film.Name}"
-          style="height: 400px; object-fit: cover; border-radius: 10px;"
-        />
-        <div class="overlay">
-          <div class="overlay-content">
-            <a href="Customer/Film/filmDetails.html?filmID=${film.FilmID}"
-            class="btn btn-primary">Watch: ${film.Name} Now</a> 
-          </div>           
-        </div>
-      </div> 
-    </div>`;
+		<br />
+		<div class="col-md-2 col-sm-6 mb-3">
+			<div class="card">
+				<img src="images/${film.Name.replace(/\s+/g, "_")}.jpg" 
+					class="card-img-top img-fluid w-100"
+					alt="${film.Name}"
+					style="height: 400px; object-fit: cover; border-radius: 10px;"
+				/>
+				<div class="overlay">
+					<div class="overlay-content">
+						<a href="Customer/Film/filmDetails.html?filmID=${film.FilmID}"
+						class="btn btn-primary">Watch: ${film.Name} Now</a> 
+					</div>           
+				</div>
+			</div> 
+		</div>`;
 }
 
+function dateDD(filmID) {
+  if (!filmID) {
+    $("#selectDate").html('<option value="" selected>Select Date</option>');
+  }
 
-function dateDD() {
-  $.getJSON("http://localhost:3000/screenings", function (data) {
-    $("#selectDate").html(
-      '<option value="screenings" selected>Select Date</option>'
-    );
+  $.getJSON(`http://localhost:3000/filmScreenings/${filmID}`, function (data) {
+    let selectDate = $("#selectDate");
+    selectDate.html('<option value="" selected>Select Date</option>');
+
+    let specificDates = [];
 
     $.each(data, function (i, screening) {
       let date = new Date(screening.Date).toISOString().split("T")[0];
-      $("#selectDate").append(`<option value="${date}">${date}</option>`);
+
+      // check if its present in the array
+      if (!specificDates.includes(date)) {
+        specificDates.push(date); // add this to the array
+        selectDate.append(`<option value="${date}">${date}</option>`);
+      }
     });
+  });
+
+  // updating available times dynamically based on selected date
+  $("#selectDate").change(function () {
+    let filmID = $("#selectFilm").val();
+    let selectDate = $(this).val();
+    startTimeDD(filmID, selectDate);
   });
 }
 
-function startTimeDD() {
-  $.getJSON("http://localhost:3000/startTimes", function (data) {
+function startTimeDD(filmID, selectDate) {
+  if (!filmID || !selectDate) {
     $("#selectStartTime").html(
       '<option value="" selected>Select Time</option>'
     );
+    return; // this stops any unnecessary API calls
+  }
 
+  $.getJSON(`http://localhost:3000/filmScreenings/${filmID}`, function (data) {
+    $("#selectStartTime").html(
+      '<option value="" selected>Select Time</option>'
+    );
     $.each(data, function (i, screening) {
-      $("#selectStartTime").append(
-        `<option value="${screening.StartTime}">${screening.StartTime}</option>`
-      );
+      let screeningDate = new Date(screening.Date).toISOString().split("T")[0];
+
+      if (screeningDate === selectDate) {
+        $("#selectStartTime").append(
+          `<option value="${screening.StartTime}">${screening.StartTime}</option>`
+        );
+      }
     });
   });
 }
 
 function fetchScreenings(filmID) {
-  $("#screeningsTBody").empty(); // Clear existing rows
+  $("#screeningsTbody").empty(); // Clear existing rows
 
   if (!filmID) {
     $("#filmRows").addClass("d-none"); // Hide table if no film selected
@@ -115,17 +187,53 @@ function fetchScreenings(filmID) {
   $.getJSON(`http://localhost:3000/filmScreenings/${filmID}`, function (data) {
     if (data.length > 0) {
       $("#filmRows").removeClass("d-none");
+
+      // create an object that will store all the screenings grouped by date
+      // usng an array would be inefficient esp. in cases where there are multiple screenings for the same date, when you can group you have multiple screenings for a single date
+      let screeningsByDate = {};
+
       $.each(data, function (i, value) {
-        let formattedDate = new Date(value.Date).toISOString().split("T")[0];
-        $("#screeningstBody").append(`
-          <tr>
-            <td>${value.StartTime}</td>
-            <td>${formattedDate}</td>
-            <td>${value.SeatsRemaining}</td>
-            <td>${value.TheatreID}</td>
-            <td><button class="btn btn-primary book-btn" id="${value.ScreeningID}">Book</button></td>
-          </tr>
-        `);
+        // let formattedDate = new Date(value.Date).toISOString().split("T")[0];
+        let formattedDate = new Date(value.Date).toLocaleDateString("en-US", {
+          weekday: "short", // Wed
+          month: "short", // Mar
+          day: "numeric", // 26
+        });
+
+        if (!screeningsByDate[formattedDate]) {
+          screeningsByDate[formattedDate] = [];
+        }
+        screeningsByDate[formattedDate].push(value);
+      });
+
+      $.each(screeningsByDate, function (date, screening) {
+        let timeButtonsHtml = `<div class="d-flex flex-wrap mt-2">`;
+
+        $.each(screening, function (i, value) {
+          timeButtonsHtml += `
+					<button class="btn btn-outline-primary mx-1 startTime-btn" data-id="${value.ScreeningID}">
+						${value.StartTime}
+					</button>
+				`;
+        });
+
+        timeButtonsHtml += `</div>`;
+
+        $("#screeningsTbody").append(`
+					<tr>
+							<td colspan="3"><strong>${date}</strong></td>
+					</tr>
+					<tr>
+							<td colspan="3">Screen ${screening[0].TheatreID}</td>
+					</tr>
+					<tr>
+							<td colspan="3">${timeButtonsHtml}</td>
+					</tr>
+
+					<tr>
+							<td><hr></td>
+					</tr>
+			`);
       });
     } else {
       $("#filmRows").addClass("d-none");
@@ -135,9 +243,9 @@ function fetchScreenings(filmID) {
 
 function bookTickets() {
   $(".book-tickets-btn").click(function () {
-    var filmID = $("#selectFilm").val();
-    var date = $("#selectDate").val();
-    var time = $("#selectStartTime").val();
+    let filmID = $("#selectFilm").val();
+    let date = $("#selectDate").val();
+    let time = $("#selectStartTime").val();
 
     if (filmID && date && time) {
       window.location.href = `Customer/Film/filmDetails.html?filmID=${filmID}&date=${date}&time=${time}`;
@@ -154,7 +262,9 @@ function scrollToTop() {
   });
 }
 
-$(document).on("click", ".book-btn", function () {
+$(document).on("click", ".startTime-btn", function () {
+	//e.stopPropagation();
   let screeningID = $(this).data("id");
-  window.location.href = `Customer/Film/filmDetails.html?screeningID=${screeningID}`;
+	localStorage.setItem("ViewScreeningID", screeningID);
+  window.location.href = `http://localhost:3000/booking/createBooking.html?screeningID=${screeningID}`;
 });

@@ -2,7 +2,6 @@ $(document).ready(function () {
   nav();
   footer();
   loadFilmDetails();
-  
 });
 
 function loadFilmDetails() {
@@ -16,22 +15,29 @@ function loadFilmDetails() {
     return;
   }
 
-{/* <img src="${
+  {
+    /* <img src="${
                   value.CoverImage
-                }" class="card-img-top img-fluid" alt="${value.Name}" style="height: 400px; object-fit: cover;"></img> */}
+                }" class="card-img-top img-fluid" alt="${value.Name}" style="height: 400px; object-fit: cover;"></img> */
+  }
 
-$.getJSON(`http://localhost:3000/film/${filmID}`, function (value) {
-let releaseDate = new Date(value.ReleaseDate).toISOString().split("T")[0];
-$("#filmDetails").html(`
+  $.getJSON(`http://localhost:3000/film/${filmID}`, function (value) {
+    let releaseDate = new Date(value.ReleaseDate).toISOString().split("T")[0];
+    $("#filmDetails").html(`
   <div class="container mt-4">
     <div class="row">
       <div class="col-md-4">
-        <img src="http://localhost:3000/images/${value.Name.replace(/\s+/g, "_")}.jpg" 
+        <img src="http://localhost:3000/images/${value.Name.replace(
+          /\s+/g,
+          "_"
+        )}.jpg" 
              class="img-fluid rounded shadow" 
              alt="${value.Name}">
              <div class="mb-3">
              <br>
-             <button type="button" class="btn btn-primary" onclick="playTrailer('${value.VideoURL}')">
+             <button type="button" class="btn btn-primary" onclick="playTrailer('${
+               value.VideoURL
+             }')">
                 Watch Trailer
               </button>
               <button type="button" class="btn btn-secondary" onclick="location.href='cFilm.html'">
@@ -69,8 +75,7 @@ $("#filmDetails").html(`
       </div>
     </div>
   </div>
-  `
-);
+  `);
 
     fetchScreenings(filmID);
   }).fail(function (jqXHR, textStatus, errorThrown) {
@@ -78,7 +83,6 @@ $("#filmDetails").html(`
     alert("Failed to load film details.");
     location.href = "cFilm.html";
   });
-
 }
 
 function fetchScreenings(filmID) {
@@ -93,33 +97,28 @@ function fetchScreenings(filmID) {
           <td id="seatsRemaining${value.SeatsRemaining}">${value.SeatsRemaining}</td>
           <td id="theatreID${value.TheatreID}">${value.TheatreID}</td>
           <td><button type="button" class="bookingButton btn btn-primary" value="${value.ScreeningID}">Book</button></td>
-          </tr>`
-      );
-      $(".bookingButton").click(function(e){
-        console.log(e.target.value);;
+          </tr>`);
+      $(".bookingButton").click(function (e) {
+        console.log(e.target.value);
         let ID = e.target.value;
-      
+
         localStorage.setItem("ViewScreeningID", ID);
         location.replace("http://localhost:3000/booking/createBooking.html");
-      
-      
-        });
+      });
     });
   });
 }
 function playTrailer(videoURL) {
   console.log("Video URL: " + videoURL); // Debug
 
-  $('#trailerModal').on('shown.bs.modal', function () {
-    $('#trailerVideo').attr('src', videoURL); 
-  }); 
-  $('#trailerModal').modal('show');
+  $("#trailerModal").on("shown.bs.modal", function () {
+    $("#trailerVideo").attr("src", videoURL);
+  });
+  $("#trailerModal").modal("show");
 }
 
-
-$('#trailerModal').on('hidden.bs.modal', function () {
-  console.log('Modal closed');
-  $('#trailerVideo').attr('src', '');
-  $('#trailerModal').attr('inert', 'true');
+$("#trailerModal").on("hidden.bs.modal", function () {
+  console.log("Modal closed");
+  $("#trailerVideo").attr("src", "");
+  $("#trailerModal").attr("inert", "true");
 });
-
