@@ -3,12 +3,12 @@ var bodyParser = require("body-parser");
 var _ = require("underscore");
 var cors = require("cors");
 var login = require('./model/login');
-var admin = require('./model/admin');
+//var admin = require('./model/admin');
 var film = require('./model/film');
 var screening = require('./model/screening');
 var Theatre = require('./model/theatre');
 // var ticket = require('./model/ticket');
-var manager = require('./model/manager');
+//var manager = require('./model/manager');
 var booking = require('./model/booking');
 var ticketType = require('./model/ticketType');
 
