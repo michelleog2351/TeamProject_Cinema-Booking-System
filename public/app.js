@@ -38,29 +38,74 @@ function filmDD() {
     $("#selectDate")
       .html('<option value="" selected>Select Date</option>')
       .prop("disabled", false);
-    $("#selectStartTime").html(
-      '<option value="" selected>Select Time</option>'
-    ).prop('disabled', false);
+    $("#selectStartTime")
+      .html('<option value="" selected>Select Time</option>')
+      .prop("disabled", false);
 
     filmCards.empty(); // Clear existing cards
+    if (filmID) {
+      $.getJSON(`http://localhost:3000/film/${filmID}`, function (film) {
+        // let releaseDate = new Date(value.ReleaseDate)
+        //   .toISOString()
+        //   .split("T")[0];
+        $("#filmRows").html(`
+        <div class="container mt-4">
+          <div class="row">
+            <div class="col-md-4">
+              <img src="http://localhost:3000/images/${film.Name.replace(
+                /\s+/g,
+                "_"
+              )}.jpg" 
+                class="img-fluid rounded shadow" 
+                alt="${film.Name}"">
+								 <div class="overlay">
+          <div class="overlay-content">
+            <a href="Customer/Film/filmDetails.html?filmID=${film.FilmID}"
+            class="btn btn-primary">Watch: ${film.Name} Now</a> 
+          </div>           
+        </div>
+              <div class="mb-3">
+                <br>
+              </div>
+            </div>
 
-    $.getJSON("http://localhost:3000/films", function (data) {
-      if (filmID) {
+            <div class="col-md-8">
+              <h2 class="fw-bold">${film.Name}</h2>
+              <p><img src="http://localhost:3000/images/${film.Genre.replace(
+                /\s+/g,
+                "_"
+              )}.jpg" 
+                class="img-fluid rounded shadow" 
+                alt="${
+                  film.Name
+                }" style="height:30px; width:30px;"> | ${film.Category} | ${film.RunningTime} mins</p>
+            </div>
+          </div>
+
+					
+        </div>
+      `);
+      });
+
+      fetchScreenings(filmID);
+      dateDD(filmID);
+    } else {
+      $.getJSON("http://localhost:3000/films", function (data) {
         // Show only the selected film
-        let selectedFilm = data.find((film) => film.FilmID == filmID);
-        if (selectedFilm) filmCards.append(createFilmCard(selectedFilm));
+        // let selectedFilm = data.find((film) => film.FilmID == filmID);
+        // if (selectedFilm) filmCards.append(createFilmCard(selectedFilm));
 
-        fetchScreenings(filmID);
-        dateDD(filmID);
-      } else {
         // Show all films again
         $.each(data, function (i, film) {
           filmCards.append(createFilmCard(film));
         });
 
         $("#screeningsTbody").empty();
-      }
-    });
+        //   }
+        // }
+      });
+      $("#filmRow").html("");
+    }
   });
 }
 
@@ -185,7 +230,7 @@ function bookTickets() {
 function scrollToTop() {
   window.scrollTo({
     top: 0,
-    behavior: "smooth"
+    behavior: "smooth",
   });
 }
 
