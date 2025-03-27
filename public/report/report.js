@@ -5,9 +5,10 @@ $(document).ready(function () {
 })
 function getJsonData() {
     d3.json("http://localhost:3000/ticketsSoldDaily").then(async function (dataset) {
-        var width = 500;
-        var height = 400;
-        var radius = 4;
+        var width = 800;
+        var height = 800;
+        var barwidth = 40;
+        var spacing =10;
 
         //Get a Unique Collection of
         //FilmIDS
@@ -47,31 +48,16 @@ function getJsonData() {
             .ticks(d3.timeDay.every(1))
             .tickFormat(d3.timeFormat("%b %d"));
 
-            var line = d3.line()
-            .x(d => x(new Date(d.Date)))
-            .y(d => y(d.TicketsSold));
 
             
-            lineGraphs.selectAll("circle")
+            lineGraphs.selectAll("rect")
                 .data(filmRecords)
-                .enter()
-                .append("circle")
-                .attr("cy", function (d) {
-                    return (y(d.TicketsSold))
-                })
-                .attr("cx", function (d) {
-                    return x(new Date(d.Date))+ 40
-                    
-                })
-                .attr("r", radius)
-                .attr("fill", "red");
-
-            svg.append("path")
-                .attr('d', line(filmRecords))
-                .attr('fill', 'none')
-                .attr('stroke', 'blue')
-                .attr('stroke-width', 2)
-                .attr("transform", "translate(40, 0)");;
+                .enter().append("rect")
+                .attr('x',function(d,i) { return (barwidth+spacing)*i; })
+                .attr('y',function(d) { return height-y(d.TicketsSold);})
+                .attr('width',barwidth)
+                .attr('height',function(d){ return y(d.TicketsSold);})
+                .attr('fill','steelblue');
 
                 svg.append("g")
                 .attr("transform", "translate(40, 0)")

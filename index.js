@@ -105,6 +105,10 @@ app.post("/screeningDates", function (req, res) {
   screening.getScreeningDates(req, res);
 });
 
+app.get("/ticketsSoldDaily", function (req, res) {
+  screening.getTicketsSoldDaily(req, res);
+});
+
 ////////////////////////////////////////////////////////////
 
 //TicketType Routes
