@@ -2,7 +2,7 @@ function footer() {
   var footerOutPut = `
     <hr>
 
-            <div class="justify-content-between align-items-left text-white py-3 px-4 bg-primary" style="padding-left:20%;">
+            <div id="email_box" class="justify-content-between align-items-left text-white py-3 px-4 bg-primary" style="padding-left:20%;">
             <p>Sign up for our Newsletter!</p>
                 <input type="email" id="user_email" placeholder="Enter your email" class="p-1" 
                     style="width: 100%; font-size: 14px; position: left;">
