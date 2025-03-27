@@ -1,18 +1,75 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.container-fluid {
+  flex: 1; /* Push footer to bottom of page */
+}
+
+label{
+  font-weight: bold;
+  /* color: #325d88; */
+}
+
+.navbar {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+}
+
+.navbar-toggler-icon {
+  transition: transform 0.3s ease;
+}
+
+.navbar-toggler:is(.collapsed) .navbar-toggler-icon {
+  transform: rotate(180deg);
+}
+
+#search-btn,
+#search-input {
+  margin: 0;
+  padding: 5px;
+}
+
+#search-btn {
+  background-color: transparent;
+  border: none;
+  margin-top: 0;
+}
+
+#search-input {
+  border-radius: 10px;
+  padding: 5px;
+  width: 0;
+  opacity: 0;
+  overflow: hidden;
+  border: 1px solid transparent; 
+  transition: width 0.3s ease-in-out, opacity 0.2s ease-in-out, border 0.3s;
+}
+
+#search-input.active {
+  width: 250px;
+  opacity: 1;
+  border: 1px solid #ccc;
+}
+
+.table {
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
 .card {
-  width: 100%; /* let the grid system handle the card width based on the window size - ensuring the responsiveness*/
+  width: 100%; /* let the grid system handle the card width based on the window size - ensuring responsiveness*/
   height: 400px; /* Matches the height of the images now */
   position: relative;
   overflow: hidden;
   border-radius: 10px;
 }
-
-/* .card {
-  position: relative;
-  overflow: hidden;
-  border-radius: 10px;
-  width: 226px;
-  height: 320px;
-} */
 
 .overlay {
   position: absolute;
@@ -22,10 +79,11 @@
   height: 100%;
   background: rgba(0, 0, 0, 0.7);
   display: flex;
+  padding: var(--bs-card-img-overlay-padding, 1rem);
   justify-content: center;
   align-items: center;
   opacity: 0;
-  transition: all 0.5s ease;
+  transition: top 0.5s ease, opacity 0.5s ease;
 }
 
 .card:hover .overlay {
@@ -47,14 +105,14 @@
   border-radius: 20px;
   font-size: 16px;
   cursor: pointer;
-  max-width: 80%;
-  width: auto; /* Ensures the button doesn’t stretch */
+  max-width: 250px;
+  width: auto;
   margin: 0 auto;
 }
 
-.overlay-button:hover{
-  background-color: darkblue;
-  text-decoration: none; 
+.overlay-button:hover {
+  background-color: #17a2b8 !important;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .scroll-to-top-btn {
@@ -62,32 +120,36 @@
   bottom: 20px;
   right: 20px;
   z-index: 1000;
-  background-color: #0056b3;
   color: white;
   padding: 0;
-  border-radius: 70%;
-  width: 80px;
-  height: 80px;
+  border-radius: 50% !important;
+  width: 70px;
+  height: 70px;
   font-size: 50px;
   font-weight: bolder;
   text-align: center;
-  line-height: 70px; /* Vertically centre the arrow symbol */
+  line-height: 70px;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease;
+  display: none;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.2s ease;
 }
 
 .scroll-to-top-btn:active {
-  background-color: #004494; /* darker blue when clicked */
-  transform: scale(0.95); /* Slightly shrinks */
-  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.15); /* Soften the shadow */
+  background-color: #004494;
+  transform: scale(0.95);
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.15);
 }
 
 .scroll-to-top-btn:hover {
-  background-color: #007bff;
-  transform: scale(1.1); /* Slightly increase the size on hover */
+  background-color: #17a2b8 !important;
+  transform: scale(1.1);
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
-  border-radius: 5px; /* Square the corners when hovered over */
 }
 
 .book-tickets-btn {
+}
+
+footer {
+  width: 100%;
 }

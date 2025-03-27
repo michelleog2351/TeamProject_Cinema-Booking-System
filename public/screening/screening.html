@@ -12,12 +12,14 @@
     <script src="screening.js"></script>
     <script src="../nav.js"></script>
     <script src="../footer.js"></script>
+    <link rel="stylesheet" type="text/css" href="../style.css" />
     <link rel="stylesheet" type="text/css" href="../theme.css" />
   </head>
 
   <body>
+    <nav id="nav" class="navbar navbar-expand-lg bg-primary sticky-top"></nav>
+
     <div class="container-fluid">
-      <nav id="nav"></nav>
       <hr />
       <h1>Screenings</h1>
       <hr />
@@ -28,16 +30,18 @@
           <tr>
             <th>Start Time</th>
             <th>Date</th>
-            <th>SeatsRemaining</th>
+            <th>Seats Remaining</th>
             <th>Theatre</th>
             <th>Film Name</th>
-            <th></th>
           </tr>
         </thead>
         <tbody id="tbody"></tbody>
       </table>
       <hr />
-      <footer id="footer" class="footer d-flex justify-content-center"></footer>
+      <button class="btn btn-info scroll-to-top-btn" title="Scroll to Top">
+        <h1>↑</h1>
+      </button>
     </div>
+    <footer id="footer" class="footer d-flex justify-content-center"></footer>
   </body>
 </html>
