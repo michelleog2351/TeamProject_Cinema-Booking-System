@@ -5,12 +5,13 @@ $(document).ready(function () {
   $("#fbody").append(`
     <div class="mb-3">
         <label class="form-label" for="email">Email</label>
-        <input class="form-control" type="email" id="email" name="email" placeholder="example@domain.com" required>
+        <input class="form-control" type="email" id="email" name="email" placeholder="Enter Email" required>
     </div>
 
     <div class="mb-3">
         <label class="form-label" for="password">Password</label>
-        <input class="form-control" type="password" id="password" name="password" required>
+        <input class="form-control" type="password" id="password" name="password" placeholder="Enter Password" required>
+        
     </div>
 
     <button class="btn btn-primary" id="login">Login</button>
