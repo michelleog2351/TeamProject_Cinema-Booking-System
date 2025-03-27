@@ -2,17 +2,16 @@ function footer() {
   var footerOutPut = `
     <hr>
 
-    <div class="d-flex justify-content-between align-items-center text-white py-3 px-4 bg-primary">
-            <div>
+            <div class="justify-content-between align-items-left text-white py-3 px-4 bg-primary" style="padding-left:20%;">
+            <p>Sign up for our Newsletter!</p>
                 <input type="email" id="user_email" placeholder="Enter your email" class="p-1" 
-                    style="width: 150px; font-size: 12px; position: left;">
+                    style="width: 100%; font-size: 14px; position: left;">
                 <button onclick="sendEmail()" class="btn btn-dark" 
-                    style="padding: 4px 8px; font-size: 12px;">Send</button>
+                    style="padding: 4px 8px; font-size: 12px;">Sign up</button>
             </div>
-
-    <div class="text-center text-white py-5"> 
+<div class="d-flex justify-content-between align-items-center text-white py-3 px-4 bg-primary">
       &copy; Applied Computing Group 1
-    </div>;`;
+    </div>`;
   $("#footer").addClass("bg-primary").html(footerOutPut);
 }
 function sendEmail() {
