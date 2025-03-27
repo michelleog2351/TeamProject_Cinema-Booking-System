@@ -4,7 +4,13 @@ $(document).ready(function () {
   filmDD();
   dateDD();
   startTimeDD();
-  bookTickets();
+  //bookTickets();
+
+  // const urlParams = new URLSearchParams(window.location.search);
+  // const screeningID = urlParams.get("screeningID");
+
+  // // Use the screeningID as needed
+  // console.log(screeningID); // For testing, you can log it
 });
 
 function filmDD() {
@@ -197,7 +203,7 @@ function fetchScreenings(filmID) {
         let formattedDate = new Date(value.Date).toLocaleDateString("en-US", {
           weekday: "short", // Wed
           month: "short", // Mar
-          day: "numeric", // 26
+          day: "numeric" // 26
         });
 
         if (!screeningsByDate[formattedDate]) {
@@ -241,40 +247,32 @@ function fetchScreenings(filmID) {
   });
 }
 
-function bookTickets() {
-  $(".book-tickets").on("click", ".book-tickets-btn", function () {
-    var bookButtonHtml = `<div class="mb-3 ms-3" style="flex: 1">
-        <button
-          type="button"
-          class="btn btn-primary book-tickets-btn"
-          data-id="${$(this).data("id")}"
-          style="display: flex; align-items: center"
-          title="Click here to book tickets!"
-        >
-          Book Tickets
-        </button>
-      </div>`;
+//  $(".book-tickets").on("click", ".book-tickets-btn", function () {
+$(document).on("click", ".book-tickets-btn", function () {
 
-    $(".book-tickets").empty().append(bookButtonHtml);
-    let filmID = $("#selectFilm").val();
-    let date = $("#selectDate").val();
-    let time = $("#selectStartTime").val();
-    let screeningID = $(this).data("id");
+  let screeningID = $(this).data("id");
+  
+  console.log("Clicked Book Tickets - ScreeningID:", screeningID);  // For debugging
 
-    if (filmID && date && time) {
-      window.location.href = `http://localhost:3000/booking/createBooking.html?screeningID=${screeningID}`;
-    } else {
-      alert("Please select a film, date, and time.");
-    }
-  });
-}
+  let filmID = $("#selectFilm").val();
+  let date = $("#selectDate").val();
+  let time = $("#selectStartTime").val();
+
+  if (filmID && date && time) {
+    localStorage.setItem("ViewScreeningID", screeningID);
+    window.location.href = `http://localhost:3000/booking/createBooking.html?screeningID=${screeningID}`;
+    console.log($(this).data("id"));
+  } else {
+    alert("Please select a film, date, and time before booking.");
+  }
+});
 
 // bookTickets();
 
 function scrollToTop() {
   window.scrollTo({
     top: 0,
-    behavior: "smooth",
+    behavior: "smooth"
   });
 }
 
