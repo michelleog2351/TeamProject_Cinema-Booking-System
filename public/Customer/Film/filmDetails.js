@@ -43,6 +43,7 @@ $("#filmDetails").html(`
         <div class="col-md-8">
           <h2 class="fw-bold">${value.Name}</h2>
           <p><strong>Directed by:</strong> ${value.Director}</p>
+          <p><strong>Description:</strong><br> ${value.Description}</p>
           <p><strong>Genre:</strong> ${value.Category}</p>
           <p><strong>Run Time:</strong> ${value.RunningTime} mins</p>
           <p><strong>Release Date:</strong> ${releaseDate}</p>
