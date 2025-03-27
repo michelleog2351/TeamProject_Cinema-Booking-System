@@ -55,7 +55,7 @@ $("#filmDetails").html(`
             <tr>
               <th>Date</th>  
               <th>Start Time</th>
-              <th>Seats Avaialable</th>
+              <th>Seats Available</th>
               <th>Theatre</th>
               <th></th>
             </tr>

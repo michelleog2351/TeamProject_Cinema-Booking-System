@@ -28,7 +28,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `Film` (
   `FilmID` INT NOT NULL AUTO_INCREMENT,
-  `Name` varchar(50) NOT NULL,
+  `Name` varchar(300) NOT NULL,
   `Category` varchar(10) NOT NULL,
   `RunningTime` int(10) NOT NULL,
   `Genre` varchar(50) NOT NULL,
@@ -314,8 +314,8 @@ INSERT INTO `User` (`Name`, `Email`, `Password`, `Role`)
 VALUES
 ('Alice Johnson', 'alice.johnson@example.com', 'password123', "Manager"),
 ('Bob Smith', 'testMan@gmail.com', 'password123', "Manager"),
-('Charlie Brown', 'charlie.brown@example.com', 'chocoCake789', "Manager"),
-('Dana White', 'dana.white@example.com', 'admin@2025', "Manager"),
+('Charlie Brown', 'charlie.brown@example.com', 'chocoCake789', "Admin"),
+('Dana White', 'testAd@gmail.com', 'password123', "Admin"),
 ('Eve Black', 'eve.black@example.com', 'evePass001', "Manager");
 
 

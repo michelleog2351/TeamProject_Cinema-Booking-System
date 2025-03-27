@@ -126,8 +126,6 @@ exports.deleteFilm = function (req, res) {
   });
 };
 
-
-
 exports.getAgeRatings = function (req, res) {
   connection.query("SELECT * FROM AgeRating", function (err, rows) {
     if (err) {
@@ -137,7 +135,6 @@ exports.getAgeRatings = function (req, res) {
     res.json(rows);
   });
 };
-
 
 exports.getRunningMinutes = function (req, res) {
   connection.query("SELECT * FROM RunningTime", function (err, rows) {
