@@ -1,13 +1,18 @@
 function footer() {
   var footerOutPut = `
     <hr>
+
+    <div class="d-flex justify-content-between align-items-center text-white py-3 px-4 bg-primary">
+            <div>
+                <input type="email" id="user_email" placeholder="Enter your email" class="p-1" 
+                    style="width: 150px; font-size: 12px; position: left;">
+                <button onclick="sendEmail()" class="btn btn-dark" 
+                    style="padding: 4px 8px; font-size: 12px;">Send</button>
+            </div>
+
     <div class="text-center text-white py-5"> 
       &copy; Applied Computing Group 1
-    </div>;
-
-    <input type="email" id="user_email" placeholder="Enter your email" class="p-1" width: 150px; font-size: 12px;>
-            <button onclick="sendEmail()" class="btn btn-dark mt-5" style="padding: 4px 8px; font-size: 12px;">Sign up</button>
-        </div>`;
+    </div>;`;
   $("#footer").addClass("bg-primary").html(footerOutPut);
 }
 function sendEmail() {
