@@ -37,6 +37,18 @@ $(document).ready(function () {
     </div>
 
     <div class="mb-3">
+		<label class="form-label" for="Starring">Starring</label>
+		<input class="form-control" type="text" id="Starring" name="Starring" required>
+    <small id="StarringWarningMessage" style="color: red; display: none;">Please enter the stars</small>
+    </div>
+
+    <div class="mb-3">
+		<label class="form-label" for="Description">Description</label>
+		<input class="form-control" type="text" id="Description" name="Description" required>
+    <small id="DescriptionWarningMessage" style="color: red; display: none;">Please enter the description</small>
+    </div>
+
+    <div class="mb-3">
 		<label class="form-label" for="coverImage">Upload Cover Image</label>
 		<input class="form-control" type="file" id="coverImage" name="coverImage" required>
     <small id="imageWarningMessage" style="color: red; display: none;">Please enter an image</small>
@@ -95,6 +107,10 @@ $(document).ready(function () {
       $("#dateWarningMessage").show();
       inputValidation = false;
     }
+    if ($("#Description").val() === '') {
+      $("#DescriptionWarningMessage").show();
+      inputValidation = false;
+    }
 
     if (!inputValidation) {
       return;
@@ -109,6 +125,8 @@ $(document).ready(function () {
       coverImage: $("#coverImage").val(),
       videoURL: $("#videoURL").val(),
       ReleaseDate: $("#ReleaseDate").val(),
+      Description: $("#Description").val(),
+      Starring: $("#Starring").val(),
     };
 
     $.post(`http://localhost:3000/createFilm`, newFilm)
