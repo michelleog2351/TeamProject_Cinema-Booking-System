@@ -37,6 +37,12 @@ $(document).ready(function () {
     </div>
 
     <div class="mb-3">
+		<label class="form-label" for="description">Description</label>
+		<input class="form-control" type="text" id="description" name="description" required>
+    // <small id="directorWarningMessage" style="color: red; display: none;">Please enter the description</small>
+    </div>
+
+    <div class="mb-3">
 		<label class="form-label" for="coverImage">Upload Cover Image</label>
 		<input class="form-control" type="file" id="coverImage" name="coverImage" required>
     <small id="imageWarningMessage" style="color: red; display: none;">Please enter an image</small>
@@ -109,6 +115,7 @@ $(document).ready(function () {
       coverImage: $("#coverImage").val(),
       videoURL: $("#videoURL").val(),
       ReleaseDate: $("#ReleaseDate").val(),
+      description: $("#description").val(),
     };
 
     $.post(`http://localhost:3000/createFilm`, newFilm)
