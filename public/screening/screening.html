@@ -21,18 +21,7 @@
 
     <div class="container-fluid">
       <hr />
-      <div class="d-flex justify-content-between align-items-center col-12">
-        <h1 class="flex-grow-1">Screenings</h1>
-
-        <select
-          id="selectTheatre"
-          class="form-select ml-3 w-auto"
-          name="selectTheatre"
-        >
-          <option value="" selected>Select Theatre</option>
-        </select>
-      </div>
-
+      <h1>Screenings</h1>
       <hr />
       <div id="add"></div>
       <br />
@@ -41,21 +30,13 @@
           <tr>
             <th>Start Time</th>
             <th>Date</th>
-            <th>SeatsRemaining</th>
+            <th>Seats Remaining</th>
             <th>Theatre</th>
             <th>Film Name</th>
           </tr>
         </thead>
         <tbody id="tbody"></tbody>
       </table>
-      <div
-        id="noScreeningsAlert"
-        class="alert alert-info mb-3"
-        style="display: none; max-width: 830px; margin-top: 15px"
-      >
-        Sorry, no screenings available for this theatre. Please create a
-        screening.
-      </div>
       <hr />
       <button class="btn btn-info scroll-to-top-btn" title="Scroll to Top">
         <h1>↑</h1>
