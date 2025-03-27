@@ -2,6 +2,7 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var _ = require("underscore");
 var cors = require("cors");
+var nodemailer = require("nodemailer");
 var login = require("./model/login");
 var film = require("./model/film");
 var screening = require("./model/screening");
@@ -18,6 +19,43 @@ app.use(express.static("public"));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
+//Email
+app.post("/send-email", function (req, res) {
+  const { email } = req.body;
+
+  if (!email) {
+    return res.status(400).send("Email is required");
+  }
+
+  let transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: "retroreelsatu@gmail.com", 
+      pass: "udkl siis jkfn wacj"
+    }
+  });
+
+  let mailOptions = {
+    from: "retroreelsatu@gmail.com",
+    to: email,
+    subject: "Welcome to RetroReels Cinema",
+    text: "Thank you for signing up to our newsletter! We will keep you up to date with all new releases"
+  };
+
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      console.error("Email sending failed:", error);
+      res.status(500).send("Error sending email");
+    } else {
+      console.log("Email sent: " + info.response);
+      res.send("Email sent successfully!");
+    }
+  });
+});
+
+
+////
 
 app.get("/films", function (req, res) {
   film.getFilms(req, res);
