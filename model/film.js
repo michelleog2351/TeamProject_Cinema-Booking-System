@@ -1,4 +1,5 @@
 var mysql = require("mysql2");
+const { CronJob } = require("cron");
 
 var connection = mysql.createConnection({
   host: "localhost",
@@ -8,6 +9,7 @@ var connection = mysql.createConnection({
 });
 
 connection.connect(function (err) {
+  job.start();
   if (err) throw err;
   console.log(`Sucessfully connected to MySQL database cinemaDB`);
 });
@@ -153,3 +155,17 @@ exports.getFilmCategories = function (req, res) {
     res.json(rows);
   });
 };
+
+//CronJob("00 00 0 * * 0")
+
+const job = new CronJob("00 00 0 * * 0", function () {
+
+  const query = "DELETE FROM Film";
+  connection.query(query, function (err, result) {
+    if (err) {
+      console.error("Error deleting films:", err);
+    } else {
+      console.log("All films deleted successfully.");
+    }
+  });
+});

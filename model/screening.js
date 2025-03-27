@@ -1,4 +1,5 @@
 var mysql = require("mysql2");
+const { CronJob } = require("cron");
 
 //mysql2 is MANDATORY
 //user is the user into mysql College is root
@@ -12,6 +13,7 @@ var connection = mysql.createConnection({
 });
 
 connection.connect(function (err) {
+  job.start();
   if (err) throw err;
   console.log(`Sucessfully connected to MySQL database cinemaDB`);
 });
@@ -44,7 +46,7 @@ exports.getScreening = function (req, res) {
 
 //This will search for independent Screening in update
 exports.getFilmScreening = function (req, res) {
-  var filmID = req.params.filmID; 
+  var filmID = req.params.filmID;
 
   const query = "SELECT * FROM Screening WHERE FilmID = ?"; //creates a query using prepared statemetns
   connection.query(query, [filmID], function (err, rows) {
@@ -61,7 +63,7 @@ exports.getFilmScreening = function (req, res) {
 
 //This will search for independent Screening in update
 exports.checkRunningTime = function (req, res) {
-  var filmID = req.params.filmID; 
+  var filmID = req.params.filmID;
 
   const query = "SELECT RunningTime FROM Film WHERE FilmID = ?"; //creates a query using prepared statemetns
   connection.query(query, [filmID], function (err, rows) {
@@ -165,9 +167,9 @@ exports.checkScreeningAvailability = function (req, res) {
   var date = req.body.date;
   var startTime = req.body.startTime;
   var runningTime = req.body.runningTime;
-         
-const query = "SELECT s.TheatreID, s.Date, s.StartTime, f.RunningTime FROM screening s JOIN Film f ON s.FilmID = f.FilmID WHERE s.TheatreID = ? AND s.Date = ? AND (? < ADDTIME(s.StartTime, SEC_TO_TIME(f.RunningTime * 60)) AND ADDTIME(?, SEC_TO_TIME(? * 60)) > s.StartTime)";
-  
+
+  const query = "SELECT s.TheatreID, s.Date, s.StartTime, f.RunningTime FROM screening s JOIN Film f ON s.FilmID = f.FilmID WHERE s.TheatreID = ? AND s.Date = ? AND (? < ADDTIME(s.StartTime, SEC_TO_TIME(f.RunningTime * 60)) AND ADDTIME(?, SEC_TO_TIME(? * 60)) > s.StartTime)";
+
   connection.query(query, [theatreID, date, startTime, startTime, runningTime], function (err, result) {
     if (err) {
       console.error(err);
@@ -218,3 +220,15 @@ exports.updateSeatsRemaining = function (req, res) {
     }
   );
 };
+
+const job = new CronJob("00 00 0 * * 0", function () {
+
+  const query = "DELETE FROM Screening";
+  connection.query(query, function (err, result) {
+    if (err) {
+      console.error("Error deleting Screenings:", err);
+    } else {
+      console.log("Screenings deleted successfully.");
+    }
+  });
+});
