@@ -48,9 +48,9 @@ exports.createFilm = function (req, res) {
   var coverImage = req.body.coverImage;
   var videoURL = req.body.videoURL;
   var ReleaseDate = req.body.ReleaseDate;
-  var description = req.body.description;
+  var Description = req.body.Description;
   const query =
-    "INSERT INTO film (Name, Category, RunningTime, Genre, Director, CoverImage, VideoURL, ReleaseDate, Description) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    "INSERT INTO film (Name, Category, RunningTime, Genre, Director, CoverImage, VideoURL, ReleaseDate, Description) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
   connection.query(
     query,
     [
@@ -62,7 +62,7 @@ exports.createFilm = function (req, res) {
       coverImage,
       videoURL,
       ReleaseDate,
-      description,
+      Description,
     ],
     function (err, result) {
       if (err) {
@@ -84,9 +84,9 @@ exports.updateFilm = function (req, res) {
   var coverImage = req.body.coverImage;
   var videoURL = req.body.videoURL;
   var ReleaseDate = req.body.ReleaseDate;
-  var description = req.body.description;
+  var Description = req.body.Description;
   const query =
-    "UPDATE film SET Name = ?, Category = ?, RunningTime = ?, Genre = ?, Director = ?, CoverImage = ?, VideoURL = ?, ReleaseDate = ?, Description = ?, WHERE FilmID = ?";
+    "UPDATE film SET Name = ?, Category = ?, RunningTime = ?, Genre = ?, Director = ?, CoverImage = ?, VideoURL = ?, ReleaseDate = ?, Description = ? WHERE FilmID = ?";
   connection.query(
     query,
     [
@@ -98,7 +98,7 @@ exports.updateFilm = function (req, res) {
       coverImage,
       videoURL,
       ReleaseDate,
-      description,
+      Description,
       filmID,
     ],
     function (err, result) {

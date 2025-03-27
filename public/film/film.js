@@ -45,7 +45,6 @@ function getJsonData() {
 								<td id="runningTime${value.RunningTime}">${value.RunningTime}</td>
 								<td id="genre${value.Genre}">${value.Genre}</td>
 								<td id="director${value.Director}">${value.Director}</td>
-                <td id="description${value.Description}">${value.Description}</td>
 								<td><img src="../../images/${value.Name.replace(
                   /\s+/g,
                   "_"

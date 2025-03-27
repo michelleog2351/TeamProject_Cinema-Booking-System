@@ -40,14 +40,14 @@ $("document").ready(function () {
 		</div>
 
 		<div class="mb-3">
-			<label class="form-label" for="description">Description</label>
-			<input class="form-control" type="text" id="description" name="description" required>
-    		<small id="descriptionWarningMessage" style="color: red; display: none;">Please enter the description</small>
+			<label class="form-label" for="Description">Description</label>
+			<input class="form-control" type="text" id="Description" name="Description" required>
+    		<small id="DescriptionWarningMessage" style="color: red; display: none;">Please enter the Description</small>
     	</div>
 
 		<div class="mb-3">
 			<label class="form-label" for="coverImage">Upload Cover Image</label>
-			<input class="form-control" type="file" id="coverImage" name="coverImage" required>
+			<input class="form-control" type="file" id="coverImage" name="coverImage">
 			<small id="imageWarningMessage" style="color: red; display: none;">Please enter an image</small
 		</div>
 
@@ -108,8 +108,8 @@ $("document").ready(function () {
             $("#releaseDateWarningMessage").show();
             isValid = false;
         }
-		if ($("#description").val() === '') {
-			$("#descriptionWarningMessage").show();
+		if ($("#Description").val() === '') {
+			$("#DescriptionWarningMessage").show();
 			inputValidation = false;
 		  }
 
@@ -128,7 +128,7 @@ $("document").ready(function () {
             coverImage: coverImage ? coverImage.name : $("#currentCoverImage").text(),
             videoURL: $("#videoURL").val(),
             ReleaseDate: $("#ReleaseDate").val(),
-			description: $("#description").val()
+			Description: $("#Description").val()
         };
 
         $.post(`http://localhost:3000/updateFilm/${filmID}`, updatedFilm)
@@ -155,7 +155,7 @@ function getJsonData(filmID) {
 		$("#coverImage").after(`<p id="currentCoverImage">${data.CoverImage}</p>`);
 		$("#videoURL").val(data.VideoURL);
 		$("#ReleaseDate").val(formattedDate);
-		$("#description").val(description);
+		$("#Description").val(Description);
 
 		getAgeRatingData(data.Genre);
 		getFilmCategories(data.Category);
