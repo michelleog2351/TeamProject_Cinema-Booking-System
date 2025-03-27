@@ -152,29 +152,42 @@ label{
 
 footer {
   width: 100%;
+  position: relative;
+  padding-bottom: 20px; 
 }
 
 .fa {
-  padding: 20px;
+  position: absolute;
+  bottom: 20px;
+  padding: 15px;
   font-size: 30px;
   width: 50px;
+  height: 50px;
   text-align: center;
   text-decoration: none;
   border-radius: 50%;
-
+  background-color: #3B5998;
+  color: white;
+  transition: all 0.3s ease;
 }
-
-.fa:hover {
-  opacity: 0.7;
-}
-
 
 .fa-facebook {
+  right: 90px; 
   background: #3B5998;
-  color: white;
+
 }
 
 .fa-twitter {
+  right: 150px; 
   background: #55ACEE;
-  color: white;
+
+}
+
+.fa-instagram {
+  right: 210px; 
+  background: #ee55d4;
+
+}
+.fa:hover {
+  opacity: 0.7;
 }
