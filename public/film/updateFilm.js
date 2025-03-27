@@ -34,21 +34,27 @@ $("document").ready(function () {
 			</div>
 
 		<div class="mb-3">
-		<label class="form-label" for="director">Director</label>
-		<input class="form-control" type="text" id="director" name="director" required>
-		<small id="directorWarningMessage" style="color: red; display: none;">Please enter the name of the film director</small>
+			<label class="form-label" for="director">Director</label>
+			<input class="form-control" type="text" id="director" name="director" required>
+			<small id="directorWarningMessage" style="color: red; display: none;">Please enter the name of the film director</small>
 		</div>
 
 		<div class="mb-3">
-		<label class="form-label" for="coverImage">Upload Cover Image</label>
-		<input class="form-control" type="file" id="coverImage" name="coverImage" required>
-		<small id="imageWarningMessage" style="color: red; display: none;">Please enter an image</small
+			<label class="form-label" for="description">Description</label>
+			<input class="form-control" type="text" id="description" name="description" required>
+    		<small id="descriptionWarningMessage" style="color: red; display: none;">Please enter the description</small>
+    	</div>
+
+		<div class="mb-3">
+			<label class="form-label" for="coverImage">Upload Cover Image</label>
+			<input class="form-control" type="file" id="coverImage" name="coverImage" required>
+			<small id="imageWarningMessage" style="color: red; display: none;">Please enter an image</small
 		</div>
 
 		<div class="mb-3">
-		<label class="form-label" for="videoURL">Video URL</label>
-		<input class="form-control" type="text" id="videoURL" name="videoURL" required>
-		<small id="videoURLWarningMessage" style="color: red; display: none;">Please enter the trailer URL</small>
+			<label class="form-label" for="videoURL">Video URL</label>
+			<input class="form-control" type="text" id="videoURL" name="videoURL" required>
+			<small id="videoURLWarningMessage" style="color: red; display: none;">Please enter the trailer URL</small>
 		</div>
 
 		<div class="mb-3">
@@ -102,6 +108,10 @@ $("document").ready(function () {
             $("#releaseDateWarningMessage").show();
             isValid = false;
         }
+		if ($("#description").val() === '') {
+			$("#descriptionWarningMessage").show();
+			inputValidation = false;
+		  }
 
         if (!isValid) {
             return;
@@ -117,7 +127,8 @@ $("document").ready(function () {
             director: $("#director").val(),
             coverImage: coverImage ? coverImage.name : $("#currentCoverImage").text(),
             videoURL: $("#videoURL").val(),
-            ReleaseDate: $("#ReleaseDate").val()
+            ReleaseDate: $("#ReleaseDate").val(),
+			description: $("#description").val()
         };
 
         $.post(`http://localhost:3000/updateFilm/${filmID}`, updatedFilm)
@@ -144,6 +155,7 @@ function getJsonData(filmID) {
 		$("#coverImage").after(`<p id="currentCoverImage">${data.CoverImage}</p>`);
 		$("#videoURL").val(data.VideoURL);
 		$("#ReleaseDate").val(formattedDate);
+		$("#description").val(description);
 
 		getAgeRatingData(data.Genre);
 		getFilmCategories(data.Category);

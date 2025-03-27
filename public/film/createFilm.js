@@ -39,7 +39,7 @@ $(document).ready(function () {
     <div class="mb-3">
 		<label class="form-label" for="description">Description</label>
 		<input class="form-control" type="text" id="description" name="description" required>
-    // <small id="directorWarningMessage" style="color: red; display: none;">Please enter the description</small>
+    <small id="descriptionWarningMessage" style="color: red; display: none;">Please enter the description</small>
     </div>
 
     <div class="mb-3">
@@ -101,6 +101,10 @@ $(document).ready(function () {
       $("#dateWarningMessage").show();
       inputValidation = false;
     }
+    if ($("#description").val() === '') {
+      $("#descriptionWarningMessage").show();
+      inputValidation = false;
+    }
 
     if (!inputValidation) {
       return;
@@ -115,7 +119,7 @@ $(document).ready(function () {
       coverImage: $("#coverImage").val(),
       videoURL: $("#videoURL").val(),
       ReleaseDate: $("#ReleaseDate").val(),
-      description: $("#description").val(),
+      description: $("#description").val()
     };
 
     $.post(`http://localhost:3000/createFilm`, newFilm)
