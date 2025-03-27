@@ -41,7 +41,7 @@ $("document").ready(function () {
 
 		<div class="mb-3">
 			<label class="form-label" for="Description">Description</label>
-			<input class="form-control" type="text" id="Description" name="Description" required>
+			<textarea class="form-control" type="text" id="Description" name="Description" required></textarea>
     		<small id="DescriptionWarningMessage" style="color: red; display: none;">Please enter the Description</small>
     	</div>
 
@@ -155,7 +155,7 @@ function getJsonData(filmID) {
 		$("#coverImage").after(`<p id="currentCoverImage">${data.CoverImage}</p>`);
 		$("#videoURL").val(data.VideoURL);
 		$("#ReleaseDate").val(formattedDate);
-		$("#Description").val(Description);
+		$("#Description").val(data.Description);
 
 		getAgeRatingData(data.Genre);
 		getFilmCategories(data.Category);

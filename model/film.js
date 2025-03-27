@@ -62,7 +62,7 @@ exports.createFilm = function (req, res) {
       coverImage,
       videoURL,
       ReleaseDate,
-      Description,
+      Description
     ],
     function (err, result) {
       if (err) {
