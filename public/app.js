@@ -242,18 +242,34 @@ function fetchScreenings(filmID) {
 }
 
 function bookTickets() {
-  $(".book-tickets-btn").click(function () {
+  $(".book-tickets").on("click", ".book-tickets-btn", function () {
+    var bookButtonHtml = `<div class="mb-3 ms-3" style="flex: 1">
+        <button
+          type="button"
+          class="btn btn-primary book-tickets-btn"
+          data-id="${$(this).data("id")}"
+          style="display: flex; align-items: center"
+          title="Click here to book tickets!"
+        >
+          Book Tickets
+        </button>
+      </div>`;
+
+    $(".book-tickets").empty().append(bookButtonHtml);
     let filmID = $("#selectFilm").val();
     let date = $("#selectDate").val();
     let time = $("#selectStartTime").val();
+    let screeningID = $(this).data("id");
 
     if (filmID && date && time) {
-      window.location.href = `Customer/Film/filmDetails.html?filmID=${filmID}&date=${date}&time=${time}`;
+      window.location.href = `http://localhost:3000/booking/createBooking.html?screeningID=${screeningID}`;
     } else {
       alert("Please select a film, date, and time.");
     }
   });
 }
+
+// bookTickets();
 
 function scrollToTop() {
   window.scrollTo({
@@ -263,8 +279,8 @@ function scrollToTop() {
 }
 
 $(document).on("click", ".startTime-btn", function () {
-	//e.stopPropagation();
+  //e.stopPropagation();
   let screeningID = $(this).data("id");
-	localStorage.setItem("ViewScreeningID", screeningID);
+  localStorage.setItem("ViewScreeningID", screeningID);
   window.location.href = `http://localhost:3000/booking/createBooking.html?screeningID=${screeningID}`;
 });

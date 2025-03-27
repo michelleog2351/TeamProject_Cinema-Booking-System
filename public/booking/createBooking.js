@@ -1,4 +1,4 @@
-var ticketPrices = []
+var ticketPrices = [];
 var totalNumberOfSeats = 0;
 $(document).ready(function () {
   nav();
@@ -7,14 +7,16 @@ $(document).ready(function () {
   getTicketTypeData();
   getScreeningData(ID);
 
-
   $("#cancel").click(function () {
     location.replace("http://localhost:3000/Customer/Film/cFilm.html");
   });
 
   $("#save").click(function () {
-
-    if ($("#email").val() == '' || $("#email").val().indexOf("@")==-1 || $("#email").val().indexOf("@atu.ie")==-1) {
+    if (
+      $("#email").val() == "" ||
+      $("#email").val().indexOf("@") == -1 ||
+      $("#email").val().indexOf("@atu.ie") == -1
+    ) {
       alert("Must enter a valid email");
       return;
     }
@@ -23,7 +25,7 @@ $(document).ready(function () {
       return;
     }
     if (totalNumberOfSeats > parseInt($(`#seatsRemaining`).text())) {
-      alert("Not enough seats availble, try another screening");
+      alert("Not enough seats available, try another screening");
       return;
     }
 
@@ -36,32 +38,33 @@ $(document).ready(function () {
     if (screeningDateTime.getTime() <= currentTime) {
       alert("Screening has already begun");
       return;
-  }
+    }
 
-    let newBooking =
-    {
+    let newBooking = {
       noOfSeats: totalNumberOfSeats,
       cost: parseFloat($(`#totalCost`).text()),
       email: $(`#email`).val(),
-      screeningID: ID
+      screeningID: ID,
     };
-
 
     $.post(`http://localhost:3000/createBooking`, newBooking)
       .done(function () {
         alert("Booking created successfully!");
-        console.log(parseInt($(`#seatsRemaining`).text()))
-        console.log(newBooking.noOfSeats)
-        console.log(parseInt($(`#seatsRemaining`).text() - newBooking.noOfSeats))
-        updateSeatsRemaining(ID, parseInt($(`#seatsRemaining`).text() - newBooking.noOfSeats));
+        console.log(parseInt($(`#seatsRemaining`).text()));
+        console.log(newBooking.noOfSeats);
+        console.log(
+          parseInt($(`#seatsRemaining`).text() - newBooking.noOfSeats)
+        );
+        updateSeatsRemaining(
+          ID,
+          parseInt($(`#seatsRemaining`).text() - newBooking.noOfSeats)
+        );
         location.replace("http://localhost:3000/booking/booking.html");
         location.replace("http://localhost:3000/Customer/Film/cFilm.html");
       })
       .fail(function () {
         alert("Error creating booking.");
       });
-
-
   });
 });
 
@@ -86,31 +89,30 @@ function getTicketTypeData() {
       });
     });
 
-
-
-
     $(".subtract").click(changeTicketTotal);
 
     $(".add").click(changeTicketTotal);
   });
 
   function changeTicketTotal(e) {
-    var index = $(e.target).data("index")
-    var numberOfTickets = parseInt($(`#amount${index}`).val())
-    var amount = parseInt(e.target.value)
+    var index = $(e.target).data("index");
+    var numberOfTickets = parseInt($(`#amount${index}`).val());
+    var amount = parseInt(e.target.value);
 
     if (totalNumberOfSeats + amount > 10) {
       //alert("You can only book a maximum of 10 tickets across all ticket types.");
       return;
-  }
+    }
 
-    if ((numberOfTickets == 0 && amount == -1) || (numberOfTickets == 10 && amount == 1)) {
+    if (
+      (numberOfTickets == 0 && amount == -1) ||
+      (numberOfTickets == 10 && amount == 1)
+    ) {
       return;
     }
 
-
-    $(`#amount${index}`).val(numberOfTickets + amount)
-    updatePrice()
+    $(`#amount${index}`).val(numberOfTickets + amount);
+    updatePrice();
   }
 }
 
@@ -125,9 +127,9 @@ function getScreeningData(ID) {
       `<tr>
       <td id="filmID${filmname}">${filmname}</td>
       <td><img src="../../images/${filmname.replace(
-                  /\s+/g,
-                  "_"
-                )}.jpg" alt="Cover" width="50"></td>
+        /\s+/g,
+        "_"
+      )}.jpg" alt="Cover" width="50"></td>
       <td id="startTime">${data.StartTime}</td>
       <td id="date">${formattedDate}</td>
       <td id="theatreID${data.TheatreID}">${data.TheatreID}</td>
@@ -146,8 +148,8 @@ function updatePrice() {
   var totalCost = 0;
   totalNumberOfSeats = 0;
   ticketPrices.forEach(function (item, index) {
-  totalNumberOfSeats += parseInt($(`#amount${index}`).val());
-  totalCost = parseFloat(totalCost + (item * $(`#amount${index}`).val()))
+    totalNumberOfSeats += parseInt($(`#amount${index}`).val());
+    totalCost = parseFloat(totalCost + item * $(`#amount${index}`).val());
   });
   $(`#totalCost`).text(totalCost.toFixed(2));
 }
@@ -155,7 +157,7 @@ function updatePrice() {
 function updateSeatsRemaining(screeningID, newSeatsRemaining) {
   let updateSeatsRemaining = {
     screeningID: screeningID,
-    seatsRemaining: newSeatsRemaining
-  }
-  $.post(`http://localhost:3000/seatsRemaining`, updateSeatsRemaining)
+    seatsRemaining: newSeatsRemaining,
+  };
+  $.post(`http://localhost:3000/seatsRemaining`, updateSeatsRemaining);
 }
