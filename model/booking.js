@@ -123,7 +123,7 @@ exports.bookedSeats = function (req, res) {
 //Hours
 //Days
 //Months
-//Day of weel SUnday 0 Saturday 6
+//Day of week Sunday 0 Saturday 6
 
 //CronJob("00 00 0 * * 0")
 
