@@ -48,35 +48,40 @@ function filmDD() {
       $.getJSON(`http://localhost:3000/film/${filmID}`, function (film) {
         $("#filmRows").html(`
 				<div class="container mt-4">
-					<div class="row">
-						<div class="col-md-4">
-						<div class="position-relative">
-							<img src="http://localhost:3000/images/${film.Name.replace(/\s+/g, "_")}.jpg" 
-								class="img-fluid rounded shadow" 
-								alt="${film.Name}"">
-								 <div class="overlay">
-					<div class="overlay-content">
-						<a href="Customer/Film/filmDetails.html?filmID=${film.FilmID}"
-						class="btn btn-primary">Watch: ${film.Name} Now</a> 
-					</div>           
-				</div>
-				</div>
-						</div>
+						<div class="row">
+							<div class="col-md-4">
 
-						<div class="col-md-8">
-							<h2 class="fw-bold">${film.Name}</h2>
-							<p>
-							<img src="http://localhost:3000/images/${film.Genre.replace(/\s+/g, "_")}.jpg" 
-								class="img-fluid rounded shadow" 
-								alt="${film.Name}" 
-								style="height:30px; width:30px;"> | ${film.Category} | ${film.RunningTime} mins
-							</p>					
-						<div id="screeningsTbody" class="mt-3"></div>
-						</div>
+									<div class="position-relative">
+										<img src="http://localhost:3000/images/${film.Name.replace(/\s+/g, "_")}.jpg" 
+										class="img-fluid rounded shadow" 
+										alt="${
+                      film.Name
+                    }" style="height: 400px; object-fit: cover; border-radius: 10px;">
+
+										<div class="overlay">
+											<div class="overlay-content">
+												<a href="Customer/Film/filmDetails.html?filmID=${film.FilmID}"
+												class="btn btn-primary">Watch: ${film.Name} Now</a> 
+											</div>           
+										</div>
+									</div>
+							</div>
+
+							<div class="col-md-8">
+								<h2 class="fw-bold">${film.Name}</h2>
+								<p>
+								<img src="http://localhost:3000/images/${film.Genre.replace(/\s+/g, "_")}.jpg" 
+									class="img-fluid rounded shadow" 
+									alt="${film.Name}" 
+									style="height:30px; width:30px;"> | ${film.Category} | ${film.RunningTime} mins
+								</p>			
+							<div id="screeningsTbody" class="mt-3"></div>
+							</div>
 					</div>
 				</div>
 			`);
       });
+      // <p>${film.Description}</p>
 
       fetchScreenings(filmID);
       dateDD(filmID);
@@ -175,7 +180,7 @@ function startTimeDD(filmID, selectDate) {
         month: "long", // March
         day: "numeric", // 26
       });
-     // let screeningDate = new Date(screening.Date).toISOString().split("T")[0];
+      // let screeningDate = new Date(screening.Date).toISOString().split("T")[0];
 
       screeningDate = screeningDate.replace(/^(\w+)(?=\s)/, "$1,");
 
@@ -201,11 +206,12 @@ function fetchScreenings(filmID) {
       $("#filmRows").removeClass("d-none");
 
       // create an object that will store all the screenings grouped by date
-      // using an array would be inefficient esp. in cases where there are multiple screenings for the same date, when you can group you have multiple screenings for a single date
+      // using an array would be inefficient esp. in cases where there are multiple screenings for the same date,
+      // when you can group you have multiple screenings for a single date
       let screeningsByDate = {};
 
       $.each(data, function (i, value) {
-      //  let formattedDate = new Date(value.Date).toISOString().split("T")[0];
+        //  let formattedDate = new Date(value.Date).toISOString().split("T")[0];
         let formattedDate = new Date(value.Date).toLocaleDateString("en-GB", {
           weekday: "short", // Wed
           month: "short", // Mar
@@ -230,15 +236,15 @@ function fetchScreenings(filmID) {
 					</button>
 				`;
 
-          booksButtonHtml = `<button
-          type="button"
-          class="btn btn-primary book-tickets-btn"
-          data-id="${value.ScreeningID}"
-          style="display: flex; align-items: center"
-          title="Click here to book tickets!"
-        >
-          Book Tickets
-        </button>`;
+          booksButtonHtml += `<button
+					type="button"
+					class="btn btn-primary book-tickets-btn"
+					data-id="${value.ScreeningID}"
+					style="display: flex; align-items: center"
+					title="Click here to book tickets!"
+				>
+					Book Tickets
+				</button>`;
           // );
 
           timeButtonsHtml += `</div>`;
@@ -282,13 +288,6 @@ $(document).on("click", ".book-tickets-btn", function () {
   }
 });
 
-function scrollToTop() {
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth",
-  });
-}
-
 $(document).on("click", ".startTime-btn", function () {
   let screeningID = $(this).data("id");
   localStorage.setItem("ViewScreeningID", screeningID);
@@ -296,4 +295,19 @@ $(document).on("click", ".startTime-btn", function () {
   // localStorage.setItem("SelectedDate", date);
   //localStorage.setItem("SelectedTime", time);
   window.location.href = `http://localhost:3000/booking/createBooking.html?screeningID=${screeningID}`;
+});
+
+$(document).ready(function () {
+  var scrollTopBtn = $(".scroll-to-top-btn");
+  $(window).on("scroll", function () {
+    if ($(this).scrollTop() > 50) {
+      scrollTopBtn.fadeIn().css("visibility", "visible");
+    } else {
+      scrollTopBtn.fadeOut().css("visibility", "hidden");
+    }
+  });
+
+  scrollTopBtn.click(function () {
+    $("html, body").animate({ scrollTop: 0 }, 120);
+  });
 });
