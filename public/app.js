@@ -130,12 +130,12 @@ function dateDD(filmID) {
     let specificDates = [];
 
     $.each(data, function (i, screening) {
-      // let formattedDate = new Date(screening.Date).toLocaleDateString("en-GB", {
-      //   weekday: "long", // Wednesday,
-      //   month: "long", // March
-      //   day: "numeric", // 26
-      // });
-      let formattedDate = new Date(screening.Date).toISOString().split("T")[0];
+      let formattedDate = new Date(screening.Date).toLocaleDateString("en-GB", {
+        weekday: "long", // Wednesday,
+        month: "long", // March
+        day: "numeric", // 26
+      });
+      //let formattedDate = new Date(screening.Date).toISOString().split("T")[0];
 
       formattedDate = formattedDate.replace(/^(\w+)(?=\s)/, "$1,");
 
@@ -170,12 +170,12 @@ function startTimeDD(filmID, selectDate) {
       '<option value="" selected>Select Time</option>'
     );
     $.each(data, function (i, screening) {
-      // let screeningDate = new Date(screening.Date).toLocaleDateString("en-GB", {
-      //   weekday: "long", // Wednesday
-      //   month: "long", // March
-      //   day: "numeric", // 26
-      // });
-      let screeningDate = new Date(screening.Date).toISOString().split("T")[0];
+      let screeningDate = new Date(screening.Date).toLocaleDateString("en-GB", {
+        weekday: "long", // Wednesday
+        month: "long", // March
+        day: "numeric", // 26
+      });
+     // let screeningDate = new Date(screening.Date).toISOString().split("T")[0];
 
       screeningDate = screeningDate.replace(/^(\w+)(?=\s)/, "$1,");
 
@@ -201,17 +201,17 @@ function fetchScreenings(filmID) {
       $("#filmRows").removeClass("d-none");
 
       // create an object that will store all the screenings grouped by date
-      // usng an array would be inefficient esp. in cases where there are multiple screenings for the same date, when you can group you have multiple screenings for a single date
+      // using an array would be inefficient esp. in cases where there are multiple screenings for the same date, when you can group you have multiple screenings for a single date
       let screeningsByDate = {};
 
       $.each(data, function (i, value) {
-        let formattedDate = new Date(value.Date).toISOString().split("T")[0];
-        // let formattedDate = new Date(value.Date).toLocaleDateString("en-GB", {
-        //   weekday: "short", // Wed
-        //   month: "short", // Mar
-        //   day: "numeric", // 26
-        // });
-        // formattedDate = formattedDate.replace(/^(\w+)(?=\s)/, "$1,");
+      //  let formattedDate = new Date(value.Date).toISOString().split("T")[0];
+        let formattedDate = new Date(value.Date).toLocaleDateString("en-GB", {
+          weekday: "short", // Wed
+          month: "short", // Mar
+          day: "numeric", // 26
+        });
+        formattedDate = formattedDate.replace(/^(\w+)(?=\s)/, "$1,");
 
         if (!screeningsByDate[formattedDate]) {
           screeningsByDate[formattedDate] = [];
@@ -223,10 +223,6 @@ function fetchScreenings(filmID) {
         let timeButtonsHtml = `<div class="d-flex flex-wrap mt-2">`;
         let booksButtonHtml = `<div class="d-flex flex-wrap mt-2">`;
 
-        // let bookButtonHtml  = $("#book-tickets-div");
-        // bookButtonHtml = `
-        //       <div class="mb-3 ms-3" style="flex: 1">`
-        //       ;
         $.each(screening, function (i, value) {
           timeButtonsHtml += `
 					<button class="btn btn-outline-primary mx-1 startTime-btn" data-id="${value.ScreeningID}">
