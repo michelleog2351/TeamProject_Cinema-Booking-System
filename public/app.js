@@ -5,12 +5,7 @@ $(document).ready(function () {
   dateDD();
   startTimeDD();
   //bookTickets();
-
-  // const urlParams = new URLSearchParams(window.location.search);
-  // const screeningID = urlParams.get("screeningID");
-
-  // // Use the screeningID as needed
-  // console.log(screeningID); // For testing, you can log it
+  //$(".book-tickets-btn").show();
 });
 
 function filmDD() {
@@ -51,10 +46,6 @@ function filmDD() {
     filmCards.empty(); // Clear existing cards
     if (filmID) {
       $.getJSON(`http://localhost:3000/film/${filmID}`, function (film) {
-        // let releaseDate = new Date(value.ReleaseDate)
-        //   .toISOString()
-        //   .split("T")[0];
-
         $("#filmRows").html(`
 				<div class="container mt-4">
 					<div class="row">
@@ -91,14 +82,13 @@ function filmDD() {
       dateDD(filmID);
     } else {
       $.getJSON("http://localhost:3000/films", function (data) {
-        // Show only the selected film
-        // let selectedFilm = data.find((film) => film.FilmID == filmID);
-        // if (selectedFilm) filmCards.append(createFilmCard(selectedFilm));
-
-        // Show all films again
-        $.each(data, function (i, film) {
-          filmCards.append(createFilmCard(film));
-        });
+        // Show all films again with sorting
+        $.each(
+          data.sort((a, b) => a.Name.localeCompare(b.Name)),
+          function (i, film) {
+            filmCards.append(createFilmCard(film));
+          }
+        );
       });
       $("#screeningsTbody").empty();
 
@@ -140,12 +130,21 @@ function dateDD(filmID) {
     let specificDates = [];
 
     $.each(data, function (i, screening) {
-      let date = new Date(screening.Date).toISOString().split("T")[0];
+      // let formattedDate = new Date(screening.Date).toLocaleDateString("en-GB", {
+      //   weekday: "long", // Wednesday,
+      //   month: "long", // March
+      //   day: "numeric", // 26
+      // });
+      let formattedDate = new Date(screening.Date).toISOString().split("T")[0];
+
+      formattedDate = formattedDate.replace(/^(\w+)(?=\s)/, "$1,");
 
       // check if its present in the array
-      if (!specificDates.includes(date)) {
-        specificDates.push(date); // add this to the array
-        selectDate.append(`<option value="${date}">${date}</option>`);
+      if (!specificDates.includes(formattedDate)) {
+        specificDates.push(formattedDate); // add this to the array
+        selectDate.append(
+          `<option value="${formattedDate}">${formattedDate}</option>`
+        );
       }
     });
   });
@@ -171,7 +170,14 @@ function startTimeDD(filmID, selectDate) {
       '<option value="" selected>Select Time</option>'
     );
     $.each(data, function (i, screening) {
+      // let screeningDate = new Date(screening.Date).toLocaleDateString("en-GB", {
+      //   weekday: "long", // Wednesday
+      //   month: "long", // March
+      //   day: "numeric", // 26
+      // });
       let screeningDate = new Date(screening.Date).toISOString().split("T")[0];
+
+      screeningDate = screeningDate.replace(/^(\w+)(?=\s)/, "$1,");
 
       if (screeningDate === selectDate) {
         $("#selectStartTime").append(
@@ -199,12 +205,13 @@ function fetchScreenings(filmID) {
       let screeningsByDate = {};
 
       $.each(data, function (i, value) {
-        // let formattedDate = new Date(value.Date).toISOString().split("T")[0];
-        let formattedDate = new Date(value.Date).toLocaleDateString("en-US", {
-          weekday: "short", // Wed
-          month: "short", // Mar
-          day: "numeric" // 26
-        });
+        let formattedDate = new Date(value.Date).toISOString().split("T")[0];
+        // let formattedDate = new Date(value.Date).toLocaleDateString("en-GB", {
+        //   weekday: "short", // Wed
+        //   month: "short", // Mar
+        //   day: "numeric", // 26
+        // });
+        // formattedDate = formattedDate.replace(/^(\w+)(?=\s)/, "$1,");
 
         if (!screeningsByDate[formattedDate]) {
           screeningsByDate[formattedDate] = [];
@@ -214,17 +221,34 @@ function fetchScreenings(filmID) {
 
       $.each(screeningsByDate, function (date, screening) {
         let timeButtonsHtml = `<div class="d-flex flex-wrap mt-2">`;
+        let booksButtonHtml = `<div class="d-flex flex-wrap mt-2">`;
 
+        // let bookButtonHtml  = $("#book-tickets-div");
+        // bookButtonHtml = `
+        //       <div class="mb-3 ms-3" style="flex: 1">`
+        //       ;
         $.each(screening, function (i, value) {
           timeButtonsHtml += `
 					<button class="btn btn-outline-primary mx-1 startTime-btn" data-id="${value.ScreeningID}">
 						${value.StartTime}
 					</button>
 				`;
+
+          booksButtonHtml = `<button
+          type="button"
+          class="btn btn-primary book-tickets-btn"
+          data-id="${value.ScreeningID}"
+          style="display: flex; align-items: center"
+          title="Click here to book tickets!"
+        >
+          Book Tickets
+        </button>`;
+          // );
+
+          timeButtonsHtml += `</div>`;
+          booksButtonHtml += `</div>`;
+          $(".book-tickets-div").html(booksButtonHtml);
         });
-
-        timeButtonsHtml += `</div>`;
-
         $("#screeningsTbody").append(`
 					<tr>
 							<td colspan="3"><strong>${date}</strong></td>
@@ -235,7 +259,6 @@ function fetchScreenings(filmID) {
 					<tr>
 							<td colspan="3">${timeButtonsHtml}</td>
 					</tr>
-
 					<tr>
 							<td><hr></td>
 					</tr>
@@ -247,12 +270,8 @@ function fetchScreenings(filmID) {
   });
 }
 
-//  $(".book-tickets").on("click", ".book-tickets-btn", function () {
 $(document).on("click", ".book-tickets-btn", function () {
-
   let screeningID = $(this).data("id");
-  
-  console.log("Clicked Book Tickets - ScreeningID:", screeningID);  // For debugging
 
   let filmID = $("#selectFilm").val();
   let date = $("#selectDate").val();
@@ -261,24 +280,24 @@ $(document).on("click", ".book-tickets-btn", function () {
   if (filmID && date && time) {
     localStorage.setItem("ViewScreeningID", screeningID);
     window.location.href = `http://localhost:3000/booking/createBooking.html?screeningID=${screeningID}`;
-    console.log($(this).data("id"));
+    // console.log($(this).data("id"));
   } else {
     alert("Please select a film, date, and time before booking.");
   }
 });
 
-// bookTickets();
-
 function scrollToTop() {
   window.scrollTo({
     top: 0,
-    behavior: "smooth"
+    behavior: "smooth",
   });
 }
 
 $(document).on("click", ".startTime-btn", function () {
-  //e.stopPropagation();
   let screeningID = $(this).data("id");
   localStorage.setItem("ViewScreeningID", screeningID);
+  // localStorage.setItem("SelectedFilmID", filmID);
+  // localStorage.setItem("SelectedDate", date);
+  //localStorage.setItem("SelectedTime", time);
   window.location.href = `http://localhost:3000/booking/createBooking.html?screeningID=${screeningID}`;
 });
