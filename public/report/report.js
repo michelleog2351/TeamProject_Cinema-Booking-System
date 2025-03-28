@@ -8,7 +8,8 @@ function getJsonData() {
         var width = 800;
         var height = 800;
         var barwidth = 40;
-        var spacing =10;
+        var spacing =70;
+        var heightSpacing = 20;
 
         //Get a Unique Collection of
         //FilmIDS
@@ -43,7 +44,7 @@ function getJsonData() {
 
             var x = d3.scaleTime()
                 .domain([Minimumdataset(filmRecords), Maximumdataset(filmRecords)])
-                .range([0, width-100]);
+                .range([0, width-150+spacing]);
             var xAxis = d3.axisBottom(x)
             .ticks(d3.timeDay.every(1))
             .tickFormat(d3.timeFormat("%b %d"));
@@ -54,10 +55,11 @@ function getJsonData() {
                 .data(filmRecords)
                 .enter().append("rect")
                 .attr('x',function(d,i) { return (barwidth+spacing)*i; })
-                .attr('y',function(d) { return height-y(d.TicketsSold);})
+                .attr('y',function(d) { return height-y(d.TicketsSold)})
                 .attr('width',barwidth)
                 .attr('height',function(d){ return y(d.TicketsSold);})
-                .attr('fill','steelblue');
+                .attr('fill','steelblue')
+                .attr("transform", `translate(40, 0)`);
 
                 svg.append("g")
                 .attr("transform", "translate(40, 0)")
