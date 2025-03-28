@@ -139,6 +139,10 @@ app.post("/screeningDates", function (req, res) {
   screening.getScreeningDates(req, res);
 });
 
+app.post("/screeningsByFilter", function (req, res) {
+  screening.getScreeningsByFilter(req, res);
+});
+
 ////////////////////////////////////////////////////////////
 
 

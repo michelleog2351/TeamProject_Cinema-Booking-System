@@ -28,16 +28,24 @@ exports.getScreenings = function (req, res) {
   );
 };
 
-// exports.getScreeningsByFilter = function (req, res) {
-//   connection.query(
-//     "SELECT * from Screening WHERE FilmID, Date, StartTime,
-//     function (err, rows, fields) {
-//       if (err) throw err;
-
-//       res.send(JSON.stringify(rows));
-//     }
-//   );
-// };
+exports.getScreeningsByFilter = function (req, res) {
+  var startTime = req.body.startTime;
+  var date = req.body.date;
+  var filmID = req.body.filmID;
+  console.log(date)
+    const query = `SELECT * from Screening WHERE FilmID = ? AND Date = ? AND StartTime = ?`;
+    connection.query(query, [filmID, date, startTime], function (err, rows) {
+      if (err) {
+        console.error(err);
+        return res.status(500).send("Error getting screening");
+      }
+      console.log(rows[0].ScreeningID)
+      if (rows.length === 0) {
+        return res.status(404).send({ message: "Screening not found" });
+      }
+      res.json(rows[0].ScreeningID);
+    });
+};
 
 //This will search for independent Screening in update
 exports.getScreening = function (req, res) {

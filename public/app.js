@@ -275,9 +275,22 @@ function fetchScreenings(filmID) {
 $(document).on("click", ".book-tickets-btn", function () {
   let screeningID = $(this).data("id");
 
+  //Post to screeningByFilter. response is the ScreeningID
+
+  //send an object with following
+  //May need to change these values in order to post them correctly
+  //Take a look through other files to see how they conducted this 
+
+  
   let filmID = $("#selectFilm").val();
   let date = $("#selectDate").val();
   let time = $("#selectStartTime").val();
+
+
+  $.post(`http://localhost:3000/screeningsByFilter`, findScreening).done(function(response) {
+    //EXPRESS ROUTE AND SQL works fine when all values are in correct format!
+    
+  })
 
   if (filmID && date && time) {
     localStorage.setItem("ViewScreeningID", screeningID);
@@ -289,6 +302,10 @@ $(document).on("click", ".book-tickets-btn", function () {
 });
 
 $(document).on("click", ".startTime-btn", function () {
+
+
+
+
   let screeningID = $(this).data("id");
   localStorage.setItem("ViewScreeningID", screeningID);
   // localStorage.setItem("SelectedFilmID", filmID);
