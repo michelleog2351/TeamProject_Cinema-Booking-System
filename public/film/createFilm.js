@@ -74,7 +74,7 @@ $(document).ready(function () {
   $("#save").click(function () {
     var inputValidation = true;
     $("small").hide();
-
+  
     if ($("#name").val() === '') {
       $("#nameWarningMessage").show();
       inputValidation = false;
@@ -95,7 +95,7 @@ $(document).ready(function () {
       $("#directorWarningMessage").show();
       inputValidation = false;
     }
-    if ($("#coverImage").val() === '') {
+    if ($("#coverImage")[0].files.length === 0) {
       $("#imageWarningMessage").show();
       inputValidation = false;
     }
@@ -111,32 +111,37 @@ $(document).ready(function () {
       $("#DescriptionWarningMessage").show();
       inputValidation = false;
     }
-
+  
     if (!inputValidation) {
       return;
     }
-
-    let newFilm = {
-      name: $("#name").val(),
-      category: $("#category").val(),
-      runningTime: $("#runningTime").val(),
-      genre: $("#genre").val(),
-      director: $("#director").val(),
-      coverImage: $("#coverImage").val(),
-      videoURL: $("#videoURL").val(),
-      ReleaseDate: $("#ReleaseDate").val(),
-      Description: $("#Description").val(),
-      Starring: $("#Starring").val(),
-    };
-
-    $.post(`http://localhost:3000/createFilm`, newFilm)
-      .done(function () {
+  
+    let formData = new FormData();
+    formData.append("name", $("#name").val());
+    formData.append("category", $("#category").val());
+    formData.append("runningTime", $("#runningTime").val());
+    formData.append("genre", $("#genre").val());
+    formData.append("director", $("#director").val());
+    formData.append("coverImage", $("#coverImage")[0].files[0]); // File
+    formData.append("videoURL", $("#videoURL").val());
+    formData.append("ReleaseDate", $("#ReleaseDate").val());
+    formData.append("Description", $("#Description").val());
+    formData.append("Starring", $("#Starring").val());
+  
+    $.ajax({
+      url: "http://localhost:3000/createFilm",
+      type: "POST",
+      data: formData,
+      processData: false,
+      contentType: false,
+      success: function () {
         alert("Film created successfully!");
         location.replace("http://localhost:3000/film/film.html");
-      })
-      .fail(function () {
+      },
+      error: function () {
         alert("Error creating film.");
-      });
+      },
+    });
   });
 
   getAgeRatingData();

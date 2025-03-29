@@ -16,12 +16,12 @@ function filmDD() {
       $("#selectFilm").append(
         `<option value="${film.FilmID}">${film.Name}</option>`
       );
-
+//<img src="/images/${value.CoverImage.replace(/\s+/g, "_")}"<img src="images/${film.CoverImage}" />
       $("#filmCards").append(
         `<br />
 				<div class="col-md-2 col-sm-6 mb-3">
 					<div class="card">
-						<img src="images/${film.Name.replace(/\s+/g, "_")}.jpg" 
+						<img src="images/${film.CoverImage}" 
 							class="card-img-top img-fluid w-100"
 							alt="${film.Name}"
 							style="height: 400px; object-fit: cover; border-radius: 10px;"

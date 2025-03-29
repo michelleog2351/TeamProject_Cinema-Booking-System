@@ -71,6 +71,20 @@ label{
   border-radius: 10px;
 }
 
+.card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.card-body {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 160px; /* adjust as needed */
+}
+
 .overlay {
   position: absolute;
   top: -100%;

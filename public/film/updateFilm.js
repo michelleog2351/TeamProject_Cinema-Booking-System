@@ -79,74 +79,77 @@ $("document").ready(function () {
 	});
 
 	$("#update").click(function () {
-        let isValid = true;
-        $("small").hide();
-
-        if ($("#name").val().trim() === '') {
-            $("#nameWarningMessage").show();
-            isValid = false;
-        }
-        if ($("#runningTime").val() === '') {
-            $("#runningTimeWarningMessage").show();
-            isValid = false;
-        }
-        if ($("#category").val() === '') {
-            $("#categoryWarningMessage").show();
-            isValid = false;
-        }
-        if ($("#genre").val() === '') {
-            $("#genreWarningMessage").show();
-            isValid = false;
-        }
-        if ($("#director").val().trim() === '') {
-            $("#directorWarningMessage").show();
-            isValid = false;
-        }
-        if ($("#coverImage")[0].files.length === 0) {
-            $("#coverImageWarningMessage").show();
-            isValid = false;
-        }
-        if ($("#videoURL").val().trim() === '') {
-            $("#videoURLWarningMessage").show();
-            isValid = false;
-        }
-        if ($("#ReleaseDate").val() === '') {
-            $("#releaseDateWarningMessage").show();
-            isValid = false;
-        }
-		if ($("#Description").val() === '') {
+		let isValid = true;
+		$("small").hide();
+	
+		if ($("#name").val().trim() === '') {
+			$("#nameWarningMessage").show();
+			isValid = false;
+		}
+		if ($("#runningTime").val() === '') {
+			$("#runningTimeWarningMessage").show();
+			isValid = false;
+		}
+		if ($("#category").val() === '') {
+			$("#categoryWarningMessage").show();
+			isValid = false;
+		}
+		if ($("#genre").val() === '') {
+			$("#genreWarningMessage").show();
+			isValid = false;
+		}
+		if ($("#director").val().trim() === '') {
+			$("#directorWarningMessage").show();
+			isValid = false;
+		}
+		if ($("#videoURL").val().trim() === '') {
+			$("#videoURLWarningMessage").show();
+			isValid = false;
+		}
+		if ($("#ReleaseDate").val() === '') {
+			$("#releaseDateWarningMessage").show();
+			isValid = false;
+		}
+		if ($("#Description").val().trim() === '') {
 			$("#DescriptionWarningMessage").show();
-			inputValidation = false;
-		  }
-
-        if (!isValid) {
-            return;
-        }
-
-        let coverImage = $("#coverImage")[0].files[0];
-
-        let updatedFilm = {
-            name: $("#name").val(),
-            category: $("#category").val(),
-            runningTime: $("#runningTime").val(),
-            genre: $("#genre").val(),
-            director: $("#director").val(),
-            coverImage: coverImage ? coverImage.name : $("#currentCoverImage").text(),
-            videoURL: $("#videoURL").val(),
-            ReleaseDate: $("#ReleaseDate").val(),
-			Description: $("#Description").val(),
-			Starring: $("#Starring").val(),
-        };
-
-        $.post(`http://localhost:3000/updateFilm/${filmID}`, updatedFilm)
-            .done(function () {
-                alert("Film updated");
-                location.replace("http://localhost:3000/film/film.html");
-            })
-            .fail(function () {
-                alert("Error updating film.");
-            });
-    });
+			isValid = false;
+		}
+	
+		if (!isValid) {
+			return;
+		}
+	
+		let formData = new FormData();
+		formData.append("name", $("#name").val());
+		formData.append("category", $("#category").val());
+		formData.append("runningTime", $("#runningTime").val());
+		formData.append("genre", $("#genre").val());
+		formData.append("director", $("#director").val());
+		formData.append("videoURL", $("#videoURL").val());
+		formData.append("ReleaseDate", $("#ReleaseDate").val());
+		formData.append("Description", $("#Description").val());
+		formData.append("Starring", $("#Starring").val());
+	
+		let coverImageFile = $("#coverImage")[0].files[0];
+		if (coverImageFile) {
+			formData.append("coverImage", coverImageFile);
+		}
+	
+		$.ajax({
+			url: `http://localhost:3000/updateFilm/${filmID}`,
+			type: "POST",
+			data: formData,
+			processData: false,
+			contentType: false,
+			success: function () {
+				alert("Film updated successfully!");
+				location.replace("http://localhost:3000/film/film.html");
+			},
+			error: function () {
+				alert("Error updating film.");
+			},
+		});
+	});
 });
 
 function getJsonData(filmID) {
