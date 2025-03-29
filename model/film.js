@@ -104,35 +104,48 @@ exports.createFilm = function (req, res) {
 };
 
 exports.updateFilm = function (req, res) {
-  var filmID = req.params.filmID;
-  var name = req.body.name;
-  var category = req.body.category;
-  var runningTime = req.body.runningTime;
-  var genre = req.body.genre;
-  var director = req.body.director;
-  var coverImage = req.body.coverImage;
-  var videoURL = req.body.videoURL;
-  var ReleaseDate = req.body.ReleaseDate;
-  var Description = req.body.Description;
-  var Starring = req.body.Starring;
-  const query =
-    "UPDATE film SET Name = ?, Category = ?, RunningTime = ?, Genre = ?, Director = ?, CoverImage = ?, VideoURL = ?, ReleaseDate = ?, Description = ?, Starring = ? WHERE FilmID = ?";
-  connection.query(
-    query,
-    [
+  upload.single("coverImage")(req, res, function (err) {
+    if (err) {
+      console.error(err);
+      return res.status(500).send("Error uploading file");
+    }
+
+    const filmID = req.params.filmID;
+    const {
       name,
       category,
       runningTime,
       genre,
       director,
-      coverImage,
       videoURL,
       ReleaseDate,
       Description,
       Starring,
-      filmID,
-    ],
-    function (err, result) {
+    } = req.body;
+
+    const coverImage = req.file ? req.file.filename : null;
+
+    let query, values;
+
+    if (coverImage) {
+      query = `UPDATE film 
+        SET Name = ?, Category = ?, RunningTime = ?, Genre = ?, Director = ?, CoverImage = ?, VideoURL = ?, ReleaseDate = ?, Description = ?, Starring = ?
+        WHERE FilmID = ?`;
+      values = [
+        name, category, runningTime, genre, director,
+        coverImage, videoURL, ReleaseDate, Description, Starring, filmID
+      ];
+    } else {
+      query = `UPDATE film 
+        SET Name = ?, Category = ?, RunningTime = ?, Genre = ?, Director = ?, VideoURL = ?, ReleaseDate = ?, Description = ?, Starring = ?
+        WHERE FilmID = ?`;
+      values = [
+        name, category, runningTime, genre, director,
+        videoURL, ReleaseDate, Description, Starring, filmID
+      ];
+    }
+
+    connection.query(query, values, function (err, result) {
       if (err) {
         console.error(err);
         return res.status(500).send("Error updating film");
@@ -141,8 +154,8 @@ exports.updateFilm = function (req, res) {
         return res.status(404).send({ message: "Film not found" });
       }
       res.send({ message: "Film updated successfully" });
-    }
-  );
+    });
+  });
 };
 
 exports.deleteFilm = function (req, res) {

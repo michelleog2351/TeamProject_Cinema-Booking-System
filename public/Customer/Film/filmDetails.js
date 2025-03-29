@@ -26,9 +26,7 @@ $("#filmDetails").html(`
   <div class="container mt-4">
     <div class="row">
       <div class="col-md-4">
-        <img src="http://localhost:3000/images/${value.Name.replace(/\s+/g, "_")}.jpg" 
-             class="img-fluid rounded shadow" 
-             alt="${value.Name}">
+        <img src="/images/${value.CoverImage.replace(/\s+/g, "_")}" alt="${value.Name}" class="card-img-top img-fluid" style="height: 500px; object-fit: contain; margin:0;">
              <div class="mb-3">
              <br>
              <button type="button" class="btn btn-primary" onclick="playTrailer('${value.VideoURL}')">
