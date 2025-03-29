@@ -19,14 +19,16 @@ function loadFilmDetails() {
 {/* <img src="${
                   value.CoverImage
                 }" class="card-img-top img-fluid" alt="${value.Name}" style="height: 400px; object-fit: cover;"></img> */}
-
+//<img src="/images/${value.CoverImage.replace(/\s+/g, "_")}" alt="${value.Name}" class="card-img-top img-fluid" style="height: 500px; object-fit: contain; margin:0;">
 $.getJSON(`http://localhost:3000/film/${filmID}`, function (value) {
 let releaseDate = new Date(value.ReleaseDate).toISOString().split("T")[0];
 $("#filmDetails").html(`
   <div class="container mt-4">
     <div class="row">
       <div class="col-md-4">
-        <img src="/images/${value.CoverImage.replace(/\s+/g, "_")}" alt="${value.Name}" class="card-img-top img-fluid" style="height: 500px; object-fit: contain; margin:0;">
+        <img src="/images/${value.CoverImage.replace(/\s+/g, "_")}" 
+             class="img-fluid rounded shadow" 
+             alt="${value.Name}">
              <div class="mb-3">
              <br>
              <button type="button" class="btn btn-primary" onclick="playTrailer('${value.VideoURL}')">
