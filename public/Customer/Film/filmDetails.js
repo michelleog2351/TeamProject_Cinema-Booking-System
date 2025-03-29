@@ -28,7 +28,7 @@ $("#filmDetails").html(`
       <div class="col-md-4">
         <img src="/images/${value.CoverImage.replace(/\s+/g, "_")}" 
              class="img-fluid rounded shadow" 
-             alt="${value.Name}">
+             alt="${value.Name}" style="height: 300px;">
              <div class="mb-3">
              <br>
              <button type="button" class="btn btn-primary" onclick="playTrailer('${value.VideoURL}')">
