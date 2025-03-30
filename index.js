@@ -2,6 +2,7 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var _ = require("underscore");
 var cors = require("cors");
+const multer = require("multer");
 var nodemailer = require("nodemailer");
 var login = require("./model/login");
 var film = require("./model/film");
@@ -14,11 +15,12 @@ var user = require("./model/user");
 
 var app = express();
 app.use(cors());
-
+app.use("/images", express.static("public/images"));
 app.use(express.static("public"));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
 
 //Email
 app.post("/send-email", function (req, res) {
