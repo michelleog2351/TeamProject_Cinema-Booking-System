@@ -13,7 +13,7 @@ var connection = mysql.createConnection({
 
 connection.connect(function (err) {
   if (err) throw err;
-  console.log(`Sucessfully connected to MySQL database cinemaDB`);
+  console.log(`Successfully connected to MySQL database cinemaDB`);
 });
 
 //This populates the table on default page for testing cruds
@@ -32,26 +32,30 @@ exports.getScreeningsByFilter = function (req, res) {
   var startTime = req.body.startTime;
   var date = req.body.date;
   var filmID = req.body.filmID;
-  console.log(date)
-    const query = `SELECT * from Screening WHERE FilmID = ? AND Date = ? AND StartTime = ?`;
-    connection.query(query, [filmID, date, startTime], function (err, rows) {
-      if (err) {
-        console.error(err);
-        return res.status(500).send("Error getting screening");
-      }
-      console.log(rows[0].ScreeningID)
-      if (rows.length === 0) {
-        return res.status(404).send({ message: "Screening not found" });
-      }
-      res.json(rows[0].ScreeningID);
-    });
+  //console.log(date);
+
+  const query = `SELECT * from Screening WHERE FilmID = ? AND Date = ? AND StartTime = ?`;
+
+  connection.query(query, [filmID, date, startTime], function (err, rows) {
+    if (err) {
+      console.error(err);
+      return res.status(500).send("Error getting screening");
+    }
+
+    if (rows.length === 0) {
+      return res.status(404).send({ message: "Screening not found" });
+    }
+
+    console.log("Found Screening ID:", rows[0].ScreeningID);
+    res.json(rows[0].ScreeningID);
+  });
 };
 
 //This will search for independent Screening in update
 exports.getScreening = function (req, res) {
   var screeningID = req.params.screeningID;
 
-  const query = "SELECT * FROM Screening WHERE ScreeningID = ?"; //creates a query using prepared statemetns
+  const query = "SELECT * FROM Screening WHERE ScreeningID = ?"; //creates a query using prepared statements
   connection.query(query, [screeningID], function (err, rows) {
     if (err) {
       console.error(err);
@@ -68,7 +72,7 @@ exports.getScreening = function (req, res) {
 exports.getFilmScreening = function (req, res) {
   var filmID = req.params.filmID;
 
-  const query = "SELECT * FROM Screening WHERE FilmID = ?"; //creates a query using prepared statemetns
+  const query = "SELECT * FROM Screening WHERE FilmID = ?"; //creates a query using prepared statements
   connection.query(query, [filmID], function (err, rows) {
     if (err) {
       console.error(err);
@@ -85,7 +89,7 @@ exports.getFilmScreening = function (req, res) {
 exports.checkRunningTime = function (req, res) {
   var filmID = req.params.filmID;
 
-  const query = "SELECT RunningTime FROM Film WHERE FilmID = ?"; //creates a query using prepared statemetns
+  const query = "SELECT RunningTime FROM Film WHERE FilmID = ?"; //creates a query using prepared statements
   connection.query(query, [filmID], function (err, rows) {
     if (err) {
       console.error(err);
@@ -107,7 +111,7 @@ exports.createScreening = function (req, res) {
   var filmID = req.body.filmID;
 
   const query =
-    "INSERT INTO Screening (StartTime, Date, SeatsRemaining, TheatreID, FilmID ) VALUES (?, ?, ?, ?, ?)"; //Prepared statments
+    "INSERT INTO Screening (StartTime, Date, SeatsRemaining, TheatreID, FilmID ) VALUES (?, ?, ?, ?, ?)"; //Prepared statements
   connection.query(
     query,
     [startTime, date, seatsRemaining, theatreID, filmID],

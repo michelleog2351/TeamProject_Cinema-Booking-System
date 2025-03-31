@@ -135,14 +135,14 @@ function dateDD(filmID) {
     let specificDates = [];
 
     $.each(data, function (i, screening) {
-      let formattedDate = new Date(screening.Date).toLocaleDateString("en-GB", {
-        weekday: "long", // Wednesday,
-        month: "long", // March
-        day: "numeric", // 26
-      });
-      //let formattedDate = new Date(screening.Date).toISOString().split("T")[0];
+      // let formattedDate = new Date(screening.Date).toLocaleDateString("en-GB", {
+      //   weekday: "long", // Wednesday,
+      //   month: "long", // March
+      //   day: "numeric", // 26
+      // });
+      let formattedDate = new Date(screening.Date).toISOString().split("T")[0];
 
-      formattedDate = formattedDate.replace(/^(\w+)(?=\s)/, "$1,");
+      //formattedDate = formattedDate.replace(/^(\w+)(?=\s)/, "$1,");
 
       // check if its present in the array
       if (!specificDates.includes(formattedDate)) {
@@ -175,14 +175,14 @@ function startTimeDD(filmID, selectDate) {
       '<option value="" selected>Select Time</option>'
     );
     $.each(data, function (i, screening) {
-      let screeningDate = new Date(screening.Date).toLocaleDateString("en-GB", {
-        weekday: "long", // Wednesday
-        month: "long", // March
-        day: "numeric", // 26
-      });
-      // let screeningDate = new Date(screening.Date).toISOString().split("T")[0];
+      // let screeningDate = new Date(screening.Date).toLocaleDateString("en-GB", {
+      //   weekday: "long", // Wednesday
+      //   month: "long", // March
+      //   day: "numeric", // 26
+      // });
+      let screeningDate = new Date(screening.Date).toISOString().split("T")[0];
 
-      screeningDate = screeningDate.replace(/^(\w+)(?=\s)/, "$1,");
+      //screeningDate = screeningDate.replace(/^(\w+)(?=\s)/, "$1,");
 
       if (screeningDate === selectDate) {
         $("#selectStartTime").append(
@@ -211,13 +211,13 @@ function fetchScreenings(filmID) {
       let screeningsByDate = {};
 
       $.each(data, function (i, value) {
-        //  let formattedDate = new Date(value.Date).toISOString().split("T")[0];
-        let formattedDate = new Date(value.Date).toLocaleDateString("en-GB", {
-          weekday: "short", // Wed
-          month: "short", // Mar
-          day: "numeric", // 26
-        });
-        formattedDate = formattedDate.replace(/^(\w+)(?=\s)/, "$1,");
+         let formattedDate = new Date(value.Date).toISOString().split("T")[0];
+        // let formattedDate = new Date(value.Date).toLocaleDateString("en-GB", {
+        //   weekday: "short", // Wed
+        //   month: "short", // Mar
+        //   day: "numeric", // 26
+        // });
+        // formattedDate = formattedDate.replace(/^(\w+)(?=\s)/, "$1,");
 
         if (!screeningsByDate[formattedDate]) {
           screeningsByDate[formattedDate] = [];
@@ -273,39 +273,64 @@ function fetchScreenings(filmID) {
 }
 
 $(document).on("click", ".book-tickets-btn", function () {
-  let screeningID = $(this).data("id");
+  //let screeningID = $(this).data("id");
 
   //Post to screeningByFilter. response is the ScreeningID
 
   //send an object with following
   //May need to change these values in order to post them correctly
-  //Take a look through other files to see how they conducted this 
+  //Take a look through other files to see how they conducted this
 
-  
   let filmID = $("#selectFilm").val();
   let date = $("#selectDate").val();
-  let time = $("#selectStartTime").val();
+  let startTime = $("#selectStartTime").val();
 
-
-  $.post(`http://localhost:3000/screeningsByFilter`, findScreening).done(function(response) {
-    //EXPRESS ROUTE AND SQL works fine when all values are in correct format!
-    
-  })
-
-  if (filmID && date && time) {
-    localStorage.setItem("ViewScreeningID", screeningID);
-    window.location.href = `http://localhost:3000/booking/createBooking.html?screeningID=${screeningID}`;
-    // console.log($(this).data("id"));
-  } else {
+  // if (filmID && date && startTime) {
+  //   localStorage.setItem("ViewScreeningID", screeningID);
+  //   window.location.href = `http://localhost:3000/booking/createBooking.html?screeningID=${screeningID}`;
+  //   // console.log($(this).data("id"));
+  // } else {
+  //   alert("Please select a film, date, and time before booking.");
+  // }
+  if (!filmID || !date || !startTime) {
     alert("Please select a film, date, and time before booking.");
+    return;
   }
+
+  // database expects this date format
+  let formattedDate = new Date(date).toISOString().split('T')[0];
+  
+  let ScreeningBooking = {
+    filmID: filmID,
+    date: formattedDate,
+    startTime: startTime,
+  };
+
+  $.post(
+    "http://localhost:3000/screeningsByFilter",
+    ScreeningBooking,
+    function (response) {
+      console.log("Screening ID received:", response);
+      if (response) {
+        localStorage.setItem("ViewScreeningID", response);
+        window.location.href = `http://localhost:3000/booking/createBooking.html?screeningID=${response}`;
+      } else {
+        alert("Screening not found. Please check your selection.");
+      }
+    }
+  ).fail(function (xhr) {
+    console.error("Error:", xhr.responseText);
+    alert("Screening not found. Please check your selection.");
+  });
+
+  // $.post(`http://localhost:3000/screeningsByFilter`, findScreening).done(
+  //   function (ScreeningBooking) {
+  //     //EXPRESS ROUTE AND SQL works fine when all values are in correct format!
+  //   }
+  // );
 });
 
 $(document).on("click", ".startTime-btn", function () {
-
-
-
-
   let screeningID = $(this).data("id");
   localStorage.setItem("ViewScreeningID", screeningID);
   // localStorage.setItem("SelectedFilmID", filmID);

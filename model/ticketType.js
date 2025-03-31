@@ -9,7 +9,7 @@ var connection = mysql.createConnection({
 
 connection.connect(function (err) {
   if (err) throw err;
-  console.log(`Sucessfully connected to MySQL database cinemaDB`);
+  console.log(`Successfully connected to MySQL database cinemaDB`);
 });
 
 exports.getTicketTickets = function (req, res) {

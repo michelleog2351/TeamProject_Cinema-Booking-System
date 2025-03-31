@@ -27,7 +27,6 @@ $(document).ready(function () {
 
     $.post("/login", { email, password, userType }, function (response) {
       if (response.token) {
-        
         alert("Invalid email or password.");
       } else {
         sessionStorage.setItem("login", "true");
@@ -35,7 +34,8 @@ $(document).ready(function () {
         localStorage.setItem("token", response.token);
 
         nav();
-        location.replace("http://localhost:3000/index.html");      }
+        location.replace("http://localhost:3000/index.html");
+      }
     });
   });
 });
