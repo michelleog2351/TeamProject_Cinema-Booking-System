@@ -30,6 +30,7 @@ exports.getScreenings = function (req, res) {
   );
 };
 
+// For when filtering with the dropdown menus on the home page
 exports.getScreeningsByFilter = function (req, res) {
   var startTime = req.body.startTime;
   var date = req.body.date;

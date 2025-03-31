@@ -97,6 +97,7 @@ function clearFilter() {
 function fetchFilms() {
   $("#filmCards").empty();
   $.getJSON(`http://localhost:3000/films`, function (data) {
+    data.sort((a, b) => a.Name.localeCompare(b.Name));
     $.each(data, function (i, value) {
       let releaseDate = new Date(value.ReleaseDate).toISOString().split("T")[0];
       $("#filmCards").append(`

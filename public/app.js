@@ -4,8 +4,6 @@ $(document).ready(function () {
   filmDD();
   dateDD();
   startTimeDD();
-  //bookTickets();
-  //$(".book-tickets-btn").show();
 });
 
 function filmDD() {
@@ -61,7 +59,7 @@ function filmDD() {
 										<div class="overlay">
 											<div class="overlay-content">
 												<a href="Customer/Film/filmDetails.html?filmID=${film.FilmID}"
-												class="btn btn-primary">Watch: ${film.Name} Now</a> 
+												class="btn btn-primary overlay-button">Watch: ${film.Name} Now</a> 
 											</div>           
 										</div>
 									</div>
@@ -116,7 +114,7 @@ function createFilmCard(film) {
 				<div class="overlay">
 					<div class="overlay-content">
 						<a href="Customer/Film/filmDetails.html?filmID=${film.FilmID}"
-						class="btn btn-primary">Watch: ${film.Name} Now</a> 
+						class="btn btn-primary overlay-button">Watch: ${film.Name} Now</a> 
 					</div>           
 				</div>
 			</div> 
@@ -134,15 +132,15 @@ function dateDD(filmID) {
 
     let specificDates = [];
 
-    $.each(data, function (i, screening) {
-      // let formattedDate = new Date(screening.Date).toLocaleDateString("en-GB", {
-      //   weekday: "long", // Wednesday,
-      //   month: "long", // March
-      //   day: "numeric", // 26
-      // });
-      let formattedDate = new Date(screening.Date).toISOString().split("T")[0];
+     $.each(data, function (i, screening) {
+    //   let formattedDate = new Date(screening.Date).toLocaleDateString("en-GB", {
+    //     weekday: "long", // Wednesday,
+    //     month: "long", // March
+    //     day: "numeric", // 26
+    //   });
+    let formattedDate = new Date(screening.Date).toISOString().split("T")[0];
 
-      //formattedDate = formattedDate.replace(/^(\w+)(?=\s)/, "$1,");
+    //  formattedDate = formattedDate.replace(/^(\w+)(?=\s)/, "$1,");
 
       // check if its present in the array
       if (!specificDates.includes(formattedDate)) {
@@ -211,7 +209,7 @@ function fetchScreenings(filmID) {
       let screeningsByDate = {};
 
       $.each(data, function (i, value) {
-         let formattedDate = new Date(value.Date).toISOString().split("T")[0];
+        let formattedDate = new Date(value.Date).toISOString().split("T")[0];
         // let formattedDate = new Date(value.Date).toLocaleDateString("en-GB", {
         //   weekday: "short", // Wed
         //   month: "short", // Mar
@@ -231,40 +229,43 @@ function fetchScreenings(filmID) {
 
         $.each(screening, function (i, value) {
           timeButtonsHtml += `
-					<button class="btn btn-outline-primary mx-1 startTime-btn" data-id="${value.ScreeningID}">
-						${value.StartTime}
-					</button>
-				`;
+                <button class="btn btn-outline-primary mx-1 startTime-btn" data-id="${value.ScreeningID}">
+                    ${value.StartTime}
+                </button>
+            `;
 
-          booksButtonHtml += `<button
-					type="button"
-					class="btn btn-primary book-tickets-btn"
-					data-id="${value.ScreeningID}"
-					style="display: flex; align-items: center"
-					title="Click here to book tickets!"
-				>
-					Book Tickets
-				</button>`;
-          // );
-
-          timeButtonsHtml += `</div>`;
-          booksButtonHtml += `</div>`;
-          $(".book-tickets-div").html(booksButtonHtml);
+          booksButtonHtml += `
+                <button
+                    type="button"
+                    class="btn btn-primary book-tickets-btn mx-1"
+                    data-id="${value.ScreeningID}"
+                    title="Click here to book tickets!"
+                >
+                    Book Tickets
+                </button>
+            `;
         });
+
+        // Move the closing div outside of the loop to keep all buttons in the same flex row
+        timeButtonsHtml += `</div>`;
+        booksButtonHtml += `</div>`;
+
+        $(".book-tickets-div").html(booksButtonHtml);
+
         $("#screeningsTbody").append(`
-					<tr>
-							<td colspan="3"><strong>${date}</strong></td>
-					</tr>
-					<tr>
-							<td colspan="3">Screen ${screening[0].TheatreID}</td>
-					</tr>
-					<tr>
-							<td colspan="3">${timeButtonsHtml}</td>
-					</tr>
-					<tr>
-							<td><hr></td>
-					</tr>
-			`);
+            <tr>
+                <td colspan="3"><strong>${date}</strong></td>
+            </tr>
+            <tr>
+                <td colspan="3">Screen ${screening[0].TheatreID}</td>
+            </tr>
+            <tr>
+                <td colspan="3">${timeButtonsHtml}</td>
+            </tr>
+            <tr>
+                <td><hr></td>
+            </tr>
+        `);
       });
     } else {
       $("#filmRows").addClass("d-none");
@@ -285,6 +286,11 @@ $(document).on("click", ".book-tickets-btn", function () {
   let date = $("#selectDate").val();
   let startTime = $("#selectStartTime").val();
 
+  // Debugging logs
+  console.log("Film ID:", filmID);
+  console.log("Date:", date);
+  console.log("Start Time:", startTime);
+
   // if (filmID && date && startTime) {
   //   localStorage.setItem("ViewScreeningID", screeningID);
   //   window.location.href = `http://localhost:3000/booking/createBooking.html?screeningID=${screeningID}`;
@@ -298,7 +304,7 @@ $(document).on("click", ".book-tickets-btn", function () {
   }
 
   // database expects this date format
-  let formattedDate = new Date(date).toISOString().split('T')[0];
+  let formattedDate = date;
   
   let ScreeningBooking = {
     filmID: filmID,

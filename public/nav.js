@@ -15,13 +15,7 @@ function nav() {
                       <li class="nav-item"><a class="nav-link" href="/index.html">Home</a></li>
                       <li class="nav-item"><a class="nav-link" href="/Customer/Film/cFilm.html">Now Showing</a></li>`;
 
-  // $("body").prepend(navOutput);
-  // setTimeout(() => {
-  // let userNav = "";
-  // navOutPut = "";
-
   if (isLoggedIn) {
-    // navOutPut += `<li class="nav-item"><a class="nav-link" href="/user/user.html">User</a></li>`;
 
     if (role === "Admin") {
       navOutPut += `

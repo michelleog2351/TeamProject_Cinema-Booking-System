@@ -1,17 +1,66 @@
-.navbar {
-  position: sticky;
-  top: 0;
-  width: 100%;
-  z-index: 1000;
-  padding: 10px 20px;
+html,
+body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
 }
 
-.card {
-  width: 100%; /* let the grid system handle the card width based on the window size - ensuring responsiveness*/
-  height: 400px; /* Matches the height of the images now */
-  position: relative;
-  overflow: hidden;
+.container-fluid {
+  flex: 1; /* Push footer to bottom of page */
+}
+
+label {
+  font-weight: bold;
+  /* color: #325d88; */
+}
+
+.navbar {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+}
+
+.navbar-toggler-icon {
+  transition: transform 0.3s ease;
+}
+
+.navbar-toggler:is(.collapsed) .navbar-toggler-icon {
+  transform: rotate(180deg);
+}
+
+#search-btn,
+#search-input {
+  margin: 0;
+  padding: 5px;
+}
+
+#search-btn {
+  background-color: transparent;
+  border: none;
+  margin-top: 0;
+}
+
+#search-input {
   border-radius: 10px;
+  padding: 5px;
+  width: 0;
+  opacity: 0;
+  overflow: hidden;
+  border: 1px solid transparent;
+  transition: width 0.3s ease-in-out, opacity 0.2s ease-in-out, border 0.3s;
+}
+
+#search-input.active {
+  width: 250px;
+  opacity: 1;
+  border: 1px solid #ccc;
+}
+
+.table {
+  overflow-x: auto;
+  white-space: nowrap;
 }
 
 .position-relative {
@@ -19,11 +68,17 @@
   align-items: center;
   justify-content: center;
   position: relative;
-  width: 100%;
-  height: 400px; /* Matches image */
   overflow: hidden; /* Prevents overflow issues */
+}
+
+.card {
+  width: 100%; /* let the grid system handle the card width based on the window size - ensuring responsiveness*/
+  /* height: 400px; Matches the height of the images now */
+  position: relative;
+  overflow: hidden;
   border-radius: 10px;
 }
+
 .card {
   display: flex;
   flex-direction: column;
@@ -38,25 +93,26 @@
   min-height: 160px; /* adjust as needed */
 }
 
+.card:hover .overlay,
+.position-relative:hover .overlay {
+  top: 0;
+  opacity: 1;
+}
+
 .overlay {
   position: absolute;
   top: -100%;
   left: 0;
   width: 100%;
-  height: 400px;
+  height: 100%;
   background: rgba(0, 0, 0, 0.7);
   display: flex;
   padding: var(--bs-card-img-overlay-padding, 1rem);
+  border-radius: 10px;
   justify-content: center;
   align-items: center;
   opacity: 0;
   transition: top 0.5s ease, opacity 0.5s ease;
-}
-
-.card:hover .overlay,
-.position-relative:hover .overlay {
-  top: 0;
-  opacity: 1;
 }
 
 .overlay-content {
@@ -79,8 +135,8 @@
 }
 
 .overlay-button:hover {
-  background-color: darkblue;
-  text-decoration: none;
+  background-color: #17a2b8 !important;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .scroll-to-top-btn {
