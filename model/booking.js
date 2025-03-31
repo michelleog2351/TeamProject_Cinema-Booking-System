@@ -1,4 +1,5 @@
 var mysql = require("mysql2");
+const { CronJob } = require("cron");
 
 var connection = mysql.createConnection({
   host: "localhost",
@@ -8,6 +9,7 @@ var connection = mysql.createConnection({
 });
 
 connection.connect(function (err) {
+  job.start();
   if (err) throw err;
   console.log(`Successfully connected to MySQL database cinemaDB`);
 });
@@ -115,3 +117,24 @@ exports.bookedSeats = function (req, res) {
     res.json({ totalBookedSeats: result[0].totalBookedSeats });
   });
 };
+
+//Seconds
+//Minutes
+//Hours
+//Days
+//Months
+//Day of week Sunday 0 Saturday 6
+
+//CronJob("00 00 0 * * 0")
+
+const job = new CronJob("00 00 0 * * 0", function () {
+
+  const query = "DELETE FROM Booking";
+  connection.query(query, function (err, result) {
+    if (err) {
+      console.error("Error deleting bookings:", err);
+    } else {
+      console.log("All bookings deleted successfully.");
+    }
+  });
+});

@@ -13,6 +13,12 @@ $(document).ready(function () {
         </div>
 
         <div class="mb-3">
+            <label class="form-label" for="films">Select Film</label>
+            <select class="form-select" id="filmSelect" name="films">
+            </select>
+        </div>
+        
+        <div class="mb-3">
         <label class="form-label" for="date">Date</label>
         <input class="form-control" type="date" name="date" id="date"></input>
         <small id="dateWarningMessage" style="color: red; display: none;">Please enter a value</small>
@@ -29,11 +35,7 @@ $(document).ready(function () {
             </select>
         </div>
 
-        <div class="mb-3">
-            <label class="form-label" for="films">Select Film</label>
-            <select class="form-select" id="filmSelect" name="films">
-            </select>
-        </div>
+
     `);
 
   let today = new Date().toISOString().split("T")[0];
@@ -72,21 +74,21 @@ $(document).ready(function () {
       theatreID: $(`#theatreSelect`).val(),
       date: $(`#date`).val(),
       startTime: $(`#startTime`).val(),
-      runningTime: filmRunningTime
+      runningTime: filmRunningTime,
     };
 
     $.post(
       `http://localhost:3000/checkScreeningAvailability`,
       bookedScreening
     ).done(function (data) {
-      if (data.length > 0) alert("Screening already booked try again");
+      if (data.length > 0) alert("Scrrening already booked try again");
       else {
         let newScreening = {
           startTime: $(`#startTime`).val(),
           date: $(`#date`).val(),
           seatsRemaining: $(`#seatsRemaining`).val(),
           theatreID: $(`#theatreSelect`).val(),
-          filmID: filmID
+          filmID: filmID,
         };
 
         $.post(`http://localhost:3000/createScreening`, newScreening).done(

@@ -1,4 +1,4 @@
--- select * from admin;
+ -- select * from user;
 -- select * from booking;
 -- select * from film;
 -- select * from manager;
@@ -28,14 +28,16 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `Film` (
   `FilmID` INT NOT NULL AUTO_INCREMENT,
-  `Name` varchar(50) NOT NULL,	
+  `Name` varchar(300) NOT NULL,
   `Category` varchar(10) NOT NULL,
   `RunningTime` int(10) NOT NULL,
   `Genre` varchar(50) NOT NULL,
   `Director` varchar(50) NOT NULL,
-  `CoverImage` varchar(50) NOT NULL,
+  `CoverImage` varchar(300) NOT NULL,
   `VideoURL` varchar(300) NOT NULL,
   `ReleaseDate` DATE NOT NULL,
+  `Description` varchar(500) NOT NULL,
+  `Starring` varchar(100) NOT NULL,
   PRIMARY KEY (`FilmID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -92,21 +94,16 @@ CREATE TABLE `Seat` (
   PRIMARY KEY (`SeatNo`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE `Manager` (
-`ManagerID` INT NOT NULL AUTO_INCREMENT,
+CREATE TABLE `User` (
+`EmployeeID` INT NOT NULL AUTO_INCREMENT,
   `Name` varchar(50) NOT NULL,
   `Email` varchar(50) NOT NULL,
   `Password` varchar(50) NOT NULL,
-  PRIMARY KEY (`ManagerID`)
+  `Role` varchar(50) NOT NULL,
+  PRIMARY KEY (`EmployeeID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-CREATE TABLE `Admin` (
-`AdminID` INT NOT NULL AUTO_INCREMENT,
-  `Name` varchar(50) NOT NULL,
-  `Email` varchar(50) NOT NULL,
-  `Password` varchar(50) NOT NULL,
-  PRIMARY KEY (`AdminID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 
 CREATE TABLE `ShowingTime` (
 `TimeID` int AUTO_INCREMENT,
@@ -139,23 +136,23 @@ CREATE TABLE `Capacity` (
   PRIMARY KEY (`CapacityID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-INSERT INTO `Film` (`Name`, `Category`, `Genre`, `RunningTime`, `Director`, `CoverImage`, `VideoURL`, `ReleaseDate`) 
+INSERT INTO `Film` (`Name`, `Category`, `Genre`, `RunningTime`, `Director`, `CoverImage`, `VideoURL`, `ReleaseDate`, `Description`, `Starring`) 
 VALUES
-('The Dark Knight', 'Action', 'PG-13', 90,'Christopher Nolan', 'The_Dark_Knight.jpg', 'https://www.youtube.com/embed/TQfATDZY5Y4?si=SUfnoLnAVo0u5pGl', '2008-07-18'),
-('Inception', 'Sci-Fi', 'PG-13', 90, 'Christopher Nolan', 'Inception.jpg', 'https://www.youtube.com/embed/LifqWf0BAOA?si=zsELF9jX_wI942eU', '2010-07-16'),
-('The Shawshank Redemption', 'Drama', 'R', 90, 'Frank Darabont', 'The_Shawshank_Redemption.jpg', 'https://www.youtube.com/embed/PLl99DlL6b4?si=l5671WowLHFqEBn7', '1994-09-22'),
-('Interstellar', 'Sci-Fi', 'PG-13', 90,'Christopher Nolan', 'Interstellar.jpg', 'https://www.youtube.com/embed/zSWdZVtXT7E?si=7lCey7HbESKCehHR', '2014-11-07'),
-('The Godfather', 'Crime', 'R', 90, 'Francis Ford Coppola', 'The_Godfather.jpg', 'https://www.youtube.com/embed/UaVTIH8mujA?si=oD6qDcSZ8SnxRlph', '1972-03-24'),
-('The Matrix', 'Sci-Fi', 'R', 120, 'The Wachowskis', 'The_Matrix.jpg', 'https://www.youtube.com/embed/vKQi3bBA1y8?si=4A2T7ZY5Fw2h7j7g', '1999-03-31'),
-('Pulp Fiction', 'Crime', 'R', 160, 'Quentin Tarantino', 'Pulp_Fiction.jpg', 'https://www.youtube.com/embed/s7EdQ4FqbhY?si=on-Dn9BxGc3vfP_o', '1994-10-14'),
-('Fight Club', 'Drama', 'R', 145, 'David Fincher', 'Fight_Club.jpg', 'https://www.youtube.com/embed/SUXWAEX2jlg?si=9dTgnf8TYtYP78h3', '1999-10-15'),
-('Forrest Gump', 'Drama', 'PG-13', 145, 'Robert Zemeckis', 'Forrest_Gump.jpg', 'https://www.youtube.com/embed/bLvqoHBptjg?si=NJ07He0IhBlnRZjl', '1994-07-06'),
-('The Lord of the Rings: The Fellowship of the Ring', 'Action', 'PG-13', 160, 'Peter Jackson', 'LOTR_Fellowship.jpg', 'https://www.youtube.com/embed/V75dMMIW2B4?si=zW4kCr4aU-PxHG_a', '2001-12-19'),
-('The Avengers', 'Action', 'PG-13', 145, 'Joss Whedon', 'The_Avengers.jpg', 'https://www.youtube.com/embed/eOrNdBpGMv8?si=aXYvNhzS6tqFLmQX', '2012-05-04'),
-('The Lion King', 'Kids', 'G', 90, 'Roger Allers, Rob Minkoff', 'The_Lion_King.jpg', 'https://www.youtube.com/embed/4sj1MT05lAA?si=Wh0pJtF5A8k2cx3V', '1994-06-24'),
-('Star Wars: Episode IV - A New Hope', 'Sci-Fi', 'PG', 120, 'George Lucas', 'Star_Wars_A_New_Hope.jpg', 'https://www.youtube.com/embed/1g3_CFmnU7k?si=7cEOc9K8VuB2PexD', '1977-05-25'),
-('The Dark Knight Rises', 'Action', 'PG-13', 160, 'Christopher Nolan', 'The_Dark_Knight_Rises.jpg', 'https://www.youtube.com/embed/g8evyE9TuYk?si=Ge8Exy52wVyxU_Mg', '2012-07-20'),
-('Gladiator', 'Action', 'R', 160, 'Ridley Scott', 'Gladiator.jpg', 'https://www.youtube.com/embed/owK1qxDselE?si=QLbfRT-5Yk9GiYNr', '2000-05-05');
+('The Dark Knight', 'Action', 'PG-13', 90,'Christopher Nolan', 'The_Dark_Knight.jpg', 'https://www.youtube.com/embed/TQfATDZY5Y4?si=SUfnoLnAVo0u5pGl', '2008-07-18', 'A gripping tale of Batmans battle against the Joker, who seeks to undermine Gotham City with chaos and destruction. Nolans masterful direction and Heath Ledgers iconic portrayal of the Joker make this film an unforgettable chapter in the Batman saga.', 'Christian Bale, Heath Ledger'),
+('Inception', 'Sci-Fi', 'PG-13', 90, 'Christopher Nolan', 'Inception.jpg', 'https://www.youtube.com/embed/LifqWf0BAOA?si=zsELF9jX_wI942eU', '2010-07-16', ' A mind-bending thriller where a thief who enters the minds of others must perform the impossible task of planting an idea. With stunning visuals and complex storytelling, this film explores the boundaries between dreams and reality.', 'Leonardo DiCaprio'),
+('The Shawshank Redemption', 'Drama', 'R', 90, 'Frank Darabont', 'The_Shawshank_Redemption.jpg', 'https://www.youtube.com/embed/PLl99DlL6b4?si=l5671WowLHFqEBn7', '1994-09-22', 'This inspiring story follows Andy Dufresne, a banker wrongfully imprisoned for murder, as he navigates life inside Shawshank prison. Through his friendship with fellow inmate Red, Andys hope and resilience shine through, making it one of the greatest films ever made.', 'Morgan Freeman'),
+('Interstellar', 'Sci-Fi', 'PG-13', 90,'Christopher Nolan', 'Interstellar.jpg', 'https://www.youtube.com/embed/zSWdZVtXT7E?si=7lCey7HbESKCehHR', '2014-11-07', 'A visually stunning journey through space as a team of astronauts embarks on a mission to find a new habitable planet for humanity. Themes of love, time, and sacrifice make this film an emotionally and intellectually powerful experience.', 'Matthew McConaughey'),
+('The Godfather', 'Crime', 'R', 90, 'Francis Ford Coppola', 'The_Godfather.jpg', 'https://www.youtube.com/embed/UaVTIH8mujA?si=oD6qDcSZ8SnxRlph', '1972-03-24', 'A classic mafia epic that delves into the life of the powerful Corleone family. This film explores themes of power, loyalty, and betrayal while showcasing legendary performances by Marlon Brando and Al Pacino.', 'Marlon Brando, Al Pacino'),
+('The Matrix', 'Sci-Fi', 'R', 120, 'The Wachowskis', 'The_Matrix.jpg', 'https://www.youtube.com/embed/vKQi3bBA1y8?si=4A2T7ZY5Fw2h7j7g', '1999-03-31', 'A revolutionary sci-fi action film that explores the nature of reality and humanitys place within it. Neo discovers that the world he lives in is a simulation controlled by machines, leading to a battle to free humankind.', 'Keanu Reeves'),
+('Pulp Fiction', 'Crime', 'R', 160, 'Quentin Tarantino', 'Pulp_Fiction.jpg', 'https://www.youtube.com/embed/s7EdQ4FqbhY?si=on-Dn9BxGc3vfP_o', '1994-10-14', ' A darkly comedic and intricately woven film that intertwines multiple storylines involving crime and redemption. With sharp dialogue and iconic characters, this film became a cultural milestone in modern cinema.', 'John Travolta'),
+('Fight Club', 'Drama', 'R', 145, 'David Fincher', 'Fight_Club.jpg', 'https://www.youtube.com/embed/SUXWAEX2jlg?si=9dTgnf8TYtYP78h3', '1999-10-15', 'A psychological drama that explores themes of consumerism, identity, and masculinity through the story of an unnamed narrator who forms an underground fight club with the enigmatic Tyler Durden.', 'Brad Pitt'),
+('Forrest Gump', 'Drama', 'PG-13', 145, 'Robert Zemeckis', 'Forrest_Gump.jpg', 'https://www.youtube.com/embed/bLvqoHBptjg?si=NJ07He0IhBlnRZjl', '1994-07-06', ' A heartwarming and poignant tale of Forrest Gump, a man with a low IQ but an extraordinary life. From influencing major historical events to inspiring those around him, Forrests journey is both humorous and deeply moving', 'Tom Hanks'),
+('The Lord of the Rings: The Fellowship of the Ring', 'Action', 'PG-13', 160, 'Peter Jackson', 'LOTR_Fellowship.jpg', 'https://www.youtube.com/embed/V75dMMIW2B4?si=zW4kCr4aU-PxHG_a', '2001-12-19', 'The epic beginning to the Lord of the Rings trilogy, as Frodo Baggins sets out on a dangerous quest to destroy a powerful ring. Filled with breathtaking visuals and a legendary cast, it’s an unforgettable fantasy adventure', 'Ian McKellan'),
+('The Avengers', 'Action', 'PG-13', 145, 'Joss Whedon', 'The_Avengers.jpg', 'https://www.youtube.com/embed/eOrNdBpGMv8?si=aXYvNhzS6tqFLmQX', '2012-05-04', 'Earth’s mightiest heroes assemble to protect the world from the threat of Loki, who attempts to bring an alien invasion to Earth. With iconic performances and thrilling action, this marks the beginning of the Marvel Cinematic Universe.', 'Robert Downey Jr, Chris Evans'),
+('The Lion King', 'Kids', 'G', 90, 'Roger Allers, Rob Minkoff', 'The_Lion_King.jpg', 'https://www.youtube.com/embed/4sj1MT05lAA?si=Wh0pJtF5A8k2cx3V', '1994-06-24', 'A beloved Disney classic, following the journey of Simba, a young lion prince who must overcome tragedy and responsibility to become king. With unforgettable songs and beautiful animation, it’s a timeless tale of growth and courage', 'Jeremy Irons'),
+('Star Wars: Episode IV - A New Hope', 'Sci-Fi', 'PG', 120, 'George Lucas', 'Star_Wars_A_New_Hope.jpg', 'https://www.youtube.com/embed/1g3_CFmnU7k?si=7cEOc9K8VuB2PexD', '1977-05-25', 'The groundbreaking sci-fi epic that introduced audiences to the world of Star Wars. Luke Skywalker embarks on an adventure to rescue Princess Leia and battle the evil Empire, in a story that forever changed cinema', 'Mark Hamill, Harrison Ford'),
+('The Dark Knight Rises', 'Action', 'PG-13', 160, 'Christopher Nolan', 'The_Dark_Knight_Rises.jpg', 'https://www.youtube.com/embed/g8evyE9TuYk?si=Ge8Exy52wVyxU_Mg', '2012-07-20', ' The final installment of Nolan’s Batman trilogy, where Bruce Wayne must rise from physical and emotional defeat to face Bane, a formidable foe who threatens Gotham. A fitting conclusion to the epic saga', 'Christian Bale, Heath Ledger'),
+('Gladiator', 'Action', 'R', 160, 'Ridley Scott', 'Gladiator.jpg', 'https://www.youtube.com/embed/owK1qxDselE?si=QLbfRT-5Yk9GiYNr', '2000-05-05', 'A powerful and brutal historical epic about Maximus, a betrayed Roman general who seeks revenge against the corrupt emperor who murdered his family. With stunning action and an unforgettable performance by Russell Crowe.', 'Russell Crowe');
 
 INSERT INTO `Theatre` (`Capacity`)
 VALUES
@@ -167,7 +164,9 @@ VALUES
 
 INSERT INTO `Screening` (`StartTime`, `Date`, `SeatsRemaining`, `TheatreID`, `FilmID`)
 VALUES
-('17:00:00', '2025-02-24', 35, 1, 1), -- OUT OF DATE FOR TESTING ON DARK KNIGHT FILM;
+
+-- ('17:00:00', '2025-02-24', 35, 1, 1); -- OUT OF DATE FOR TESTING ON DARK KNIGHT FILM;
+
 ('17:00:00', '2025-03-24', 50, 1, 1),
 ('17:00:00', '2025-03-24', 30, 1, 6),
 ('19:30:00', '2025-03-24', 30, 2, 7),
@@ -205,65 +204,70 @@ VALUES
 ('19:30:00', '2025-03-30', 30, 2, 11),
 ('21:00:00', '2025-03-30', 40, 3, 12),
 ('18:30:00', '2025-03-30', 30, 4, 13),
-('20:45:00', '2025-03-30', 20, 5, 14),
+('20:45:00', '2025-03-30', 20, 5, 14);
+
 -- Week 2
-('17:00:00', '2025-03-31', 50, 1, 7),
-('19:30:00', '2025-03-31', 30, 2, 8),
-('21:00:00', '2025-03-31', 40, 3, 9),
-('18:30:00', '2025-03-31', 30, 4, 10),
-('20:45:00', '2025-03-31', 20, 5, 11),
-('17:00:00', '2025-04-01', 50, 1, 12),
-('19:30:00', '2025-04-01', 30, 2, 13),
-('21:00:00', '2025-04-01', 40, 3, 14),
-('18:30:00', '2025-04-01', 30, 4, 15),
-('20:45:00', '2025-04-01', 20, 5, 1),
-('17:00:00', '2025-04-02', 50, 1, 7),
-('19:30:00', '2025-04-02', 30, 2, 8),
-('21:00:00', '2025-04-02', 40, 3, 9),
-('18:30:00', '2025-04-02', 30, 4, 10),
-('20:45:00', '2025-04-02', 20, 5, 11),
-('17:00:00', '2025-04-03', 50, 1, 12),
-('19:30:00', '2025-04-03', 30, 2, 13),
-('21:00:00', '2025-04-03', 40, 3, 14),
-('18:30:00', '2025-04-03', 30, 4, 15),
-('20:45:00', '2025-04-03', 20, 5, 4),
-('17:00:00', '2025-04-04', 50, 1, 12),
-('19:30:00', '2025-04-04', 30, 2, 13),
-('21:00:00', '2025-04-04', 40, 3, 14),
-('18:30:00', '2025-04-04', 30, 4, 15),
-('20:45:00', '2025-04-04', 20, 5, 1),
-('17:00:00', '2025-04-04', 50, 1, 7),
-('19:30:00', '2025-04-05', 30, 2, 8),
-('21:00:00', '2025-04-05', 40, 3, 9),
-('18:30:00', '2025-04-05', 30, 4, 10),
-('20:45:00', '2025-04-05', 20, 5, 11),
-('17:00:00', '2025-04-06', 50, 1, 12),
-('19:30:00', '2025-04-06', 30, 2, 13),
-('21:00:00', '2025-04-06', 40, 3, 14),
-('18:30:00', '2025-04-06', 30, 4, 15),
-('20:45:00', '2025-04-06', 20, 5, 4),
+
+-- ('17:00:00', '2025-03-31', 50, 1, 7),
+-- ('19:30:00', '2025-03-31', 30, 2, 8),
+-- ('21:00:00', '2025-03-31', 40, 3, 9),
+-- ('18:30:00', '2025-03-31', 30, 4, 10),
+-- ('20:45:00', '2025-03-31', 20, 5, 11),
+-- ('17:00:00', '2025-04-01', 50, 1, 12),
+-- ('19:30:00', '2025-04-01', 30, 2, 13),
+-- ('21:00:00', '2025-04-01', 40, 3, 14),
+-- ('18:30:00', '2025-04-01', 30, 4, 15),
+-- ('20:45:00', '2025-04-01', 20, 5, 1),
+-- ('17:00:00', '2025-04-02', 50, 1, 7),
+-- ('19:30:00', '2025-04-02', 30, 2, 8),
+-- ('21:00:00', '2025-04-02', 40, 3, 9),
+-- ('18:30:00', '2025-04-02', 30, 4, 10),
+-- ('20:45:00', '2025-04-02', 20, 5, 11),
+-- ('17:00:00', '2025-04-03', 50, 1, 12),
+-- ('19:30:00', '2025-04-03', 30, 2, 13),
+-- ('21:00:00', '2025-04-03', 40, 3, 14),
+-- ('18:30:00', '2025-04-03', 30, 4, 15),
+-- ('20:45:00', '2025-04-03', 20, 5, 4),
+-- ('17:00:00', '2025-04-04', 50, 1, 12),
+-- ('19:30:00', '2025-04-04', 30, 2, 13),
+-- ('21:00:00', '2025-04-04', 40, 3, 14),
+-- ('18:30:00', '2025-04-04', 30, 4, 15),
+-- ('20:45:00', '2025-04-04', 20, 5, 1),
+-- ('17:00:00', '2025-04-04', 50, 1, 7),
+-- ('19:30:00', '2025-04-05', 30, 2, 8),
+-- ('21:00:00', '2025-04-05', 40, 3, 9),
+-- ('18:30:00', '2025-04-05', 30, 4, 10),
+-- ('20:45:00', '2025-04-05', 20, 5, 11),
+-- ('17:00:00', '2025-04-06', 50, 1, 12),
+-- ('19:30:00', '2025-04-06', 30, 2, 13),
+-- ('21:00:00', '2025-04-06', 40, 3, 14),
+-- ('18:30:00', '2025-04-06', 30, 4, 15),
+
+-- ('20:45:00', '2025-04-06', 20, 5, 4),
+
+
 
 -- Week 3
-('17:00:00', '2025-04-07', 50, 1, 2),
-('19:30:00', '2025-04-07', 30, 2, 3),
-('21:00:00', '2025-04-07', 40, 3, 4),
-('18:30:00', '2025-04-07', 30, 4, 5),
-('20:45:00', '2025-04-07', 20, 5, 6),
-('17:00:00', '2025-04-08', 50, 1, 7),
-('19:30:00', '2025-04-08', 30, 2, 8),
-('21:00:00', '2025-04-08', 40, 3, 9),
-('18:30:00', '2025-04-08', 30, 4, 10),
-('20:45:00', '2025-04-08', 20, 5, 11),
-('17:00:00', '2025-04-09', 50, 1, 2),
-('19:30:00', '2025-04-09', 30, 2, 3),
-('21:00:00', '2025-04-09', 40, 3, 4),
-('18:30:00', '2025-04-09', 30, 4, 5),
-('20:45:00', '2025-04-09', 20, 5, 6),
-('17:00:00', '2025-04-10', 50, 1, 7),
-('19:30:00', '2025-04-10', 30, 2, 8),
-('21:00:00', '2025-04-10', 40, 3, 9),
-('18:30:00', '2025-04-10', 30, 4, 10),
-('20:45:00', '2025-04-10', 20, 5, 11);
+-- ('17:00:00', '2025-04-07', 50, 1, 2),
+-- ('19:30:00', '2025-04-07', 30, 2, 3),
+-- ('21:00:00', '2025-04-07', 40, 3, 4),
+-- ('18:30:00', '2025-04-07', 30, 4, 5),
+-- ('20:45:00', '2025-04-07', 20, 5, 6),
+-- ('17:00:00', '2025-04-08', 50, 1, 7),
+-- ('19:30:00', '2025-04-08', 30, 2, 8),
+-- ('21:00:00', '2025-04-08', 40, 3, 9),
+-- ('18:30:00', '2025-04-08', 30, 4, 10),
+-- ('20:45:00', '2025-04-08', 20, 5, 11),
+-- ('17:00:00', '2025-04-09', 50, 1, 2),
+-- ('19:30:00', '2025-04-09', 30, 2, 3),
+-- ('21:00:00', '2025-04-09', 40, 3, 4),
+-- ('18:30:00', '2025-04-09', 30, 4, 5),
+-- ('20:45:00', '2025-04-09', 20, 5, 6),
+-- ('17:00:00', '2025-04-10', 50, 1, 7),
+-- ('19:30:00', '2025-04-10', 30, 2, 8),
+-- ('21:00:00', '2025-04-10', 40, 3, 9),
+-- ('18:30:00', '2025-04-10', 30, 4, 10),
+-- ('20:45:00', '2025-04-10', 20, 5, 11);
 
 
 INSERT INTO `Booking` (`NoOfSeats`, `Cost`, `Email`, `ScreeningID`)
@@ -272,16 +276,16 @@ VALUES
 (4, 40.00, 'jane.smith@example.com', 1 ),
 (1, 10.00, 'bob.johnson@example.com', 1 ),
 (3, 30.00, 'alice.williams@example.com', 1),
-(5, 50.00, 'sample1@gmail.com', 1 );
--- (5, 50.00, 'sample2@gmail.com', 2 ),
--- (5, 50.00, 'sample3@gmail.com', 2 ),
--- (5, 50.00, 'sample4@gmail.com', 2 ),
--- (5, 50.00, 'sample5@gmail.com', 8 ),
--- (5, 50.00, 'sample6@gmail.com', 8 ),
--- (5, 50.00, 'sample7@gmail.com', 2 ),
--- (5, 50.00, 'sample8@gmail.com', 23 ),
--- (5, 50.00, 'sample9@gmail.com', 25 ),
--- (5, 50.00, 'sample10@gmail.com', 29 );
+(5, 50.00, 'sample1@gmail.com', 1 ),
+(5, 50.00, 'sample2@gmail.com', 2 ),
+(5, 50.00, 'sample3@gmail.com', 2 ),
+(5, 50.00, 'sample4@gmail.com', 2 ),
+(5, 50.00, 'sample5@gmail.com', 8 ),
+(5, 50.00, 'sample6@gmail.com', 8 ),
+(5, 50.00, 'sample7@gmail.com', 2 ),
+(5, 50.00, 'sample8@gmail.com', 23 ),
+(5, 50.00, 'sample9@gmail.com', 25 ),
+(5, 50.00, 'sample10@gmail.com', 29 );
 
 
 INSERT INTO `TicketType` (`Name`, `Cost`)
@@ -308,21 +312,14 @@ VALUES
 (4, 10),
 (5, 20);
 
-INSERT INTO `Manager` (`Name`, `Email`, `Password`)
+INSERT INTO `User` (`Name`, `Email`, `Password`, `Role`)
 VALUES
-('Alice Johnson', 'alice.johnson@example.com', 'password123'),
-('Bob Smith', 'testMan@gmail.com', 'password123'),
-('Charlie Brown', 'charlie.brown@example.com', 'chocoCake789'),
-('Dana White', 'dana.white@example.com', 'admin@2025'),
-('Eve Black', 'eve.black@example.com', 'evePass001');
+('Alice Johnson', 'alice.johnson@example.com', 'password123', "Manager"),
+('Bob Smith', 'testMan@gmail.com', 'password123', "Manager"),
+('Charlie Brown', 'charlie.brown@example.com', 'chocoCake789', "Admin"),
+('Dana White', 'testAd@gmail.com', 'password123', "Admin"),
+('Eve Black', 'eve.black@example.com', 'evePass001', "Manager");
 
-INSERT INTO `Admin` (`Name`, `Email`, `Password`)
-VALUES
-('Grace Lee', 'testAd@gmail.com', 'password123'),
-('Henry Ford', 'henry.ford@example.com', 'fordPassword2025'),
-('Ivy Green', 'ivy.green@example.com', 'greenPass123'),
-('Jack Turner', 'jack.turner@example.com', 'jackPass1234'),
-('Lily Adams', 'lily.adams@example.com', 'lilyPass2025');
 
 
 INSERT INTO `ShowingTime` (`StartTime`)
