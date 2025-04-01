@@ -16,7 +16,6 @@ function nav() {
                       <li class="nav-item"><a class="nav-link" href="/Customer/Film/cFilm.html">Now Showing</a></li>`;
 
   if (isLoggedIn) {
-
     if (role === "Admin") {
       navOutPut += `
         <li class="nav-item"><a class="nav-link" href="/film/film.html">Film</a></li>
@@ -60,6 +59,37 @@ function nav() {
 
   $("nav").html(navOutPut);
 
+  let currentPath = window.location.pathname.split("/").pop();
+
+  // Breadcrumb container selector
+  let breadcrumbContainer = $("#breadcrumb");
+
+  // Define breadcrumb mapping
+  let breadcrumbMap = {
+    "index.html": "Home",
+    "cFilm.html": "Now Showing",
+    "filmDetails.html": "Film Details",
+    "screening.html": "Screening",
+    "theatre.html": "Theatre",
+    "film.html": "Film",
+    "login.html": "Login",
+  };
+
+  // Check if the current page exists in the breadcrumb map
+  if (breadcrumbMap[currentPath]) {
+    let breadcrumbHTML = `
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+              <li class="breadcrumb-item active" aria-current="page">${breadcrumbMap[currentPath]}</li>
+            </ol>
+          </nav>
+        `;
+
+    // Inject the breadcrumb into the breadcrumb container
+    breadcrumbContainer.html(breadcrumbHTML);
+  }
+
   $("#logout").click(function (e) {
     e.preventDefault();
     sessionStorage.removeItem("login");
@@ -67,7 +97,6 @@ function nav() {
     localStorage.removeItem("token");
     location.replace("/index.html");
   });
-  // });
 }
 
 // Ensures table responsiveness

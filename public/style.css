@@ -58,6 +58,28 @@ label {
   border: 1px solid #ccc;
 }
 
+.breadcrumb {
+  background-color: transparent; /* Removes default background */
+  margin: 10px 0;
+  list-style: none;
+  display: flex;
+  align-items: center;
+}
+
+.breadcrumb-item {
+  font-size: 16px;
+}
+
+.breadcrumb-item a {
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.breadcrumb-item.active {
+  color: #000;
+  font-weight: bold;
+}
+
 .table {
   overflow-x: auto;
   white-space: nowrap;
@@ -189,6 +211,21 @@ label {
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
 }
 
+.highcharts-point {
+  fill: var(--bs-primary); /* default seat colour */
+  cursor: pointer !important;
+  transition: fill 0.3s ease-in-out !important;
+}
+
+.highcharts-point:hover {
+  fill: #17a2b8 !important;
+}
+
+.SeatsDiv {
+  flex-grow: 1;
+}
+
 footer {
   width: 100%;
+  margin-top: auto;
 }
