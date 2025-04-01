@@ -10,7 +10,7 @@ body {
   flex: 1; /* Push footer to bottom of page */
 }
 
-label{
+label {
   font-weight: bold;
   /* color: #325d88; */
 }
@@ -48,7 +48,7 @@ label{
   width: 0;
   opacity: 0;
   overflow: hidden;
-  border: 1px solid transparent; 
+  border: 1px solid transparent;
   transition: width 0.3s ease-in-out, opacity 0.2s ease-in-out, border 0.3s;
 }
 
@@ -164,6 +164,23 @@ label{
 .book-tickets-btn {
 }
 
+.highcharts-point {
+  fill: var(--bs-primary); /* default seat colour */
+  cursor: pointer !important;
+  transition: fill 0.3s ease-in-out !important;
+}
+
+.highcharts-point:hover {
+  fill: #17a2b8 !important;
+}
+
+.SeatsDiv {
+  flex-grow: 1; /* Allow this section to expand and take available space */
+}
+
 footer {
   width: 100%;
+
+    margin-top: auto; /* Push the footer to the bottom */
+  
 }
