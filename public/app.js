@@ -132,15 +132,15 @@ function dateDD(filmID) {
 
     let specificDates = [];
 
-     $.each(data, function (i, screening) {
-    //   let formattedDate = new Date(screening.Date).toLocaleDateString("en-GB", {
-    //     weekday: "long", // Wednesday,
-    //     month: "long", // March
-    //     day: "numeric", // 26
-    //   });
-    let formattedDate = new Date(screening.Date).toISOString().split("T")[0];
+    $.each(data, function (i, screening) {
+      //   let formattedDate = new Date(screening.Date).toLocaleDateString("en-GB", {
+      //     weekday: "long", // Wednesday,
+      //     month: "long", // March
+      //     day: "numeric", // 26
+      //   });
+      let formattedDate = new Date(screening.Date).toISOString().split("T")[0];
 
-    //  formattedDate = formattedDate.replace(/^(\w+)(?=\s)/, "$1,");
+      //  formattedDate = formattedDate.replace(/^(\w+)(?=\s)/, "$1,");
 
       // check if its present in the array
       if (!specificDates.includes(formattedDate)) {
@@ -305,7 +305,7 @@ $(document).on("click", ".book-tickets-btn", function () {
 
   // database expects this date format
   let formattedDate = date;
-  
+
   let ScreeningBooking = {
     filmID: filmID,
     date: formattedDate,
