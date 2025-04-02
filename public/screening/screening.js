@@ -16,7 +16,12 @@ async function getJsonData() {
   await $.getJSON(`http://localhost:3000/screenings`, function (data) {
     $.each(data, async function (i, value) {
       let screeningDate = new Date(value.Date);
-      let formattedDate = screeningDate.toISOString().split("T")[0];
+      let formattedDate = screeningDate.toLocaleString('en-GB', {
+        timeZone: 'Europe/London', 
+        year: 'numeric', 
+        month: 'numeric', 
+        day: 'numeric'
+      });
       let filmname = await getFilmData(value.FilmID);
 
       $(`#tbody`).append(
