@@ -25,7 +25,7 @@ function nav() {
     if (role === "Manager") {
       navOutPut += `
         <li class="nav-item"><a class="nav-link" href="/screening/screening.html">Screening</a></li>
-        <li class="nav-item"><a class="nav-link" href="/theatre/theatre.html">Theatre</a></li>
+        <li class="nav-item"><a class="nav-link" href="/Theatre/Theatre.html">Theatre</a></li>
 `;
     }
   }
@@ -59,37 +59,6 @@ function nav() {
 
   $("nav").html(navOutPut);
 
-  let currentPath = window.location.pathname.split("/").pop();
-
-  // Breadcrumb container selector
-  let breadcrumbContainer = $("#breadcrumb");
-
-  // Define breadcrumb mapping
-  let breadcrumbMap = {
-    "index.html": "Home",
-    "cFilm.html": "Now Showing",
-    "filmDetails.html": "Film Details",
-    "screening.html": "Screening",
-    "theatre.html": "Theatre",
-    "film.html": "Film",
-    "login.html": "Login",
-  };
-
-  // Check if the current page exists in the breadcrumb map
-  if (breadcrumbMap[currentPath]) {
-    let breadcrumbHTML = `
-          <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-              <li class="breadcrumb-item active" aria-current="page">${breadcrumbMap[currentPath]}</li>
-            </ol>
-          </nav>
-        `;
-
-    // Inject the breadcrumb into the breadcrumb container
-    breadcrumbContainer.html(breadcrumbHTML);
-  }
-
   $("#logout").click(function (e) {
     e.preventDefault();
     sessionStorage.removeItem("login");
@@ -120,5 +89,51 @@ $(document).ready(function () {
     if (!$(e.target).closest("#search-btn, #search-input").length) {
       $("#search-input").removeClass("active");
     }
+  });
+});
+
+// styling for highlighting the active page
+$(document).ready(function () {
+  // Get the current page path from the browser's URL
+  let currentPath = window.location.pathname;
+  $(".navbar-nav .nav-link").each(function () {
+    // Convert relative href to an absolute URL and extract the pathname
+    let linkPath = new URL($(this).attr("href"), window.location.origin)
+      .pathname;
+
+    // extract the folder of the current path i.e. /Theatre for /Theatre/Theatre.html
+    let currentFolder = currentPath.substring(
+      0,
+      currentPath.lastIndexOf("/") + 1
+    );
+    let linkFolder = linkPath.substring(0, linkPath.lastIndexOf("/") + 1);
+
+    // Check if the current page exactly matches the link,
+    // if the current page is a subpage of the link (e.g., `/Theatre/createTheatre.html` under `/Theatre/`),
+    // or if both the current page and the link belong to the same folder.
+    // If any of these conditions are met, add the "active" class to highlight the link.
+    if (
+      currentPath === linkPath ||
+      currentPath.startsWith(linkPath) ||
+      currentFolder === linkFolder
+    ) {
+      $(this).addClass("active");
+    }
+  });
+
+  // when the active link is clicked
+  $(".navbar-nav .nav-link").click(function (e) {
+    e.preventDefault();
+    let newUrl = $(this).attr("href");
+
+    // Remove active from all the links and add to the clicked link
+    $(".navbar-nav .nav-link").removeClass("active");
+    $(this).addClass("active");
+
+    // Delay navigation to let the sliding underline animation complete
+    // makes loading page less shaky
+    setTimeout(function () {
+      window.location.href = newUrl;
+    }, 250);
   });
 });
