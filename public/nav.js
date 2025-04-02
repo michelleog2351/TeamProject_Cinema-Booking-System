@@ -136,4 +136,31 @@ $(document).ready(function () {
       window.location.href = newUrl;
     }, 250);
   });
+}); 
+
+// When the user presses Enter in the search input, perform the search.
+$("#search-input").keypress(function (e) {
+  // Check if Enter key (key code 13) is pressed
+  if (e.which === 13) {
+    e.preventDefault(); // Prevent the default form submission behavior
+
+    let searchQuery = $(this).val().trim().toLowerCase();
+
+    if (searchQuery) {
+      // Fetch the list of films from your API
+      $.getJSON("http://localhost:3000/films", function (data) {
+        // Find a film whose name matches the search query (case-insensitive)
+        let film = data.find(function (item) {
+          return item.Name.toLowerCase() === searchQuery;
+        });
+
+        if (film) {
+          // Redirect to the film's details page with its FilmID in the query string
+          window.location.href = `Customer/Film/filmDetails.html?filmID=${film.FilmID}`;
+        } else {
+          alert("Film not found. Please check the name and try again.");
+        }
+      });
+    }
+  }
 });
