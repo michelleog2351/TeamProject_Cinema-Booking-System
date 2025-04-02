@@ -38,27 +38,27 @@ function getJsonData() {
             var lineGraphs = svg.append("g")
 
             var y = d3.scaleLinear()
-                .domain([0, 100])//FOR DATA VALUES MaximumTickets(filmRecords)
+                .domain([0, 50])//FOR DATA VALUES MaximumTickets(filmRecords)
                 .range([height-20, 30]);//FOR SVG height and width
             var yAxis = d3.axisLeft(y)
 
             var x = d3.scaleTime()
                 .domain([Minimumdataset(filmRecords), Maximumdataset(filmRecords)])
-                .range([0, width-150+spacing]);
+                .range([0, width - 150 - barwidth]);
             var xAxis = d3.axisBottom(x)
             .ticks(d3.timeDay.every(1))
             .tickFormat(d3.timeFormat("%b %d"));
 
 
             
-            lineGraphs.selectAll("rect")
+lineGraphs.selectAll("rect")
                 .data(filmRecords)
                 .enter().append("rect")
-                .attr('x',function(d,i) { return (barwidth+spacing)*i; })
-                .attr('y',function(d) { return height-y(d.TicketsSold)})
-                .attr('width',barwidth)
-                .attr('height',function(d){ return y(d.TicketsSold);})
-                .attr('fill','steelblue')
+                .attr('x', d => x(d.Date))
+                .attr('y', d => y(d.TicketsSold))
+                .attr('width', barwidth)
+                .attr('height', d => Math.max(1, height - 20 - y(d.TicketsSold)))
+                .attr('fill', 'steelblue')
                 .attr("transform", `translate(40, 0)`);
 
                 svg.append("g")
