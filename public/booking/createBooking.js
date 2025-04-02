@@ -162,3 +162,22 @@ function updateSeatsRemaining(screeningID, newSeatsRemaining) {
   };
   $.post(`http://localhost:3000/seatsRemaining`, updateSeatsRemaining);
 }
+
+function sendReceipt() {
+  let email =  $(`#email`).val();
+
+  let totalCost = parseFloat($("#totalCost").text());
+  let bookingDetails = {
+    email: email,
+    totalCost: totalCost,
+    noOfSeats: totalNumberOfSeats
+  };
+  fetch("http://localhost:3000/send-receipt", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ bookingDetails })
+  })
+  .then(response => response.text())
+  .then(data => alert(data))
+  .catch(error => alert("Error: " + error));
+}
