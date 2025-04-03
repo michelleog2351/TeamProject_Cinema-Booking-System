@@ -3,13 +3,13 @@ $(document).ready(function () {
     footer();
     getJsonData()
 })
+
+
 function getJsonData() {
     d3.json("http://localhost:3000/ticketsSoldDaily").then(async function (dataset) {
         var width = 800;
         var height = 800;
         var barwidth = 40;
-        var spacing =70;
-        var heightSpacing = 20;
 
         //Get a Unique Collection of
         //FilmIDS
@@ -30,7 +30,8 @@ function getJsonData() {
             var totalTicketsSold = TotalTicketsSold(_.pluck(filmRecords, 'TicketsSold'))
 
             $(`#graphs`).append(`
-            <h3>${filmName} Tickets Sold This Week ${totalTicketsSold}</h3>
+            <h1 style="text-align:center"><b>${filmName}</b></h1>
+            <h3 style="text-align:center">Tickets Sold This Week: <b>${totalTicketsSold}</b></h3>
             <svg class="svg" id="svg${filmID}" height="${height}" width="${width}"></svg>
             <hr>
             `);
@@ -43,7 +44,7 @@ function getJsonData() {
             var yAxis = d3.axisLeft(y)
 
             var x = d3.scaleTime()
-                .domain([Minimumdataset(filmRecords), Maximumdataset(filmRecords)])
+                .domain([(Minimumdataset(filmRecords)-1), Maximumdataset(filmRecords)])
                 .range([0, width - 150 - barwidth]);
             var xAxis = d3.axisBottom(x)
             .ticks(d3.timeDay.every(1))
@@ -54,7 +55,7 @@ function getJsonData() {
 lineGraphs.selectAll("rect")
                 .data(filmRecords)
                 .enter().append("rect")
-                .attr('x', d => x(d.Date))
+                .attr('x', d => x(d.Date) - barwidth/2)
                 .attr('y', d => y(d.TicketsSold))
                 .attr('width', barwidth)
                 .attr('height', d => Math.max(1, height - 20 - y(d.TicketsSold)))
@@ -69,14 +70,35 @@ lineGraphs.selectAll("rect")
                 .attr("transform", `translate(40, ${height - 20})`)
                 .call(xAxis);
 
+                svg.append("line")
+                .attr("x1",40)
+                .attr("x2",width-110)
+                .attr("y1",height-20)
+                .attr("y2",height-20)
+                .attr("stroke-width",2)
+                .attr("stroke","black");
+
+                svg.append("line")
+                .attr("x1",40)
+                .attr("x2",40)
+                .attr("y1",30)
+                .attr("y2",height-20)
+                .attr("stroke-width",2)
+                .attr("stroke","black");
+
 
         });
     });
 }
 
-
 function Maximumdataset(dataset) {
     return new Date(Math.max(...dataset.map(d => d.Date)));
+}
+
+function Minimumdataset(dataset) {
+    let minDate = new Date(Math.min(...dataset.map(d => d.Date)));
+    minDate.setDate(minDate.getDate()-1)
+    return minDate;
 }
 
 function TotalTicketsSold(dailyTickets) {
@@ -87,19 +109,20 @@ function TotalTicketsSold(dailyTickets) {
     })
     return totalTicketsSold
 }
+$(document).ready(function () {
+    var scrollTopBtn = $(".scroll-to-top-btn");
+  
+    $(window).on("scroll", function () {
+      if ($(this).scrollTop() > 50) {
+        scrollTopBtn.fadeIn().css("visibility", "visible");
+      } else {
+        scrollTopBtn.fadeOut().css("visibility", "hidden");
+      }
+    });
+  
+    scrollTopBtn.click(function () {
+      $("html, body").animate({ scrollTop: 0 }, 120);
+    });
+  });
 
-function Maximumdataset(dataset) {
-    return new Date(Math.max(...dataset.map(d => d.Date)));
-}
 
-function Minimumdataset(dataset) {
-    return new Date(Math.min(...dataset.map(d => d.Date)));
-}
-
-function MaximumTickets(dataset) {
-    return Math.max(...dataset.map(d => Number(d.TicketsSold)))
-}
-
-function MinimumTickets(dataset) {
-    return Math.min(...dataset.map(d => Number(d.TicketsSold)))
-}
