@@ -205,3 +205,24 @@ footer {
 .fa:hover {
   opacity: 0.7;
 }
+
+footer {
+  width: 100%;
+  position: relative;
+  padding-bottom: 20px;
+}
+
+footer .copyright {
+  position: absolute;
+  left: 20px; 
+  bottom: 50px; 
+  text-align: left;
+}
+
+.d-flex.justify-content-center.align-items-center.text-white {
+  display: none; 
+}
+
+
+
+
