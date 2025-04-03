@@ -133,12 +133,21 @@ function dateDD(filmID) {
     let specificDates = [];
 
     $.each(data, function (i, screening) {
-      //   let formattedDate = new Date(screening.Date).toLocaleDateString("en-GB", {
-      //     weekday: "long", // Wednesday,
-      //     month: "long", // March
-      //     day: "numeric", // 26
-      //   });
-      let formattedDate = new Date(screening.Date).toISOString().split("T")[0];
+      let screeningDate = new Date(screening.Date);
+
+      let formattedDate = screeningDate.toLocaleString("en-GB", {
+        timeZone: "Europe/London",
+        year: "numeric",
+        month: "numeric",
+        day: "numeric",
+      });
+
+      // let formattedDate = new Date(screening.Date).toLocaleDateString("en-GB", {
+      //   weekday: "long", // Wednesday,
+      //   month: "long", // March
+      //   day: "numeric", // 26
+      // });
+      // let formattedDate = new Date(screening.Date).toISOString().split("T")[0];
 
       //  formattedDate = formattedDate.replace(/^(\w+)(?=\s)/, "$1,");
 
@@ -173,16 +182,25 @@ function startTimeDD(filmID, selectDate) {
       '<option value="" selected>Select Time</option>'
     );
     $.each(data, function (i, screening) {
+      let screeningDate = new Date(screening.Date);
+
+      let formattedDate = screeningDate.toLocaleString("en-GB", {
+        timeZone: "Europe/London",
+        year: "numeric",
+        month: "numeric",
+        day: "numeric",
+      });
+
       // let screeningDate = new Date(screening.Date).toLocaleDateString("en-GB", {
       //   weekday: "long", // Wednesday
       //   month: "long", // March
       //   day: "numeric", // 26
       // });
-      let screeningDate = new Date(screening.Date).toISOString().split("T")[0];
+      // let screeningDate = new Date(screening.Date).toISOString().split("T")[0];
 
       //screeningDate = screeningDate.replace(/^(\w+)(?=\s)/, "$1,");
 
-      if (screeningDate === selectDate) {
+      if (formattedDate === selectDate) {
         $("#selectStartTime").append(
           `<option value="${screening.StartTime}">${screening.StartTime}</option>`
         );
@@ -209,7 +227,15 @@ function fetchScreenings(filmID) {
       let screeningsByDate = {};
 
       $.each(data, function (i, value) {
-        let formattedDate = new Date(value.Date).toISOString().split("T")[0];
+        let screeningDate = new Date(value.Date);
+        let formattedDate = screeningDate.toLocaleString("en-GB", {
+          timeZone: "Europe/London",
+          year: "numeric",
+          month: "numeric",
+          day: "numeric",
+        });
+
+        // let formattedDate = new Date(value.Date).toISOString().split("T")[0];
         // let formattedDate = new Date(value.Date).toLocaleDateString("en-GB", {
         //   weekday: "short", // Wed
         //   month: "short", // Mar
@@ -302,9 +328,14 @@ $(document).on("click", ".book-tickets-btn", function () {
     alert("Please select a film, date, and time before booking.");
     return;
   }
+  let formattedDate = date.toLocaleString("en-GB", {
+    timeZone: "Europe/London",
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+  });
 
   // database expects this date format
-  let formattedDate = date;
 
   let ScreeningBooking = {
     filmID: filmID,
