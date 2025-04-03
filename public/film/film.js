@@ -45,10 +45,7 @@ function getJsonData() {
 								<td id="runningTime${value.RunningTime}">${value.RunningTime}</td>
 								<td id="genre${value.Genre}">${value.Genre}</td>
 								<td id="director${value.Director}">${value.Director}</td>
-								<td><img src="../../images/${value.Name.replace(
-                  /\s+/g,
-                  "_"
-                )}.jpg" alt="Cover" width="50"></td>
+                <td id ="Starring${value.Starring}">${value.Starring}</td>
 								<td><a href="${value.VideoURL}" target="_blank">Watch</a></td>
 								<td id="ReleaseDate${formattedDate}">${formattedDate}</td>
 								<td><button type="button" class="updateButton btn btn-secondary" value="${
@@ -102,6 +99,8 @@ function sortFilmNames() {
 										<td>${film.RunningTime}</td>
 										<td>${film.Genre}</td>
 										<td>${film.Director}</td>
+                    <td>${film.Starring}</td>
+                    <td>${film.Description}</td>
 										 <td><img src="../../images/${film.Name.replace(
                        /\s+/g,
                        "_"
