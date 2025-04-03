@@ -34,21 +34,33 @@ $("document").ready(function () {
 			</div>
 
 		<div class="mb-3">
-		<label class="form-label" for="director">Director</label>
-		<input class="form-control" type="text" id="director" name="director" required>
-		<small id="directorWarningMessage" style="color: red; display: none;">Please enter the name of the film director</small>
+			<label class="form-label" for="director">Director</label>
+			<input class="form-control" type="text" id="director" name="director" required>
+			<small id="directorWarningMessage" style="color: red; display: none;">Please enter the name of the film director</small>
 		</div>
 
 		<div class="mb-3">
-		<label class="form-label" for="coverImage">Upload Cover Image</label>
-		<input class="form-control" type="file" id="coverImage" name="coverImage" required>
-		<small id="imageWarningMessage" style="color: red; display: none;">Please enter an image</small
+			<label class="form-label" for="Starring">Starring</label>
+			<input class="form-control" type="text" id="Starring" name="Starring" required>
+    		<small id="StarringWarningMessage" style="color: red; display: none;">Please enter the stars</small>
+    	</div>
+
+		<div class="mb-3">
+			<label class="form-label" for="Description">Description</label>
+			<textarea class="form-control" type="text" id="Description" name="Description" required></textarea>
+    		<small id="DescriptionWarningMessage" style="color: red; display: none;">Please enter the Description</small>
+    	</div>
+
+		<div class="mb-3">
+			<label class="form-label" for="coverImage">Upload Cover Image</label>
+			<input class="form-control" type="file" id="coverImage" name="coverImage">
+			<small id="imageWarningMessage" style="color: red; display: none;">Please enter an image</small
 		</div>
 
 		<div class="mb-3">
-		<label class="form-label" for="videoURL">Video URL</label>
-		<input class="form-control" type="text" id="videoURL" name="videoURL" required>
-		<small id="videoURLWarningMessage" style="color: red; display: none;">Please enter the trailer URL</small>
+			<label class="form-label" for="videoURL">Video URL</label>
+			<input class="form-control" type="text" id="videoURL" name="videoURL" required>
+			<small id="videoURLWarningMessage" style="color: red; display: none;">Please enter the trailer URL</small>
 		</div>
 
 		<div class="mb-3">
@@ -67,68 +79,77 @@ $("document").ready(function () {
 	});
 
 	$("#update").click(function () {
-        let isValid = true;
-        $("small").hide();
-
-        if ($("#name").val().trim() === '') {
-            $("#nameWarningMessage").show();
-            isValid = false;
-        }
-        if ($("#runningTime").val() === '') {
-            $("#runningTimeWarningMessage").show();
-            isValid = false;
-        }
-        if ($("#category").val() === '') {
-            $("#categoryWarningMessage").show();
-            isValid = false;
-        }
-        if ($("#genre").val() === '') {
-            $("#genreWarningMessage").show();
-            isValid = false;
-        }
-        if ($("#director").val().trim() === '') {
-            $("#directorWarningMessage").show();
-            isValid = false;
-        }
-        if ($("#coverImage")[0].files.length === 0) {
-            $("#coverImageWarningMessage").show();
-            isValid = false;
-        }
-        if ($("#videoURL").val().trim() === '') {
-            $("#videoURLWarningMessage").show();
-            isValid = false;
-        }
-        if ($("#ReleaseDate").val() === '') {
-            $("#releaseDateWarningMessage").show();
-            isValid = false;
-        }
-
-        if (!isValid) {
-            return;
-        }
-
-        let coverImage = $("#coverImage")[0].files[0];
-
-        let updatedFilm = {
-            name: $("#name").val(),
-            category: $("#category").val(),
-            runningTime: $("#runningTime").val(),
-            genre: $("#genre").val(),
-            director: $("#director").val(),
-            coverImage: coverImage ? coverImage.name : $("#currentCoverImage").text(),
-            videoURL: $("#videoURL").val(),
-            ReleaseDate: $("#ReleaseDate").val()
-        };
-
-        $.post(`http://localhost:3000/updateFilm/${filmID}`, updatedFilm)
-            .done(function () {
-                alert("Film updated");
-                location.replace("http://localhost:3000/film/film.html");
-            })
-            .fail(function () {
-                alert("Error updating film.");
-            });
-    });
+		let isValid = true;
+		$("small").hide();
+	
+		if ($("#name").val().trim() === '') {
+			$("#nameWarningMessage").show();
+			isValid = false;
+		}
+		if ($("#runningTime").val() === '') {
+			$("#runningTimeWarningMessage").show();
+			isValid = false;
+		}
+		if ($("#category").val() === '') {
+			$("#categoryWarningMessage").show();
+			isValid = false;
+		}
+		if ($("#genre").val() === '') {
+			$("#genreWarningMessage").show();
+			isValid = false;
+		}
+		if ($("#director").val().trim() === '') {
+			$("#directorWarningMessage").show();
+			isValid = false;
+		}
+		if ($("#videoURL").val().trim() === '') {
+			$("#videoURLWarningMessage").show();
+			isValid = false;
+		}
+		if ($("#ReleaseDate").val() === '') {
+			$("#releaseDateWarningMessage").show();
+			isValid = false;
+		}
+		if ($("#Description").val().trim() === '') {
+			$("#DescriptionWarningMessage").show();
+			isValid = false;
+		}
+	
+		if (!isValid) {
+			return;
+		}
+	
+		let formData = new FormData();
+		formData.append("name", $("#name").val());
+		formData.append("category", $("#category").val());
+		formData.append("runningTime", $("#runningTime").val());
+		formData.append("genre", $("#genre").val());
+		formData.append("director", $("#director").val());
+		formData.append("videoURL", $("#videoURL").val());
+		formData.append("ReleaseDate", $("#ReleaseDate").val());
+		formData.append("Description", $("#Description").val());
+		formData.append("Starring", $("#Starring").val());
+	
+		let coverImageFile = $("#coverImage")[0].files[0];
+		if (coverImageFile) {
+			formData.append("coverImage", coverImageFile);
+		}
+	
+		$.ajax({
+			url: `http://localhost:3000/updateFilm/${filmID}`,
+			type: "POST",
+			data: formData,
+			processData: false,
+			contentType: false,
+			success: function () {
+				alert("Film updated successfully!");
+				location.replace("http://localhost:3000/film/film.html");
+			},
+			error: function () {
+				alert("Error updating film.");
+			},
+		});
+	});
 });
 
 function getJsonData(filmID) {
@@ -144,6 +165,8 @@ function getJsonData(filmID) {
 		$("#coverImage").after(`<p id="currentCoverImage">${data.CoverImage}</p>`);
 		$("#videoURL").val(data.VideoURL);
 		$("#ReleaseDate").val(formattedDate);
+		$("#Description").val(data.Description);
+		$("#Starring").val(data.Starring);
 
 		getAgeRatingData(data.Genre);
 		getFilmCategories(data.Category);

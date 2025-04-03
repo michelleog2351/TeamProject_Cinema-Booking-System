@@ -18,6 +18,9 @@ npm install cors
 # Install body-parser (middleware to parse request bodies)
 npm install underscore
 
+# Install cron (enable a task to execute at a specified time)
+npm install cron
+
 # Install nodemon (development tool to automatically restart server on changes)
 npm install --save-dev nodemon
 

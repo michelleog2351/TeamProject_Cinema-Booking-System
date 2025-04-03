@@ -5,7 +5,7 @@ function nav() {
   var navOutPut = `
       <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
           <div class="container-fluid">
-              <a class="navbar-brand" href="/index.html">Our Cinema</a>
+            <img src="/images/logoTransparent.png" alt="Cinema Logo" width="6%" class="ms-3">
               <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"> 
                   <span class="navbar-toggler-icon"></span>
               </button>
