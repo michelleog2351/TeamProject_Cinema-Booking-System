@@ -13,6 +13,7 @@ var booking = require("./model/booking");
 var ticketType = require("./model/ticketType");
 var user = require("./model/user");
 
+
 var app = express();
 app.use(cors());
 app.use("/images", express.static("public/images"));

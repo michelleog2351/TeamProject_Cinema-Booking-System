@@ -121,7 +121,12 @@ function getScreeningData(ID) {
   $.getJSON(`http://localhost:3000/screening/${ID}`, async function (data) {
     // Ensure data is an object, and access it directly
     let screeningDate = new Date(data.Date);
-    let formattedDate = screeningDate.toISOString().split("T")[0];
+    let formattedDate = screeningDate.toLocaleString('en-GB', {
+      timeZone: 'Europe/London', 
+      year: 'numeric', 
+      month: 'numeric', 
+      day: 'numeric'
+    });
     let filmname = await getFilmData(data.FilmID);
 
     $(`#tbody`).append(

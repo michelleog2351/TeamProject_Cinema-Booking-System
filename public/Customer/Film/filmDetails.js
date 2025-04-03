@@ -87,7 +87,12 @@ function fetchScreenings(filmID) {
   $.getJSON(`http://localhost:3000/filmScreenings/${filmID}`, function (data) {
     $.each(data, function (i, value) {
       let screeningDate = new Date(value.Date);
-      let formattedDate = screeningDate.toISOString().split("T")[0];
+      let formattedDate = screeningDate.toLocaleString('en-GB', {
+        timeZone: 'Europe/London', 
+        year: 'numeric', 
+        month: 'numeric', 
+        day: 'numeric'
+      });
       $(`#tbody`).append(`
         <tr>
           <td id="startTime${value.StartTime}">${value.StartTime}</td>
