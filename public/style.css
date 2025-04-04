@@ -10,7 +10,7 @@ body {
   flex: 1; /* Push footer to bottom of page */
 }
 
-label{
+label {
   font-weight: bold;
   /* color: #325d88; */
 }
@@ -79,7 +79,7 @@ label{
   width: 0;
   opacity: 0;
   overflow: hidden;
-  border: 1px solid transparent; 
+  border: 1px solid transparent;
   transition: width 0.3s ease-in-out, opacity 0.2s ease-in-out, border 0.3s;
 }
 
