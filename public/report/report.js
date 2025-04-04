@@ -44,7 +44,7 @@ function getJsonData() {
             var yAxis = d3.axisLeft(y)
 
             var x = d3.scaleTime()
-                .domain([(Minimumdataset(filmRecords)-1), Maximumdataset(filmRecords)])
+                .domain([(Minimumdataset(filmRecords)), Maximumdataset(filmRecords)])
                 .range([0, width - 150 - barwidth]);
             var xAxis = d3.axisBottom(x)
             .ticks(d3.timeDay.every(1))
@@ -60,19 +60,19 @@ lineGraphs.selectAll("rect")
                 .attr('width', barwidth)
                 .attr('height', d => Math.max(1, height - 20 - y(d.TicketsSold)))
                 .attr('fill', 'steelblue')
-                .attr("transform", `translate(40, 0)`);
+                .attr("transform", `translate(80, 0)`);
 
                 svg.append("g")
                 .attr("transform", "translate(40, 0)")
                 .call(yAxis);
             
                 svg.append("g")
-                .attr("transform", `translate(40, ${height - 20})`)
+                .attr("transform", `translate(80, ${height - 20})`)
                 .call(xAxis);
 
                 svg.append("line")
                 .attr("x1",40)
-                .attr("x2",width-110)
+                .attr("x2",width-90)
                 .attr("y1",height-20)
                 .attr("y2",height-20)
                 .attr("stroke-width",2)
@@ -98,7 +98,7 @@ function Maximumdataset(dataset) {
 function Minimumdataset(dataset) {
     let minDate = new Date(Math.min(...dataset.map(d => d.Date)));
     minDate.setDate(minDate.getDate()-1)
-    return minDate;
+    return new Date(Math.min(...dataset.map(d => d.Date)));
 }
 
 function TotalTicketsSold(dailyTickets) {
