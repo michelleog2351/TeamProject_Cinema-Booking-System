@@ -3,6 +3,7 @@ var bodyParser = require("body-parser");
 var _ = require("underscore");
 var cors = require("cors");
 const multer = require("multer");
+var stripe = require('stripe')('sk_test_51RA4ngPEqgrMnakhKiY2pkimRptuFZlSRk2MxYajrksKPTqunlvGOdOa8hBq2N3R5B1GqsUlEjL4xsCzFtJ4VRdg00fcsBFrto');
 var nodemailer = require("nodemailer");
 var login = require("./model/login");
 var film = require("./model/film");
@@ -12,6 +13,7 @@ var Theatre = require("./model/theatre");
 var booking = require("./model/booking");
 var ticketType = require("./model/ticketType");
 var user = require("./model/user");
+
 
 
 var app = express();
@@ -257,6 +259,12 @@ app.post("/login", function (req, res) {
   login.loginUser(req, res);
 });
 
+////////////////////////////////////////////////////////////
+
+//STRIPE
+
+
+////////////////////////////////////////////////////////////
 var myServer = app.listen(3000, function () {
   console.log("Server listening on port 3000");
 });
