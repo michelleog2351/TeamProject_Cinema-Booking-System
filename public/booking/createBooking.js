@@ -25,7 +25,7 @@ $(document).ready(function () {
       return;
     }
     if (totalNumberOfSeats > parseInt($(`#seatsRemaining`).text())) {
-      alert("Not enough seats availble, try another screening");
+      alert("Not enough seats available, try another screening");
       return;
     }
 
@@ -131,7 +131,7 @@ function getScreeningData(ID) {
 
     $(`#tbody`).append(
       `<tr>
-      <td id="filmID${filmname}">${filmname}</td>
+      <td id="filmID${filmname}">${filmname}</td> 
       <td><img src="../../images/${filmname.replace(
         /\s+/g,
         "_"

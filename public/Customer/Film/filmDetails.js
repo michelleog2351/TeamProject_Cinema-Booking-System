@@ -2,7 +2,6 @@ $(document).ready(function () {
   nav();
   footer();
   loadFilmDetails();
-  
 });
 
 function loadFilmDetails() {
@@ -16,7 +15,8 @@ function loadFilmDetails() {
     return;
   }
 
-{/* <img src="${
+  {
+    /* <img src="${
                   value.CoverImage
                 }" class="card-img-top img-fluid" alt="${value.Name}" style="height: 400px; object-fit: cover;"></img> */}
 //<img src="/images/${value.CoverImage.replace(/\s+/g, "_")}" alt="${value.Name}" class="card-img-top img-fluid" style="height: 500px; object-fit: contain; margin:0;">
@@ -31,7 +31,9 @@ $("#filmDetails").html(`
              alt="${value.Name}" style="height: 300px;">
              <div class="mb-3">
              <br>
-             <button type="button" class="btn btn-primary" onclick="playTrailer('${value.VideoURL}')">
+             <button type="button" class="btn btn-primary" onclick="playTrailer('${
+               value.VideoURL
+             }')">
                 Watch Trailer
               </button>
               <button type="button" class="btn btn-secondary" onclick="location.href='cFilm.html'">
@@ -71,8 +73,7 @@ $("#filmDetails").html(`
       </div>
     </div>
   </div>
-  `
-);
+  `);
 
     fetchScreenings(filmID);
   }).fail(function (jqXHR, textStatus, errorThrown) {
@@ -80,7 +81,6 @@ $("#filmDetails").html(`
     alert("Failed to load film details.");
     location.href = "cFilm.html";
   });
-
 }
 
 function fetchScreenings(filmID) {
@@ -100,33 +100,28 @@ function fetchScreenings(filmID) {
           <td id="seatsRemaining${value.SeatsRemaining}">${value.SeatsRemaining}</td>
           <td id="theatreID${value.TheatreID}">${value.TheatreID}</td>
           <td><button type="button" class="bookingButton btn btn-primary" value="${value.ScreeningID}">Book</button></td>
-          </tr>`
-      );
-      $(".bookingButton").click(function(e){
-        console.log(e.target.value);;
+          </tr>`);
+      $(".bookingButton").click(function (e) {
+        console.log(e.target.value);
         let ID = e.target.value;
-      
+
         localStorage.setItem("ViewScreeningID", ID);
         location.replace("http://localhost:3000/booking/createBooking.html");
-      
-      
-        });
+      });
     });
   });
 }
 function playTrailer(videoURL) {
   console.log("Video URL: " + videoURL); // Debug
 
-  $('#trailerModal').on('shown.bs.modal', function () {
-    $('#trailerVideo').attr('src', videoURL); 
-  }); 
-  $('#trailerModal').modal('show');
+  $("#trailerModal").on("shown.bs.modal", function () {
+    $("#trailerVideo").attr("src", videoURL);
+  });
+  $("#trailerModal").modal("show");
 }
 
-
-$('#trailerModal').on('hidden.bs.modal', function () {
-  console.log('Modal closed');
-  $('#trailerVideo').attr('src', '');
-  $('#trailerModal').attr('inert', 'true');
+$("#trailerModal").on("hidden.bs.modal", function () {
+  console.log("Modal closed");
+  $("#trailerVideo").attr("src", "");
+  $("#trailerModal").attr("inert", "true");
 });
-

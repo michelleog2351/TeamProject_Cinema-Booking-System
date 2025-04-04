@@ -15,14 +15,7 @@ function nav() {
                       <li class="nav-item"><a class="nav-link" href="/index.html">Home</a></li>
                       <li class="nav-item"><a class="nav-link" href="/Customer/Film/cFilm.html">Now Showing</a></li>`;
 
-  // $("body").prepend(navOutput);
-  // setTimeout(() => {
-  // let userNav = "";
-  // navOutPut = "";
-
   if (isLoggedIn) {
-    // navOutPut += `<li class="nav-item"><a class="nav-link" href="/user/user.html">User</a></li>`;
-
     if (role === "Admin") {
       navOutPut += `
         <li class="nav-item"><a class="nav-link" href="/film/film.html">Film</a></li>
@@ -32,7 +25,7 @@ function nav() {
     if (role === "Manager") {
       navOutPut += `
         <li class="nav-item"><a class="nav-link" href="/screening/screening.html">Screening</a></li>
-        <li class="nav-item"><a class="nav-link" href="/theatre/theatre.html">Theatre</a></li>
+        <li class="nav-item"><a class="nav-link" href="/Theatre/Theatre.html">Theatre</a></li>
 `;
     }
   }
@@ -73,7 +66,6 @@ function nav() {
     localStorage.removeItem("token");
     location.replace("/index.html");
   });
-  // });
 }
 
 // Ensures table responsiveness
@@ -97,5 +89,51 @@ $(document).ready(function () {
     if (!$(e.target).closest("#search-btn, #search-input").length) {
       $("#search-input").removeClass("active");
     }
+  });
+});
+
+// styling for highlighting the active page
+$(document).ready(function () {
+  // Get the current page path from the browser's URL
+  let currentPath = window.location.pathname;
+  $(".navbar-nav .nav-link").each(function () {
+    // Convert relative href to an absolute URL and extract the pathname
+    let linkPath = new URL($(this).attr("href"), window.location.origin)
+      .pathname;
+
+    // extract the folder of the current path i.e. /Theatre for /Theatre/Theatre.html
+    let currentFolder = currentPath.substring(
+      0,
+      currentPath.lastIndexOf("/") + 1
+    );
+    let linkFolder = linkPath.substring(0, linkPath.lastIndexOf("/") + 1);
+
+    // Check if the current page exactly matches the link,
+    // if the current page is a subpage of the link (e.g., `/Theatre/createTheatre.html` under `/Theatre/`),
+    // or if both the current page and the link belong to the same folder.
+    // If any of these conditions are met, add the "active" class to highlight the link.
+    if (
+      currentPath === linkPath ||
+      currentPath.startsWith(linkPath) ||
+      currentFolder === linkFolder
+    ) {
+      $(this).addClass("active");
+    }
+  });
+
+  // when the active link is clicked
+  $(".navbar-nav .nav-link").click(function (e) {
+    e.preventDefault();
+    let newUrl = $(this).attr("href");
+
+    // Remove active from all the links and add to the clicked link
+    $(".navbar-nav .nav-link").removeClass("active");
+    $(this).addClass("active");
+
+    // Delay navigation to let the sliding underline animation complete
+    // makes loading page less shaky
+    setTimeout(function () {
+      window.location.href = newUrl;
+    }, 250);
   });
 });

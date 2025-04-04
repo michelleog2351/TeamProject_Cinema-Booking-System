@@ -11,7 +11,7 @@ var connection = mysql.createConnection({
 connection.connect(function (err) {
   job.start();
   if (err) throw err;
-  console.log(`Sucessfully connected to MySQL database cinemaDB`);
+  console.log(`Successfully connected to MySQL database cinemaDB`);
 });
 
 exports.getBookings = function (req, res) {

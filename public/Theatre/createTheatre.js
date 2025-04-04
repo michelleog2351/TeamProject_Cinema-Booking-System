@@ -4,9 +4,9 @@ $(document).ready(function () {
   $("#fbody").append(`
 
         <div class="mb-3">
-        <label class="form-label" for="Capacity">Capacity</label>
-        <select class="form-select" id="Capacity" name="Capacity">
-        </select>
+          <label class="form-label" for="Capacity">Capacity</label>
+          <select class="form-select" id="Capacity" name="Capacity">
+          </select>
         </div>
         <br>
     `);
