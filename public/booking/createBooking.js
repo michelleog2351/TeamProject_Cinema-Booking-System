@@ -167,3 +167,9 @@ function updateSeatsRemaining(screeningID, newSeatsRemaining) {
   };
   $.post(`http://localhost:3000/seatsRemaining`, updateSeatsRemaining);
 }
+
+//STRIPE WORK
+
+const PublishKey = pk_test_51RA4ngPEqgrMnakhCnbf3LAwwhOfB9ITIutyn2qKb2YxO9wX01QROJ0p1Mm8M7yGuY0pBRr2xdpqm78rxwF9RQXx00QtlllOFx;
+
+const SecretKey = sk_test_51RA4ngPEqgrMnakhKiY2pkimRptuFZlSRk2MxYajrksKPTqunlvGOdOa8hBq2N3R5B1GqsUlEjL4xsCzFtJ4VRdg00fcsBFrto;

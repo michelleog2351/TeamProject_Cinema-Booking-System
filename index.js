@@ -166,7 +166,7 @@ app.get("/bookings", function (req, res) {
   booking.getBookings(req, res);
 });
 
-app.get("/booking/:BookingID", function (req, res) {
+app.get("/booking/:bookingID", function (req, res) {
   booking.getBooking(req, res);
 });
 
