@@ -23,35 +23,34 @@
       <div class="text-center my-4">
         <h2><strong>Now Showing at Retro Reels</strong></h2>
       </div>
-      <div class="row g-3 mb-3">
-        <div class="col-12 col-md-3">
-          <select id="selectFilm" class="form-select" name="selectFilm">
+
+      <div class="row align-items-end mb-3 g-3">
+        <div class="col-12 col-md-5">
+          <select id="selectFilm" class="form-select mb-0" name="selectFilm">
             <option value="" selected>Select Film</option>
           </select>
         </div>
-
-        <div class="col-12 col-md-3">
-          <select id="selectDate" class="form-select" name="selectDate">
+        <div class="col-12 col-md-2">
+          <select id="selectDate" class="form-select mb-0" name="selectDate">
             <option value="" selected>Select Date</option>
           </select>
         </div>
-
-        <div class="col-12 col-md-3">
-          <select
-            id="selectStartTime"
-            class="form-select"
-            name="selectStartTime"
-          >
+        <div class="col-12 col-md-2">
+          <select id="selectStartTime" class="form-select mb-0" name="selectStartTime">
             <option value="" selected>Select Time</option>
           </select>
         </div>
-
-        <div
-          class="col-12 col-md-3 d-flex align-items-center justify-content-start"
-        >
-          <div class="book-tickets-div"></div>
+        <div class="col-12 col-md-2">
+          <button
+            type="button"
+            class="book-tickets-btn btn btn-primary w-100 mb-0"
+            title="Click here to book tickets!"
+          >
+            Book Tickets
+          </button>
         </div>
       </div>
+      
 
       <div id="filmRows" class="mt-3 d-none">
         <h4>Available Films</h4>

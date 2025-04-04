@@ -251,7 +251,7 @@ function fetchScreenings(filmID) {
 
       $.each(screeningsByDate, function (date, screening) {
         let timeButtonsHtml = `<div class="d-flex flex-wrap mt-2">`;
-        let booksButtonHtml = `<div class="d-flex flex-wrap mt-2">`;
+        let booksButtonHtml = `<div class="d-flex flex-wrap">`;
 
         $.each(screening, function (i, value) {
           timeButtonsHtml += `
@@ -263,7 +263,7 @@ function fetchScreenings(filmID) {
           booksButtonHtml += `
                 <button
                     type="button"
-                    class="btn btn-primary book-tickets-btn mx-1"
+                    class="btn btn-primary book-tickets-btn w-100 mx-1"
                     data-id="${value.ScreeningID}"
                     title="Click here to book tickets!"
                 >
@@ -310,11 +310,14 @@ $(document).on("click", ".book-tickets-btn", function () {
 
   let filmID = $("#selectFilm").val();
   let date = $("#selectDate").val();
+
+  date = new Date(date);
+  let formattedDate = date.toISOString().split("T")[0];
   let startTime = $("#selectStartTime").val();
 
   // Debugging logs
   console.log("Film ID:", filmID);
-  console.log("Date:", date);
+  console.log("Date:", formattedDate);
   console.log("Start Time:", startTime);
 
   // if (filmID && date && startTime) {
@@ -324,21 +327,19 @@ $(document).on("click", ".book-tickets-btn", function () {
   // } else {
   //   alert("Please select a film, date, and time before booking.");
   // }
-  if (!filmID || !date || !startTime) {
+  if (!filmID || !formattedDate || !startTime) {
     alert("Please select a film, date, and time before booking.");
     return;
   }
-  let formattedDate = date.toLocaleString("en-GB", {
-    timeZone: "Europe/London",
-    year: "numeric",
-    month: "numeric",
-    day: "numeric",
-  });
+  // let parsedDate = new Date(date);
+  // let formattedDate = parsedDate.toISOString().split("T")[0];  // Converts to YYYY-MM-DD format
+  
 
   // database expects this date format
+  //date = new Date(date);
 
   let ScreeningBooking = {
-    filmID: filmID,
+    filmID: filmID, 
     date: formattedDate,
     startTime: startTime,
   };
