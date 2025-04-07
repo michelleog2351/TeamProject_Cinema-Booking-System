@@ -80,7 +80,10 @@ $(`document`).ready(function () {
       `http://localhost:3000/checkUpdateScreeningAvailability`,
       bookedScreening
     ).done(function (data) {
-      if (data.length > 0) alert("Scrrening already booked try again");
+      if (data.length > 0) {
+        $("#error-message")
+				.text("Screening already booked for time selected.")
+				.show();}
       else {
         let updateScreening = {
           startTime: $(`#startTime`).val(),

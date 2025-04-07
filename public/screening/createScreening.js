@@ -81,7 +81,11 @@ $(document).ready(function () {
       `http://localhost:3000/checkScreeningAvailability`,
       bookedScreening
     ).done(function (data) {
-      if (data.length > 0) alert("Scrrening already booked try again");
+      if (data.length > 0) {
+        $("#error-message")
+				.text("Screening already booked for time selected.")
+				.show();
+      }
       else {
         let newScreening = {
           startTime: $(`#startTime`).val(),
