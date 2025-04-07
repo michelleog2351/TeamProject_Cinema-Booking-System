@@ -50,11 +50,11 @@ function filmDD() {
 							<div class="col-md-4">
 
 									<div class="position-relative">
-										<img src="http://localhost:3000/images/${film.Name.replace(/\s+/g, "_")}.jpg" 
-										class="img-fluid rounded shadow" 
+										<img src="/images/${film.CoverImage}"
+										class="card-img-top img-fluid rounded shadow" 
 										alt="${
                       film.Name
-                    }" style="height: 400px; object-fit: cover; border-radius: 10px;">
+                    }" style="height: 400px; object-fit: cover; border-radius: 10px;"/>
 
 										<div class="overlay">
 											<div class="overlay-content">
@@ -106,7 +106,7 @@ function createFilmCard(film) {
 		<br />
 		<div class="col-md-2 col-sm-6 mb-3">
 			<div class="card">
-				<img src="images/${film.Name.replace(/\s+/g, "_")}.jpg" 
+				<img src="images/${film.CoverImage}" 
 					class="card-img-top img-fluid w-100"
 					alt="${film.Name}"
 					style="height: 400px; object-fit: cover; border-radius: 10px;"
@@ -126,40 +126,48 @@ function dateDD(filmID) {
     $("#selectDate").html('<option value="" selected>Select Date</option>');
   }
 
-  $.getJSON(`http://localhost:3000/filmScreenings/${filmID}`, function (data) {
-    let selectDate = $("#selectDate");
-    selectDate.html('<option value="" selected>Select Date</option>');
+  const params = new URLSearchParams(window.location.search);
+  const filmId = params.get("id");
 
-    let specificDates = [];
+  if (filmId) {
+    $.getJSON(
+      `http://localhost:3000/filmScreenings/${filmID}`,
+      function (data) {
+        let selectDate = $("#selectDate");
+        selectDate.html('<option value="" selected>Select Date</option>');
 
-    $.each(data, function (i, screening) {
-      let screeningDate = new Date(screening.Date);
+        let specificDates = [];
 
-      let formattedDate = screeningDate.toLocaleString("en-GB", {
-        timeZone: "Europe/London",
-        year: "numeric",
-        month: "numeric",
-        day: "numeric",
-      });
+        $.each(data, function (i, screening) {
+          let screeningDate = new Date(screening.Date);
 
-      // let formattedDate = new Date(screening.Date).toLocaleDateString("en-GB", {
-      //   weekday: "long", // Wednesday,
-      //   month: "long", // March
-      //   day: "numeric", // 26
-      // });
-      // let formattedDate = new Date(screening.Date).toISOString().split("T")[0];
+          let formattedDate = screeningDate.toLocaleString("en-GB", {
+            timeZone: "Europe/London",
+            year: "numeric",
+            month: "numeric",
+            day: "numeric",
+          });
 
-      //  formattedDate = formattedDate.replace(/^(\w+)(?=\s)/, "$1,");
+          // let formattedDate = new Date(screening.Date).toLocaleDateString("en-GB", {
+          //   weekday: "long", // Wednesday,
+          //   month: "long", // March
+          //   day: "numeric", // 26
+          // });
+          // let formattedDate = new Date(screening.Date).toISOString().split("T")[0];
 
-      // check if its present in the array
-      if (!specificDates.includes(formattedDate)) {
-        specificDates.push(formattedDate); // add this to the array
-        selectDate.append(
-          `<option value="${formattedDate}">${formattedDate}</option>`
-        );
+          //  formattedDate = formattedDate.replace(/^(\w+)(?=\s)/, "$1,");
+
+          // check if its present in the array
+          if (!specificDates.includes(formattedDate)) {
+            specificDates.push(formattedDate); // add this to the array
+            selectDate.append(
+              `<option value="${formattedDate}">${formattedDate}</option>`
+            );
+          }
+        });
       }
-    });
-  });
+    );
+  }
 
   // updating available times dynamically based on selected date
   $("#selectDate").change(function () {
@@ -314,6 +322,7 @@ $(document).on("click", ".book-tickets-btn", function () {
   date = new Date(date);
   let formattedDate = date.toISOString().split("T")[0];
   let startTime = $("#selectStartTime").val();
+  let screeningID = $(this).data("id");
 
   // Debugging logs
   console.log("Film ID:", filmID);
@@ -333,13 +342,12 @@ $(document).on("click", ".book-tickets-btn", function () {
   }
   // let parsedDate = new Date(date);
   // let formattedDate = parsedDate.toISOString().split("T")[0];  // Converts to YYYY-MM-DD format
-  
 
   // database expects this date format
   //date = new Date(date);
 
   let ScreeningBooking = {
-    filmID: filmID, 
+    filmID: filmID,
     date: formattedDate,
     startTime: startTime,
   };
