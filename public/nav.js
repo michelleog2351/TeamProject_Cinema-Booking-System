@@ -31,13 +31,14 @@ function nav() {
   }
 
   navOutPut += `</ul>
-                  <ul class="navbar-nav list-unstyled d-flex align-items-center">
-                    <form class="d-flex align-items-center position-relative" role="search">
-                      <button id="search-btn" class="btn btn-outline-light rounded-circle p-2" type="button">
-                          <img src="/images/search.svg" alt="Search" width="20" height="50">
-                      </button>
-                      <input id="search-input" class="form-control" type="search" placeholder="Search for films and more!" aria-label="Search">
-                    </form>`;
+  <ul class="navbar-nav list-unstyled d-flex align-items-center">
+    <form class="d-flex align-items-center position-relative" role="search" onsubmit="return false;">
+        <input id="search-input" class="form-control" type="search" placeholder="Search for films and more!" aria-label="Search">
+        <button id="search-btn" class="btn btn-outline-light" type="button">
+          <img src="/images/search.svg" alt="Search" width="20" height="50">
+        </button>
+    </form>`;
+  
 
   if (isLoggedIn) {
     navOutPut += `
@@ -138,29 +139,58 @@ $(document).ready(function () {
   });
 }); 
 
-// When the user presses Enter in the search input, perform the search.
-$("#search-input").keypress(function (e) {
-  // Check if Enter key (key code 13) is pressed
-  if (e.which === 13) {
-    e.preventDefault(); // Prevent the default form submission behavior
-
-    let searchQuery = $(this).val().trim().toLowerCase();
-
-    if (searchQuery) {
-      // Fetch the list of films from your API
-      $.getJSON("http://localhost:3000/films", function (data) {
-        // Find a film whose name matches the search query (case-insensitive)
-        let film = data.find(function (item) {
-          return item.Name.toLowerCase() === searchQuery;
-        });
-
-        if (film) {
-          // Redirect to the film's details page with its FilmID in the query string
-          window.location.href = `Customer/Film/filmDetails.html?filmID=${film.FilmID}`;
-        } else {
-          alert("Film not found. Please check the name and try again.");
-        }
-      });
-    }
+ // Use delegated binding for dynamically inserted elements
+$(document).on("click", "#search-btn", function () {
+  // Toggle the input's active state if not visible
+  if (!$("#search-input").hasClass("active")) {
+    $("#search-input").addClass("active");
+    $("#search-input").focus();
+  } else {
+    searchFromNavbar();
   }
 });
+
+  // Trigger search on Enter key (13)
+$(document).on("keypress", "#search-input", function (e) {
+  if (e.which === 13) {
+    e.preventDefault();
+    searchFromNavbar();
+  }
+});
+
+$(document).on("click", "#search-btn", function (e) {
+    e.preventDefault();
+    searchFromNavbar();
+});
+
+
+// // Prevent the default form submission - refreshing of page
+// $(document).on("submit", "form[role='search']", function (e) {
+//   e.preventDefault();
+//   searchFromNavbar();
+// });
+
+function searchFromNavbar() {
+  console.log("searchFromNavbar called");
+  var searchInput = $("#search-input").val().toLowerCase().trim();
+
+  if (searchInput !== "") {
+    $.getJSON("http://localhost:3000/films", function (data) {
+      let exactMatch = data.find(
+        (film) => film.Name.toLowerCase() === searchInput
+      );
+
+      if (exactMatch) {
+        localStorage.setItem("FilmID", exactMatch.FilmID);
+        location.href = `/Customer/Film/filmDetails.html?filmID=${exactMatch.FilmID}`;
+      } else {
+        alert(`No exact film match found for '${searchInput}'.`);
+      }
+    }).fail(function () {
+      alert("Failed to load film data for search.");
+    });
+  }
+}
+
+
+
