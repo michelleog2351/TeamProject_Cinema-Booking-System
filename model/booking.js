@@ -43,7 +43,7 @@ exports.createBooking = function (req, res) {
   var noOfSeats = req.body.noOfSeats;
   var cost = req.body.cost;
   var email = req.body.email;
-  var screeningID = req.body.screeningID
+  var screeningID = req.body.screeningID;
 
   const query = "INSERT INTO Booking (NoOfSeats, Cost, Email, screeningID) VALUES (?, ?, ?, ?)";
   connection.query(query, [noOfSeats, cost, email, screeningID], function (err, result) {
@@ -138,3 +138,4 @@ const job = new CronJob("00 00 0 * * 0", function () {
     }
   });
 });
+
