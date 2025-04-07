@@ -341,6 +341,7 @@ $(document).on("click", ".book-tickets-btn", function () {
 		date: formattedDate,
 		startTime: startTime,
 	};
+	console.log(ScreeningBooking)
 
 	$.post(
 		"http://localhost:3000/screeningsByFilter",

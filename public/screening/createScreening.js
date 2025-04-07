@@ -38,7 +38,7 @@ $(document).ready(function () {
 
     `);
 
-  let today = new Date().toISOString().split("T")[0];
+  let today = new Date();
   $("#date").attr("min", today);
 
   $("#theatreSelect").change(function () {
@@ -63,6 +63,17 @@ $(document).ready(function () {
       $("#dateWarningMessage").show();
       inputValidation = false;
     }
+    let selectedDate = $("#date").val();
+    let selectedTime = $("#startTime").val();
+    let dateParts = selectedDate.split("-");
+    let [year, month, day] = dateParts.map(Number);
+    let [hour, minute] = selectedTime.split(":").map(Number);
+    let screeningDateTime = new Date(year, month - 1, day, hour, minute);
+    
+
+    if (screeningDateTime < today) {
+      return;
+    }
     if (!inputValidation) {
       return;
     }
@@ -70,18 +81,22 @@ $(document).ready(function () {
     var filmID = $(`#filmSelect`).val();
     var filmRunningTime = await getRunningTime(filmID);
 
+
     let bookedScreening = {
       theatreID: $(`#theatreSelect`).val(),
       date: $(`#date`).val(),
       startTime: $(`#startTime`).val(),
       runningTime: filmRunningTime,
     };
-
     $.post(
       `http://localhost:3000/checkScreeningAvailability`,
       bookedScreening
     ).done(function (data) {
-      if (data.length > 0) alert("Scrrening already booked try again");
+      if (data.length > 0) 
+        {
+          alert("Screning already booked try again");
+          console.log(data)
+        }
       else {
         let newScreening = {
           startTime: $(`#startTime`).val(),
@@ -90,7 +105,6 @@ $(document).ready(function () {
           theatreID: $(`#theatreSelect`).val(),
           filmID: filmID,
         };
-
         $.post(`http://localhost:3000/createScreening`, newScreening).done(
           function () {
             location.replace("http://localhost:3000/screening/screening.html");

@@ -35,7 +35,9 @@ exports.getScreeningsByFilter = function (req, res) {
   var startTime = req.body.startTime;
   var date = req.body.date;
   var filmID = req.body.filmID;
-  //console.log(date);
+  console.log(startTime);
+  console.log(date);
+  console.log(filmID);
 
   const query = `SELECT * from Screening WHERE FilmID = ? AND Date = ? AND StartTime = ?`;
 
@@ -204,6 +206,7 @@ exports.checkScreeningAvailability = function (req, res) {
         console.error(err);
         return res.status(500).send("Error deleting Screening");
       }
+      res.json(result);
     }
   );
 };
