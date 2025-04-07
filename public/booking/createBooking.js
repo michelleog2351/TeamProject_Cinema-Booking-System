@@ -17,15 +17,12 @@ $(document).ready(function () {
       $("#email").val().indexOf("@") == -1 ||
       $("#email").val().indexOf("@atu.ie") == -1
     ) {
-      alert("Must enter a valid email");
       return;
     }
     if (totalNumberOfSeats == 0) {
-      alert("Must select a ticket to book");
       return;
     }
     if (totalNumberOfSeats > parseInt($(`#seatsRemaining`).text())) {
-      alert("Not enough seats available, try another screening");
       return;
     }
 
@@ -36,35 +33,29 @@ $(document).ready(function () {
     let screeningDateTime = new Date(`${selectedDate}T${selectedTime}Z`);
 
     if (screeningDateTime.getTime() <= currentTime) {
-      alert("Screening has already begun");
       return;
     }
 
-    let newBooking = {
-      noOfSeats: totalNumberOfSeats,
-      cost: parseFloat($(`#totalCost`).text()),
-      email: $(`#email`).val(),
-      screeningID: ID,
-    };
+  const email = $("#email").val();
+  const cost = parseFloat($("#totalCost").text());
 
-    $.post(`http://localhost:3000/createBooking`, newBooking)
-      .done(function () {
-        alert("Booking created successfully!");
-        console.log(parseInt($(`#seatsRemaining`).text()));
-        console.log(newBooking.noOfSeats);
-        console.log(
-          parseInt($(`#seatsRemaining`).text() - newBooking.noOfSeats)
-        );
-        updateSeatsRemaining(
-          ID,
-          parseInt($(`#seatsRemaining`).text() - newBooking.noOfSeats)
-        );
-        location.replace("http://localhost:3000/booking/booking.html");
-        location.replace("http://localhost:3000/Customer/Film/cFilm.html");
-      })
-      .fail(function () {
-        alert("Error creating booking.");
-      });
+
+    sessionStorage.setItem("pendingBooking", JSON.stringify({
+      noOfSeats: totalNumberOfSeats,
+      cost: cost,
+      email: email,
+      screeningID: ID,
+    }));
+  
+    const stripe = Stripe("pk_test_51RA4naAHOjFm0Kcv0pXyQ6m0ZgAv7YwDv4RZwRC82t1btsYl7WC62MAhuHLfT9QXxd1tHpzkyMgQkXcPtqO8J4fD00dMKWuNur");
+  
+    $.post("http://localhost:3000/create-checkout-session", {
+      email: email,
+      amount: cost,
+    }).done(function (data) {
+      stripe.redirectToCheckout({ sessionId: data.id });
+    }).fail(function () {
+    });
   });
 });
 
@@ -101,7 +92,6 @@ function getTicketTypeData() {
     var amount = parseInt(e.target.value);
 
     if (totalNumberOfSeats + amount > 10) {
-      //alert("You can only book a maximum of 10 tickets across all ticket types.");
       return;
     }
 
@@ -119,14 +109,13 @@ function getTicketTypeData() {
 
 function getScreeningData(ID) {
   $.getJSON(`http://localhost:3000/screening/${ID}`, async function (data) {
-    // Ensure data is an object, and access it directly
     let screeningDate = new Date(data.Date);
-    let formattedDate = screeningDate.toLocaleDateString("en-GB", {
-      weekday: "long", // Wed
-      month: "long", // Mar
-      day: "numeric", // 26
+    let formattedDate = screeningDate.toLocaleString('en-GB', {
+      timeZone: 'Europe/London', 
+      year: 'numeric', 
+      month: 'numeric', 
+      day: 'numeric'
     });
-    formattedDate = formattedDate.replace(/^(\w+)(?=\s)/, "$1,");
     let filmname = await getFilmData(data.FilmID);
 
     $(`#tbody`).append(
@@ -158,12 +147,4 @@ function updatePrice() {
     totalCost = parseFloat(totalCost + item * $(`#amount${index}`).val());
   });
   $(`#totalCost`).text(totalCost.toFixed(2));
-}
-
-function updateSeatsRemaining(screeningID, newSeatsRemaining) {
-  let updateSeatsRemaining = {
-    screeningID: screeningID,
-    seatsRemaining: newSeatsRemaining,
-  };
-  $.post(`http://localhost:3000/seatsRemaining`, updateSeatsRemaining);
 }
