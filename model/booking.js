@@ -1,6 +1,5 @@
 var mysql = require("mysql2");
 const { CronJob } = require("cron");
-var stripe = require('stripe')('sk_test_51RA4ngPEqgrMnakhKiY2pkimRptuFZlSRk2MxYajrksKPTqunlvGOdOa8hBq2N3R5B1GqsUlEjL4xsCzFtJ4VRdg00fcsBFrto');
 
 var connection = mysql.createConnection({
   host: "localhost",
@@ -45,11 +44,6 @@ exports.createBooking = function (req, res) {
   var cost = req.body.cost;
   var email = req.body.email;
   var screeningID = req.body.screeningID;
-
-  const session = await stripe.checkout.create({
-    payment_method_types:['card'],
-    line_items:[]
-  })
 
   const query = "INSERT INTO Booking (NoOfSeats, Cost, Email, screeningID) VALUES (?, ?, ?, ?)";
   connection.query(query, [noOfSeats, cost, email, screeningID], function (err, result) {

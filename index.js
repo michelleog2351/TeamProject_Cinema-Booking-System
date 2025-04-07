@@ -3,7 +3,6 @@ var bodyParser = require("body-parser");
 var _ = require("underscore");
 var cors = require("cors");
 const multer = require("multer");
-var stripe = require('stripe')('sk_test_51RA4ngPEqgrMnakhKiY2pkimRptuFZlSRk2MxYajrksKPTqunlvGOdOa8hBq2N3R5B1GqsUlEjL4xsCzFtJ4VRdg00fcsBFrto');
 var nodemailer = require("nodemailer");
 var login = require("./model/login");
 var film = require("./model/film");
@@ -13,6 +12,8 @@ var Theatre = require("./model/theatre");
 var booking = require("./model/booking");
 var ticketType = require("./model/ticketType");
 var user = require("./model/user");
+var stripe = require('stripe')('sk_test_51RA4naAHOjFm0KcvxGrWP9tUACN3ZKBNezG5Nv1WvyRE3ULu4uURGLq6n7FvqHkX5faO5pdAKHFJEKtWfZMK7pk100kEHND3eu');
+
 
 
 
@@ -57,6 +58,38 @@ app.post("/send-email", function (req, res) {
       res.send("Email sent successfully!");
     }
   });
+});
+
+//Stripe
+app.post('/create-checkout-session', async (req, res) => {
+  const { email, amount } = req.body;
+
+  try {
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      line_items: [
+        {
+          price_data: {
+            currency: 'eur',
+            product_data: {
+              name: 'Cinema Ticket Booking',
+            },
+            unit_amount: amount * 100,
+          },
+          quantity: 1,
+        },
+      ],
+      mode: 'payment',
+      customer_email: email,
+      success_url: 'http://localhost:3000/creditcard/success.html',
+      cancel_url: 'http://localhost:3000/Customer/Film/cFilm.html',
+    });
+
+    res.json({ id: session.id });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to create session' });
+  }
 });
 
 
