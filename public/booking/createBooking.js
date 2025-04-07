@@ -151,6 +151,31 @@ function updatePrice() {
   $(`#totalCost`).text(totalCost.toFixed(2));
 }
 
+$("#save").click(function() {
+
+  let email = $("#email").val();
+  let totalCost = parseFloat($("#totalCost").text());
+
+  if (!email) {
+    alert("Please enter your email.");
+    return;
+  }
+
+  let bookingDetails = {
+    email: email,
+    totalCost: totalCost
+  };
+
+  fetch("http://localhost:3000/send-receipt", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(bookingDetails)
+  })
+  .then(response => response.text())
+  .then(data => alert(data))
+  .catch(error => alert("Error: " + error));
+});
+
 function updateSeatsRemaining(screeningID, newSeatsRemaining) {
   let updateSeatsRemaining = {
     screeningID: screeningID,

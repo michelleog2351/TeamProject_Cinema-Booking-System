@@ -60,6 +60,42 @@ app.post("/send-email", function (req, res) {
   });
 });
 
+///Receipt
+
+app.post("/send-receipt", function (req, res) {
+  const { email } = req.body;
+
+  if (!email) {
+    return res.status(400).send("Email is required");
+  }
+
+  let transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: "retroreelsatu@gmail.com", 
+      pass: "udkl siis jkfn wacj"
+    }
+  });
+
+  let mailOptions = {
+    from: "retroreelsatu@gmail.com",
+    to: email,
+    subject: "Your booking has been confirmed",
+    text: "Thank you for booking with Retro Reels!"
+  };
+
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      console.error("Email sending failed:", error);
+      res.status(500).send("Error sending email");
+    } else {
+      console.log("Email sent: " + info.response);
+      res.send("Email sent successfully!");
+    }
+  });
+});
+///
+
 //Stripe
 app.post('/create-checkout-session', async (req, res) => {
   const { email, amount } = req.body;
