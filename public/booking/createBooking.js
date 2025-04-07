@@ -27,12 +27,14 @@ $(document).ready(function () {
     }
 
     let today = new Date();
-    let currentTime = today.getTime();
     let selectedDate = $("#date").text();
     let selectedTime = $("#startTime").text();
-    let screeningDateTime = new Date(`${selectedDate}T${selectedTime}Z`);
-
-    if (screeningDateTime.getTime() <= currentTime) {
+    let dateParts = selectedDate.split("/");
+    let formattedDate = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
+    let screeningDateTime = new Date(`${formattedDate}T${selectedTime}`);
+    
+    if (screeningDateTime < today) {
+      alert("Screening has already begun");
       return;
     }
 
@@ -173,3 +175,11 @@ $("#save").click(function() {
   .then(data => alert(data))
   .catch(error => alert("Error: " + error));
 });
+
+function updateSeatsRemaining(screeningID, newSeatsRemaining) {
+  let updateSeatsRemaining = {
+    screeningID: screeningID,
+    seatsRemaining: newSeatsRemaining,
+  };
+  $.post(`http://localhost:3000/seatsRemaining`, updateSeatsRemaining);
+}
