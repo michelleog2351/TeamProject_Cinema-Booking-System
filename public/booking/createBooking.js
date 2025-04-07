@@ -149,11 +149,10 @@ function updatePrice() {
   $(`#totalCost`).text(totalCost.toFixed(2));
 }
 
-document.getElementById("save").addEventListener("click", function(event) {
-  event.preventDefault();
+$("#save").click(function() {
 
-  let email = document.getElementById("email").value;
-  let totalCost = parseFloat(document.getElementById("totalCost").textContent);
+  let email = $("#email").val();
+  let totalCost = parseFloat($("#totalCost").text());
 
   if (!email) {
     alert("Please enter your email.");
