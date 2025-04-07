@@ -34,7 +34,9 @@ $(document).ready(function () {
     let screeningDateTime = new Date(`${formattedDate}T${selectedTime}`);
     
     if (screeningDateTime < today) {
-      alert("Screening has already begun");
+      $("#error-message")
+				.text("The screening has already began. Please try again.")
+				.show();
       return;
     }
 
@@ -157,7 +159,16 @@ $("#save").click(function() {
   let totalCost = parseFloat($("#totalCost").text());
 
   if (!email) {
-    alert("Please enter your email.");
+    $("#error-message")
+				.text("Please enter your email.")
+				.show();
+    return;
+  }
+
+  if (totalNumberOfSeats === 0) {
+    $("#error-message")
+				.text("Please choose your tickets.")
+				.show();
     return;
   }
 
