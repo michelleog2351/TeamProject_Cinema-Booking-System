@@ -142,12 +142,13 @@ $("document").ready(function () {
 			processData: false,
 			contentType: false,
 			success: function () {
-				alert("Film updated successfully!");
-				location.replace("http://localhost:3000/film/film.html");
-			},
+			 	location.replace("http://localhost:3000/film/film.html");
+			 },
 			error: function () {
-				alert("Error updating film.");
-			},
+				$("#error-message")
+				.text("There was a problem updating the film. Please try again.")
+				.show();
+			 },
 		});
 	});
 });

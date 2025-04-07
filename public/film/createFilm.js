@@ -135,7 +135,6 @@ $(document).ready(function () {
       processData: false,
       contentType: false,
       success: function () {
-        alert("Film created successfully!");
         location.replace("http://localhost:3000/film/film.html");
       },
       error: function () {
