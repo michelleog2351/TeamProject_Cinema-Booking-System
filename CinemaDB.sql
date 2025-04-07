@@ -2,7 +2,7 @@
 -- select * from booking;
 -- select * from film;
 -- select * from manager;
- select * from screening;
+-- select * from screening;
 -- select * from seat;
 -- select * from theatre;
 -- select * from ticket;
