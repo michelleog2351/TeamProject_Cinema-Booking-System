@@ -27,6 +27,7 @@ function filmDD() {
 
 	$("#selectDate").prop("disabled", true);
 	$("#selectStartTime").prop("disabled", true);
+	// $("#book-tickets-btn").prop("disabled", true);
 
 	// Handle dropdown film selection change
 	$("#selectFilm").change(function () {
@@ -310,8 +311,10 @@ $(document).on("click", ".book-tickets-btn", function () {
 	let date = $("#selectDate").val();
 	let startTime = $("#selectStartTime").val();
 	
+	//date = new Date(date);
 	date = new Date(date);
 	let formattedDate = date.toISOString().split("T")[0];
+
 
 
 	// Debugging logs
@@ -326,15 +329,11 @@ $(document).on("click", ".book-tickets-btn", function () {
 	// } else {
 	//   alert("Please select a film, date, and time before booking.");
 	// }
-	if (!filmID || !formattedDate || !startTime) {
-		alert("Please select a film, date, and time before booking.");
-		return;
-	}
-	// let parsedDate = new Date(date);
-	// let formattedDate = parsedDate.toISOString().split("T")[0];  // Converts to YYYY-MM-DD format
+	if (!filmID || !date || !startTime) {
+    alert("Please select a film, date, and time before booking.");
+    return;
+}
 
-	// database expects this date format
-	//date = new Date(date);
 
 	let ScreeningBooking = {
 		filmID: filmID,
