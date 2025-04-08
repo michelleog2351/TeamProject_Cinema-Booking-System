@@ -32,15 +32,36 @@ function nav() {
 
   navOutPut += `</ul>
   <ul class="navbar-nav list-unstyled d-flex align-items-center">
-    <form class="d-flex align-items-center position-relative" role="search" onsubmit="return false;">
-        <input id="search-input" class="form-control" type="search" placeholder="Search for films and more!" aria-label="Search">
-        <button id="search-btn" class="btn btn-outline-light" type="button">
+    <form class="d-flex align-items-center position-relative w-100" role="search" onsubmit="return false;">
+      <div class="position-relative" style="">
+          <input id="search-input" class="form-control" type="search" placeholder="Search for films and more!" aria-label="Search">      
+          <button id="search-btn" class="btn btn-outline-light ms-2" type="button">
           <img src="/images/search.svg" alt="Search" width="20" height="50">
-        </button>
-        <div id="suggestions" 
-          style="display: none; position: absolute; background: #fff; z-index: 1000; width: 100%;">
-        </div>
-    </form>`;
+          </button> 
+      </div>
+          </div>
+
+            
+                <div class="suggestion-item"></div> 
+
+     
+          <div id="suggestions" style="
+              display: none;
+              position: absolute;
+              top: 100%; /* right below the input */
+              right: 0;
+              width: 500px;
+              background-color: white;
+              border: 1px solid #ddd;
+              border-top: none;
+              border-radius: 15px 15px 15px 15px;
+              box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+              max-height: 200px;
+              overflow-y: auto;
+              z-index: 1000;"> 
+            </div>
+     
+    </form>`; 
 
   if (isLoggedIn) {
     navOutPut += `
@@ -70,28 +91,31 @@ function nav() {
     location.replace("/index.html");
   });
 
-  $("#search-input").on("input", function () {
-    let searchQuery = $(this).val().toLowerCase().trim();
-    if (!searchQuery) {
-      $("#suggestions").empty().hide();
-      return;
-    }
-    $.getJSON("http://localhost:3000/films", function (data) {
-      console.log("Films data:", data);
-      let matches = data.filter((film) =>
-        film.Name.toLowerCase().includes(searchQuery)
-      );
-      if (matches.length > 0) {
-        let suggestionsHTML = matches
-          .map(
-            (film) =>
-              `<div class="suggestion-item" data-id="${film.FilmID}">${film.Name}</div>`
-          )
-          .join("");
-        $("#suggestions").html(suggestionsHTML).show();
-      } else {
+  $(document).ready(function () {
+    $("#search-input").on("input", function () {
+      let searchQuery = $(this).val().toLowerCase().trim();
+      if (!searchQuery) {
         $("#suggestions").empty().hide();
+        return;
       }
+      $.getJSON("http://localhost:3000/films", function (data) {
+        console.log("Films data:", data);
+        let matches = data.filter((film) =>
+          film.Name.toLowerCase().includes(searchQuery)
+        );
+        if (matches.length > 0) {
+          let suggestionsHTML = matches
+            .map(
+              (film) =>
+                `<div class="suggestion-item" data-id="${film.FilmID}">${film.Name}</div>`
+            )
+            .join("");
+          console.log(suggestionsHTML);
+          $("#suggestions").html(suggestionsHTML).show();
+        } else {
+          $("#suggestions").empty().hide();
+        }
+      });
     });
   });
 }
@@ -105,19 +129,15 @@ $(document).ready(function () {
       $(this).wrap('<div class="table-responsive"></div>');
     }
   });
+});
 
-  // Search button toggle
-  $("#search-btn").click(function () {
-    let input = $("#search-input");
-    input.toggleClass("active");
-  });
 
-  // Close search when clicking outside of it
-  $(document).click(function (e) {
-    if (!$(e.target).closest("#search-btn, #search-input").length) {
-      $("#search-input").removeClass("active");
-    }
-  });
+// Close search when clicking outside of it
+$(document).click(function (e) {
+  if (!$(e.target).closest("#search-btn, #search-input, #suggestions").length) {
+    $("#search-input").removeClass("active");
+    $("#suggestions").hide();
+  }
 });
 
 // styling for highlighting the active page
@@ -173,13 +193,23 @@ $(document).on("click", ".suggestion-item", function () {
 });
 
 // Use this way for dynamically inserted elements
-$(document).on("click", "#search-btn", function () {
-  // Toggle the input's active state if not visible
-  if (!$("#search-input").hasClass("active")) {
-    $("#search-input").addClass("active");
-    $("#search-input").focus();
-  } else {
+// $(document).on("click", "#search-btn", function () {
+//   // Toggle the input's active state if not visible
+//   if (!$("#search-input").hasClass("active")) {
+//     $("#search-input").addClass("active").focus();
+//   } else {
+//     searchFromNavbar();
+//   }
+// });
+
+$(document).on("click", "#search-btn", function (e) {
+  e.preventDefault();
+  // Only call searchFromNavbar if the input is active
+  if ($("#search-input").hasClass("active")) {
     searchFromNavbar();
+  } else {
+    // Show the input field when the button is clicked
+    $("#search-input").addClass("active").focus();
   }
 });
 
