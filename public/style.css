@@ -96,6 +96,10 @@ label {
   border: 1px solid #ccc;
 }
 
+#suggestions{
+min-height: 1px;
+}
+
 .suggestion-item {
   padding: 10px 10px;
   cursor: pointer;

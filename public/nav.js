@@ -30,38 +30,32 @@ function nav() {
     }
   }
 
-  navOutPut += `</ul>
+  navOutPut += `
+  </ul>
   <ul class="navbar-nav list-unstyled d-flex align-items-center">
-    <form class="d-flex align-items-center position-relative w-100" role="search" onsubmit="return false;">
-      <div class="position-relative" style="">
-          <input id="search-input" class="form-control" type="search" placeholder="Search for films and more!" aria-label="Search">      
-          <button id="search-btn" class="btn btn-outline-light ms-2" type="button">
-          <img src="/images/search.svg" alt="Search" width="20" height="50">
-          </button> 
-      </div>
-          </div>
-
-            
-                <div class="suggestion-item"></div> 
-
-     
-          <div id="suggestions" style="
-              display: none;
-              position: absolute;
-              top: 100%; /* right below the input */
-              right: 0;
-              width: 500px;
-              background-color: white;
-              border: 1px solid #ddd;
-              border-top: none;
-              border-radius: 15px 15px 15px 15px;
-              box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-              max-height: 200px;
-              overflow-y: auto;
-              z-index: 1000;"> 
-            </div>
-     
-    </form>`; 
+    <form class="d-flex align-items-center position-relative w-100" role="search" onsubmit="return false;" style="">
+      <input id="search-input" class="form-control" type="search" placeholder="Search for films and more!" aria-label="Search">
+      <button id="search-btn" class="btn btn-outline-light ms-2" type="button">
+        <img src="/images/search.svg" alt="Search" width="20" height="50">
+      </button>
+    </form>  
+    
+    <!-- Suggestions should be injected here dynamically, can only see it printing in the console -->
+    <div id="suggestions" style="
+          display: none;
+          position: absolute;
+          top: 100%;
+          right: 0;
+          width: 500px;
+          background-color: white;
+          border: 1px solid #ddd;
+          border-top: none;
+          border-radius: 15px;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          max-height: 200px;
+          overflow-y: auto;
+          z-index: 1000;">
+      </div>`;
 
   if (isLoggedIn) {
     navOutPut += `
@@ -99,7 +93,7 @@ function nav() {
         return;
       }
       $.getJSON("http://localhost:3000/films", function (data) {
-        console.log("Films data:", data);
+        //console.log("Films data:", data);
         let matches = data.filter((film) =>
           film.Name.toLowerCase().includes(searchQuery)
         );
@@ -130,7 +124,6 @@ $(document).ready(function () {
     }
   });
 });
-
 
 // Close search when clicking outside of it
 $(document).click(function (e) {
@@ -192,16 +185,6 @@ $(document).on("click", ".suggestion-item", function () {
   location.href = `/Customer/Film/filmDetails.html?filmID=${filmID}`;
 });
 
-// Use this way for dynamically inserted elements
-// $(document).on("click", "#search-btn", function () {
-//   // Toggle the input's active state if not visible
-//   if (!$("#search-input").hasClass("active")) {
-//     $("#search-input").addClass("active").focus();
-//   } else {
-//     searchFromNavbar();
-//   }
-// });
-
 $(document).on("click", "#search-btn", function (e) {
   e.preventDefault();
   // Only call searchFromNavbar if the input is active
@@ -227,7 +210,7 @@ $(document).on("keypress", "#search-input", function (e) {
 });
 
 function searchFromNavbar() {
-  console.log("searchFromNavbar called");
+  //console.log("searchFromNavbar called");
   var searchInput = $("#search-input").val().toLowerCase().trim();
 
   if (searchInput !== "") {
