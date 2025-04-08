@@ -31,7 +31,9 @@ $(`document`).ready(function () {
       e.preventDefault();
 
       if ($("#name").val() == '' || $("#email").val() == '' || $(`#password`).val() == '' || $(`#role`).val() == '') {
-        alert("All fields must be entered before a Sceening can be created");
+        $("#error-message")
+				.text("Please fill in all fields.")
+				.show();
         return;
       }
   

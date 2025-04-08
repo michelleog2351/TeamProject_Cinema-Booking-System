@@ -42,11 +42,9 @@ label {
   color: #17a2b8 !important;
 }
 
-
 /* .navbar-nav .nav-link:hover::after {
   width: 100%;
 } */
-
 
 .navbar {
   position: fixed;
@@ -75,6 +73,13 @@ label {
   margin-top: 0;
 }
 
+/* Stops the search icon button from having white outline when user types but cursor
+   isn't placed in the input box */
+#search-btn:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
 #search-input {
   border-radius: 10px;
   padding: 5px;
@@ -89,6 +94,20 @@ label {
   width: 250px;
   opacity: 1;
   border: 1px solid #ccc;
+}
+
+#suggestions{
+min-height: 1px;
+}
+
+.suggestion-item {
+  padding: 10px 10px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.suggestion-item:hover {
+  background-color: #f0f0f0;
 }
 
 .table {

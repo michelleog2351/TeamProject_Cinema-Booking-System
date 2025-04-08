@@ -11,7 +11,7 @@
     />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://js.stripe.com/v3/"></script>
-    <script src="createBooking.js"></script>
+    
     <script src="../nav.js"></script>
     <script src="../footer.js"></script>
     <link rel="stylesheet" type="text/css" href="../style.css" />
@@ -49,17 +49,19 @@
       </table>
       <hr/>
       <label class="form-label" for="email">Enter your email so we can send you your tickets</label>
-      <input class="form-control" type="text" name="email" id="email" placeholder="abc@atu.ie"></input>
+      <input class="form-control" type="text" name="email" id="email" placeholder="abc@atu.ie" />
       <hr>
       <div>
         <h2 style="display: inline"><strong>Price: </strong>€</h2>
-        <h2 style="display: inline"id="totalCost">0.00</h2>
+        <h2 style="display: inline" id="totalCost">0.00</h2>
       </div>
+      <div id="error-message" style="color: red; display: none; margin-top: 10px;"></div>
       <br>
       <button id="cancel" class="btn btn-secondary">Cancel</button>
       <button id="save" class="btn btn-primary">Save</button>
-    </div>
-    <br>
-    <footer id="footer" class="footer d-flex justify-content-center"></footer>
+      <br>
+      
+      <footer id="footer" class="footer d-flex justify-content-center"></footer>
   </body>
+  <script src="createBooking.js"></script>
 </html>
