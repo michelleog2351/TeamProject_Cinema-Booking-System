@@ -25,7 +25,8 @@ function nav() {
     if (role === "Manager") {
       navOutPut += `
         <li class="nav-item"><a class="nav-link" href="/screening/screening.html">Screening</a></li>
-        <li class="nav-item"><a class="nav-link" href="/Theatre/Theatre.html">Theatre</a></li>
+        <li class="nav-item"><a class="nav-link" href="/theatre/theatre.html">Theatre</a></li>
+        <li class="nav-item"><a class="nav-link" href="/report/report.html">Reports</a></li>
 `;
     }
   }

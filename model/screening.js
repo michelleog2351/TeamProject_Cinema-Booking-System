@@ -255,6 +255,16 @@ exports.updateSeatsRemaining = function (req, res) {
   );
 };
 
+exports.getTicketsSoldDaily = function (req, res) {
+  connection.query("SELECT d.FilmID, f.Name, d.Date, IFNULL(SUM(b.NoOfSeats), 0) AS TicketsSold FROM Film f JOIN (SELECT f.FilmID, d.Date FROM Film f JOIN (SELECT DISTINCT Date FROM Screening) d) d ON f.FilmID = d.FilmID  LEFT JOIN Screening s ON d.FilmID = s.FilmID AND d.Date = s.Date LEFT JOIN Booking b ON s.ScreeningID = b.ScreeningID  GROUP BY d.FilmID, f.Name, d.Date ORDER BY f.FilmID,f.Name, d.Date", function (err, rows) {
+    if (err) {
+      console.error(err);
+      return res.status(500).send("Error getting films");
+    }
+    res.json(rows);
+  });
+};
+
 const job = new CronJob("00 00 0 * * 0", function () {
   const query = "DELETE FROM Screening";
   connection.query(query, function (err, result) {
