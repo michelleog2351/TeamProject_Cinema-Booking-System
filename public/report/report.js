@@ -35,7 +35,7 @@ function getJsonData() {
       $(`#graphs`).append(`
             <h1 style="text-align:center"><b>${filmName}</b></h1>
             <h3 style="text-align:center">Tickets Sold This Week: <b>${totalTicketsSold}</b></h3>
-            <svg class="svg" id="svg${filmID}" viewBox="0 0 ${width} ${height}" preserveAspectRatio="xMidYMid meet" width="100%"></svg> <!-- for window responsiveness -->
+            <svg class="svg" id="svg${filmID}" height="${height}" width="${width}"></svg>
             <br>
             <br>
             <hr>
