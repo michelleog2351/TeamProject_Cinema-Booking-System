@@ -120,15 +120,15 @@ function getScreeningData(ID) {
       month: 'numeric', 
       day: 'numeric'
     });
-    let filmname = await getFilmData(data.FilmID);
+    let film = await getFilmData(data.FilmID);
 
     $(`#tbody`).append(
       `<tr>
-      <td id="filmID${filmname}">${filmname}</td> 
-      <td><img src="../../images/${filmname.CoverImage.replace(
+      <td id="filmID${film.Name}">${film.Name}</td> 
+      <td><img src="../../../images/${film.CoverImage.replace(
         /\s+/g,
         "_"
-      )}.jpg" alt="Cover" width="50"></td>
+      )}" alt="Cover" width="50"></td>
       <td id="startTime">${data.StartTime}</td>
       <td id="date">${formattedDate}</td>
       <td id="theatreID${data.TheatreID}">${data.TheatreID}</td>
@@ -140,7 +140,7 @@ function getScreeningData(ID) {
 
 async function getFilmData(ID) {
   data = await $.getJSON(`http://localhost:3000/film/${ID}`);
-  return data.Name;
+  return data;
 }
 
 function updatePrice() {
