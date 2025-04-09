@@ -125,7 +125,7 @@ function getScreeningData(ID) {
     $(`#tbody`).append(
       `<tr>
       <td id="filmID${filmname}">${filmname}</td> 
-      <td><img src="../../images/${filmname.replace(
+      <td><img src="../../images/${filmname.CoverImage.replace(
         /\s+/g,
         "_"
       )}.jpg" alt="Cover" width="50"></td>
