@@ -49,7 +49,8 @@ $(document).ready(function () {
         noOfSeats: totalNumberOfSeats,
         cost: cost,
         email: email,
-        screeningID: ID
+        screeningID: ID,
+        currentSeatsRemaining: parseInt($(`#seatsRemaining`).text())
       })
     );
 
