@@ -5,7 +5,7 @@ $(document).ready(function () {
   $("#fbody").append(`
     <div class="mb-3">
 		<label class="form-label" for="name">Name</label>
-		<input class="form-control" type="text" id="name" name="name" required>
+		<input class="form-control" type="text" id="name" name="name" placeholder="e.g. A MineCraft Movie" required>
     <small id="nameWarningMessage" style="color: red; display: none;">Please enter the name of a film</small>
     </div>
 
@@ -32,19 +32,19 @@ $(document).ready(function () {
 
     <div class="mb-3">
 		<label class="form-label" for="director">Director</label>
-		<input class="form-control" type="text" id="director" name="director" required>
+		<input class="form-control" type="text" id="director" name="director" placeholder="e.g. Jared Hess" required>
     <small id="directorWarningMessage" style="color: red; display: none;">Please enter the name of the film director</small>
     </div>
 
     <div class="mb-3">
 		<label class="form-label" for="Starring">Starring</label>
-		<input class="form-control" type="text" id="Starring" name="Starring" required>
+		<input class="form-control" type="text" id="Starring" name="Starring" placeholder="e.g. Jason Momoa, Jack Black, Sebastian Hansen" required>
     <small id="StarringWarningMessage" style="color: red; display: none;">Please enter the stars</small>
     </div>
 
     <div class="mb-3">
 		<label class="form-label" for="Description">Description</label>
-		<input class="form-control" type="text" id="Description" name="Description" required>
+		<input class="form-control" type="text" id="Description" name="Description" placeholder="Four misfits are suddenly pulled through a mysterious portal into a bizarre cubic wonderland that thrives on imagination. To get back home they'll have to master this world while embarking on a quest with an unexpected expert crafter." required>
     <small id="DescriptionWarningMessage" style="color: red; display: none;">Please enter the description</small>
     </div>
 
