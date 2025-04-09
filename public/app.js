@@ -2,8 +2,6 @@ $(document).ready(function () {
   nav();
   footer();
   filmDD();
-  // dateDD();
-  // startTimeDD();
 });
 
 function filmDD() {
@@ -25,24 +23,12 @@ function filmDD() {
     });
   });
 
-  // $("#selectDate").prop("disabled", true);
-  // $("#selectStartTime").prop("disabled", true);
-  // $("#book-tickets-btn").prop("disabled", true);
-
-  // Handle dropdown film selection change
+  // Handle films dropdown
   $("#selectFilm").change(function () {
     let filmID = $(this).val();
     let filmCards = $("#filmCards");
+    filmCards.empty(); // clear existing ones
 
-    // reset the date and time when new film name is selected, initially set to false until film name selected
-    // $("#selectDate")
-    // 	.html('<option value="" selected>Select Date</option>')
-    // 	.prop("disabled", false);
-    // $("#selectStartTime")
-    // 	.html('<option value="" selected>Select Time</option>')
-    // 	.prop("disabled", false);
-
-    filmCards.empty(); // Clear existing cards
     if (filmID) {
       $.getJSON(`http://localhost:3000/film/${filmID}`, function (film) {
         $("#filmRows").html(`
@@ -79,10 +65,8 @@ function filmDD() {
 				</div>
 			`);
       });
-      // <p>${film.Description}</p>
 
       fetchScreenings(filmID);
-      //dateDD(filmID);
     } else {
       $.getJSON("http://localhost:3000/films", function (data) {
         // Show all films again with sorting
@@ -121,92 +105,6 @@ function createFilmCard(film) {
 		</div>`;
 }
 
-// function dateDD(filmID) {
-// 	if (!filmID) {
-// 		$("#selectDate").html('<option value="" selected>Select Date</option>');
-// 	}
-
-// 	$.getJSON(`http://localhost:3000/filmScreenings/${filmID}`, function (data) {
-// 		let selectDate = $("#selectDate");
-// 		selectDate.html('<option value="" selected>Select Date</option>');
-// 		let specificDates = [];
-
-// 		$.each(data, function (i, screening) {
-// 			let screeningDate = new Date(screening.Date);
-// 			let formattedDate = screeningDate.toLocaleString("en-GB", {
-// 				timeZone: "Europe/London",
-// 				year: "numeric",
-// 				month: "numeric",
-// 				day: "numeric",
-// 			});
-
-// 			// let formattedDate = new Date(screening.Date).toLocaleDateString("en-GB", {
-// 			//   weekday: "long", // Wednesday,
-// 			//   month: "long", // March
-// 			//   day: "numeric", // 26
-// 			// });
-// 			// let formattedDate = new Date(screening.Date).toISOString().split("T")[0];
-
-// 			//  formattedDate = formattedDate.replace(/^(\w+)(?=\s)/, "$1,");
-
-// 			// check if its present in the array
-// 			if (!specificDates.includes(formattedDate)) {
-// 				specificDates.push(formattedDate); // add this to the array
-// 				selectDate.append(
-// 					`<option value="${formattedDate}">${formattedDate}</option>`
-// 				);
-// 			}
-// 		});
-// 	});
-
-// 	// updating available times dynamically based on selected date
-// 	$("#selectDate").change(function () {
-// 		let filmID = $("#selectFilm").val();
-// 		let selectDate = $(this).val();
-// 		startTimeDD(filmID, selectDate);
-// 	});
-// }
-
-// function startTimeDD(filmID, selectDate) {
-// 	if (!filmID || !selectDate) {
-// 		$("#selectStartTime").html(
-// 			'<option value="" selected>Select Time</option>'
-// 		);
-// 		return; // this stops any unnecessary API calls
-// 	}
-
-// 	$.getJSON(`http://localhost:3000/filmScreenings/${filmID}`, function (data) {
-// 		$("#selectStartTime").html(
-// 			'<option value="" selected>Select Time</option>'
-// 		);
-// 		$.each(data, function (i, screening) {
-// 			let screeningDate = new Date(screening.Date);
-
-// 			let formattedDate = screeningDate.toLocaleString("en-GB", {
-// 				timeZone: "Europe/London",
-// 				year: "numeric",
-// 				month: "numeric",
-// 				day: "numeric",
-// 			});
-
-// 			// let screeningDate = new Date(screening.Date).toLocaleDateString("en-GB", {
-// 			//   weekday: "long", // Wednesday
-// 			//   month: "long", // March
-// 			//   day: "numeric", // 26
-// 			// });
-// 			// let screeningDate = new Date(screening.Date).toISOString().split("T")[0];
-
-// 			//screeningDate = screeningDate.replace(/^(\w+)(?=\s)/, "$1,");
-
-// 			if (formattedDate === selectDate) {
-// 				$("#selectStartTime").append(
-// 					`<option value="${screening.StartTime}">${screening.StartTime}</option>`
-// 				);
-// 			}
-// 		});
-// 	});
-// }
-
 function fetchScreenings(filmID) {
   $("#screeningsTbody").empty(); // Clear existing rows
 
@@ -225,21 +123,12 @@ function fetchScreenings(filmID) {
       let screeningsByDate = {};
 
       $.each(data, function (i, value) {
-        let screeningDate = new Date(value.Date);
-        let formattedDate = screeningDate.toLocaleString("en-GB", {
-          timeZone: "Europe/London",
-          year: "numeric",
-          month: "numeric",
-          day: "numeric",
+        let formattedDate = new Date(value.Date).toLocaleDateString("en-GB", {
+          weekday: "long",
+          month: "long",
+          day: "numeric"
         });
-
-        // let formattedDate = new Date(value.Date).toISOString().split("T")[0];
-        // let formattedDate = new Date(value.Date).toLocaleDateString("en-GB", {
-        //   weekday: "short", // Wed
-        //   month: "short", // Mar
-        //   day: "numeric", // 26
-        // });
-        // formattedDate = formattedDate.replace(/^(\w+)(?=\s)/, "$1,");
+        formattedDate = formattedDate.replace(/^(\w+)(?=\s)/, "$1,");
 
         if (!screeningsByDate[formattedDate]) {
           screeningsByDate[formattedDate] = [];
@@ -249,7 +138,6 @@ function fetchScreenings(filmID) {
 
       $.each(screeningsByDate, function (date, screening) {
         let timeButtonsHtml = `<div class="d-flex flex-wrap mt-2">`;
-        let booksButtonHtml = `<div class="d-flex flex-wrap">`;
 
         $.each(screening, function (i, value) {
           timeButtonsHtml += `
@@ -257,24 +145,9 @@ function fetchScreenings(filmID) {
 										${value.StartTime}
 								</button>
 						`;
-
-          booksButtonHtml += `
-								<button
-										type="button"
-										class="btn btn-primary book-tickets-btn w-100 mx-1"
-										data-id="${value.ScreeningID}"
-										title="Click here to book tickets!"
-								>
-										Book Tickets
-								</button>
-						`;
         });
 
-        // Move the closing div outside of the loop to keep all buttons in the same flex row
         timeButtonsHtml += `</div>`;
-        booksButtonHtml += `</div>`;
-
-        $(".book-tickets-div").html(booksButtonHtml);
 
         $("#screeningsTbody").append(`
 						<tr>
@@ -297,76 +170,10 @@ function fetchScreenings(filmID) {
   });
 }
 
-// $(document).on("click", ".book-tickets-btn", function () {
-// 	//let screeningID = $(this).data("id");
-
-// 	//Post to screeningByFilter. response is the ScreeningID
-
-// 	//send an object with following
-// 	//May need to change these values in order to post them correctly
-// 	//Take a look through other files to see how they conducted this
-
-// 	let filmID = $("#selectFilm").val();
-// 	let date = $("#selectDate").val();
-// 	let startTime = $("#selectStartTime").val();
-
-// 	//date = new Date(date);
-// 	date = new Date(date);
-// 	let formattedDate = date.toISOString().split("T")[0];
-
-// 	// Debugging logs
-// 	console.log("Film ID:", filmID);
-// 	console.log("Date:", formattedDate);
-// 	console.log("Start Time:", startTime);
-
-// 	// if (filmID && date && startTime) {
-// 	//   localStorage.setItem("ViewScreeningID", screeningID);
-// 	//   window.location.href = `http://localhost:3000/booking/createBooking.html?screeningID=${screeningID}`;
-// 	//   // console.log($(this).data("id"));
-// 	// } else {
-// 	//   alert("Please select a film, date, and time before booking.");
-// 	// }
-// 	if (!filmID || !date || !startTime) {
-//     alert("Please select a film, date, and time before booking.");
-//     return;
-// }
-
-// 	let ScreeningBooking = {
-// 		filmID: filmID,
-// 		date: formattedDate,
-// 		startTime: startTime,
-// 	};
-
-// 	$.post(
-// 		"http://localhost:3000/screeningsByFilter",
-// 		ScreeningBooking,
-// 		function (response) {
-// 			console.log("Screening ID received:", response);
-// 			if (response) {
-// 				localStorage.setItem("ViewScreeningID", response);
-// 				window.location.href = `http://localhost:3000/booking/createBooking.html?screeningID=${response}`;
-// 			} else {
-// 				alert("Screening not found. Please check your selection.");
-// 			}
-// 		}
-// 	).fail(function (xhr) {
-// 		console.error("Error:", xhr.responseText);
-// 		alert("Screening not found. Please check your selection.");
-// 	});
-
-// 	// $.post(`http://localhost:3000/screeningsByFilter`, findScreening).done(
-// 	//   function (ScreeningBooking) {
-// 	//     //EXPRESS ROUTE AND SQL works fine when all values are in correct format!
-// 	//   }
-// 	// );
-// });
-
 $(document).on("click", ".startTime-btn", function () {
   let screeningID = $(this).data("id");
   localStorage.setItem("ViewScreeningID", screeningID);
-  // localStorage.setItem("SelectedFilmID", filmID);
-  // localStorage.setItem("SelectedDate", date);
-  //localStorage.setItem("SelectedTime", time);
+
   window.location.href = `http://localhost:3000/booking/createBooking.html?screeningID=${screeningID}`;
 });
 

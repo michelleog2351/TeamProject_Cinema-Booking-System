@@ -10,15 +10,14 @@ function footer() {
                     style="padding: 4px 8px; font-size: 12px;">Sign up</button>
                     <div id="error-message" style="color: red; display: none; margin-top: 10px;"></div>
             </div>
-<div class="d-flex justify-content-between align-items-center text-white py-3 px-4 bg-primary">
-      &copy; Applied Computing Group 1
-    </div>`;
+            <div class="d-flex justify-content-between align-items-center     	  text-white py-3 px-4 bg-primary"> &copy; Applied Computing - Team 1 2025
+            </div>`;
   $("#footer").addClass("bg-primary").html(footerOutPut);
 }
 function sendEmail() {
   let email = document.getElementById("user_email").value;
   let errormsg = document.getElementById("error-message");
-  
+
   if (!email || !email.includes("@")) {
     errormsg.style.display = "block";
     errormsg.style.color = "white";
@@ -27,11 +26,15 @@ function sendEmail() {
   }
 
   fetch("http://localhost:3000/send-email", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email: email })
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email: email })
   })
-  .then(response => response.text())
-  .then(data => {errormsg.textContent = data;})
-  .catch(error => {errormsg.textContent = "Error"+error;});
+    .then((response) => response.text())
+    .then((data) => {
+      errormsg.textContent = data;
+    })
+    .catch((error) => {
+      errormsg.textContent = "Error" + error;
+    });
 }

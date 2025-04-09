@@ -41,7 +41,7 @@ function nav() {
       </button>
     </form>  
     
-    <!-- Suggestions should be injected here dynamically, can only see it printing in the console -->
+    <!-- Suggestions should be injected here dynamically -->
     <div id="suggestions" style="
           display: none;
           position: absolute;
@@ -105,7 +105,7 @@ function nav() {
                 `<div class="suggestion-item" data-id="${film.FilmID}">${film.Name}</div>`
             )
             .join("");
-          console.log(suggestionsHTML);
+          //console.log(suggestionsHTML);
           $("#suggestions").html(suggestionsHTML).show();
         } else {
           $("#suggestions").empty().hide();
