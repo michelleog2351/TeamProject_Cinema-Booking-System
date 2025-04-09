@@ -32,34 +32,39 @@ $(document).ready(function () {
     let dateParts = selectedDate.split("/");
     let formattedDate = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
     let screeningDateTime = new Date(`${formattedDate}T${selectedTime}`);
-    
+
     if (screeningDateTime < today) {
       $("#error-message")
-				.text("The screening has already began. Please try again.")
-				.show();
+        .text("The screening has already began. Please try again.")
+        .show();
       return;
     }
 
-  const email = $("#email").val();
-  const cost = parseFloat($("#totalCost").text());
+    const email = $("#email").val();
+    const cost = parseFloat($("#totalCost").text());
 
+    sessionStorage.setItem(
+      "pendingBooking",
+      JSON.stringify({
+        noOfSeats: totalNumberOfSeats,
+        cost: cost,
+        email: email,
+        screeningID: ID
+      })
+    );
 
-    sessionStorage.setItem("pendingBooking", JSON.stringify({
-      noOfSeats: totalNumberOfSeats,
-      cost: cost,
-      email: email,
-      screeningID: ID,
-    }));
-  
-    const stripe = Stripe("pk_test_51RA4naAHOjFm0Kcv0pXyQ6m0ZgAv7YwDv4RZwRC82t1btsYl7WC62MAhuHLfT9QXxd1tHpzkyMgQkXcPtqO8J4fD00dMKWuNur");
-  
+    const stripe = Stripe(
+      "pk_test_51RA4naAHOjFm0Kcv0pXyQ6m0ZgAv7YwDv4RZwRC82t1btsYl7WC62MAhuHLfT9QXxd1tHpzkyMgQkXcPtqO8J4fD00dMKWuNur"
+    );
+
     $.post("http://localhost:3000/create-checkout-session", {
       email: email,
-      amount: cost,
-    }).done(function (data) {
-      stripe.redirectToCheckout({ sessionId: data.id });
-    }).fail(function () {
-    });
+      amount: cost
+    })
+      .done(function (data) {
+        stripe.redirectToCheckout({ sessionId: data.id });
+      })
+      .fail(function () {});
   });
 });
 
@@ -113,22 +118,22 @@ function getTicketTypeData() {
 
 function getScreeningData(ID) {
   $.getJSON(`http://localhost:3000/screening/${ID}`, async function (data) {
-    let screeningDate = new Date(data.Date);
-    let formattedDate = screeningDate.toLocaleString('en-GB', {
-      timeZone: 'Europe/London', 
-      year: 'numeric', 
-      month: 'numeric', 
-      day: 'numeric'
+    let formattedDate = new Date(data.Date).toLocaleDateString("en-GB", {
+      weekday: "long",
+      month: "long",
+      day: "numeric",
+      year: "numeric"
     });
-    let filmname = await getFilmData(data.FilmID);
+    formattedDate = formattedDate.replace(/^(\w+)(?=\s)/, "$1,");
+    let film = await getFilmData(data.FilmID);
 
     $(`#tbody`).append(
       `<tr>
-      <td id="filmID${filmname}">${filmname}</td>
-      <td><img src="../../images/${filmname.replace(
+      <td id="filmID${film.Name}">${film.Name}</td> 
+      <td><img src="../../../images/${film.CoverImage.replace(
         /\s+/g,
         "_"
-      )}.jpg" alt="Cover" width="50"></td>
+      )}" alt="Cover" width="50"></td>
       <td id="startTime">${data.StartTime}</td>
       <td id="date">${formattedDate}</td>
       <td id="theatreID${data.TheatreID}">${data.TheatreID}</td>
@@ -140,7 +145,7 @@ function getScreeningData(ID) {
 
 async function getFilmData(ID) {
   data = await $.getJSON(`http://localhost:3000/film/${ID}`);
-  return data.Name;
+  return data;
 }
 
 function updatePrice() {
@@ -153,22 +158,17 @@ function updatePrice() {
   $(`#totalCost`).text(totalCost.toFixed(2));
 }
 
-$("#save").click(function() {
-
+$("#save").click(function () {
   let email = $("#email").val();
   let totalCost = parseFloat($("#totalCost").text());
 
   if (!email) {
-    $("#error-message")
-				.text("Please enter your email.")
-				.show();
+    $("#error-message").text("Please enter your email.").show();
     return;
   }
 
   if (totalNumberOfSeats === 0) {
-    $("#error-message")
-				.text("Please choose your tickets.")
-				.show();
+    $("#error-message").text("Please choose your tickets.").show();
     return;
   }
 
@@ -182,15 +182,15 @@ $("#save").click(function() {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(bookingDetails)
   })
-  .then(response => response.text())
-  .then(data => alert(data))
-  .catch(error => alert("Error: " + error));
+    .then((response) => response.text())
+    .then((data) => alert(data))
+    .catch((error) => alert("Error: " + error));
 });
 
 function updateSeatsRemaining(screeningID, newSeatsRemaining) {
   let updateSeatsRemaining = {
     screeningID: screeningID,
-    seatsRemaining: newSeatsRemaining,
+    seatsRemaining: newSeatsRemaining
   };
   $.post(`http://localhost:3000/seatsRemaining`, updateSeatsRemaining);
 }

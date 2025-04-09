@@ -18,55 +18,46 @@
 
   <body>
     <nav id="nav" class="navbar navbar-expand-lg bg-primary sticky-top"></nav>
-
     <div class="container-fluid">
       <hr />
-      <div class="row g-3 mb-3">
-        <div class="col-12 col-md-3">
-          <select id="selectFilm" class="form-select" name="selectFilm">
+      <div class="text-center my-4"> <br>
+        <h1><strong>Welcome to Retro Reels</strong></h1>
+       
+      </div>
+
+      <div class="row align-items-end mb-3 g-3">
+        <div class="col-12 col-md-12">
+          <select id="selectFilm" class="form-select mb-0" name="selectFilm">
             <option value="" selected>Select Film</option>
           </select>
         </div>
+      </div>
 
-        <div class="col-12 col-md-3">
-          <select id="selectDate" class="form-select" name="selectDate">
-            <option value="" selected>Select Date</option>
-          </select>
-        </div>
-
-        <div class="col-12 col-md-3">
-          <select
-            id="selectStartTime"
-            class="form-select"
-            name="selectStartTime"
-          >
-            <option value="" selected>Select Time</option>
-          </select>
-        </div>
-
-        <div class="col-12 col-md-3">
-          <button
-            type="button"
-            class="btn btn-primary w-100"
-            style="display: none; align-items: center"
-            title="Click here to book tickets!"
-            onclick="bookTickets()"
-          >
-            Book Tickets
-          </button>
-        </div>
+      <div id="filmRows" class="mt-3 d-none">
+        <h4>Available Films</h4>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Start Time</th>
+              <th>Date</th>
+              <th>Seats Remaining</th>
+              <th>Theatre</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="screeningsTbody"></tbody>
+        </table>
       </div>
 
       <br />
-      <h2 class="text-center">Now Showing at Our Cinema</h2>
-      <br />
+
       <div id="filmCards" class="row"></div>
 
       <button class="btn btn-info scroll-to-top-btn" title="Scroll to Top">
         <h1>↑</h1>
       </button>
     </div>
-
+    <br />
     <footer
       id="footer"
       class="footer d-flex justify-content-center text-muted"

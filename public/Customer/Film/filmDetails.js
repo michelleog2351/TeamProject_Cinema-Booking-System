@@ -2,7 +2,6 @@ $(document).ready(function () {
   nav();
   footer();
   loadFilmDetails();
-  
 });
 
 function loadFilmDetails() {
@@ -16,29 +15,27 @@ function loadFilmDetails() {
     return;
   }
 
-{/* <img src="${
-                  value.CoverImage
-                }" class="card-img-top img-fluid" alt="${value.Name}" style="height: 400px; object-fit: cover;"></img> */}
-//<img src="/images/${value.CoverImage.replace(/\s+/g, "_")}" alt="${value.Name}" class="card-img-top img-fluid" style="height: 500px; object-fit: contain; margin:0;">
-$.getJSON(`http://localhost:3000/film/${filmID}`, function (value) {
-let releaseDate = new Date(value.ReleaseDate).toISOString().split("T")[0];
-$("#filmDetails").html(`
-  <div class="container mt-4">
-    <div class="row">
-      <div class="col-md-4">
-        <img src="/images/${value.CoverImage.replace(/\s+/g, "_")}" 
-             class="img-fluid rounded shadow" 
-             alt="${value.Name}" style="height: 300px;">
-             <div class="mb-3">
-             <br>
-             <button type="button" class="btn btn-primary" onclick="playTrailer('${value.VideoURL}')">
-                Watch Trailer
-              </button>
-              <button type="button" class="btn btn-secondary" onclick="location.href='cFilm.html'">
-                  Go Back
-              </button>
+  $.getJSON(`http://localhost:3000/film/${filmID}`, function (value) {
+    let releaseDate = new Date(value.ReleaseDate).toISOString().split("T")[0];
+    $("#filmDetails").html(`
+    <div class="container mt-4">
+      <div class="row">
+        <div class="col-md-4">
+          <img src="/images/${value.CoverImage.replace(/\s+/g, "_")}" 
+              class="img-fluid rounded shadow" 
+              alt="${value.Name}" style="height: 300px;">
+              <div class="mb-3">
+                <br>
+                <button type="button" class="btn btn-primary" onclick="playTrailer('${
+                  value.VideoURL
+                }')">
+                    Watch Trailer
+                  </button>
+                  <button type="button" class="btn btn-secondary" onclick="location.href='cFilm.html'">
+                      Go Back
+                  </button>
               </div>
-      </div>
+          </div>
 
         <div class="col-md-8">
           <h2 class="fw-bold">${value.Name}</h2>
@@ -50,13 +47,14 @@ $("#filmDetails").html(`
           <p><strong>Release Date:</strong> ${releaseDate}</p>
           <p><strong>Rating:</strong> ${value.Genre}</p>
           <div class="col-12">
+          <br>
           <h4 class="fw-bold">Screenings</h4>
           <div id="screeningDetails">
           <table class="table table-hover">
           <thead>
             <tr>
-              <th>Date</th>  
               <th>Start Time</th>
+              <th>Date</th>  
               <th>Seats Available</th>
               <th>Theatre</th>
               <th></th>
@@ -71,8 +69,7 @@ $("#filmDetails").html(`
       </div>
     </div>
   </div>
-  `
-);
+  `);
 
     fetchScreenings(filmID);
   }).fail(function (jqXHR, textStatus, errorThrown) {
@@ -80,18 +77,18 @@ $("#filmDetails").html(`
     alert("Failed to load film details.");
     location.href = "cFilm.html";
   });
-
 }
 
 function fetchScreenings(filmID) {
   $.getJSON(`http://localhost:3000/filmScreenings/${filmID}`, function (data) {
     $.each(data, function (i, value) {
       let screeningDate = new Date(value.Date);
-      let formattedDate = screeningDate.toLocaleString('en-GB', {
-        timeZone: 'Europe/London', 
-        year: 'numeric', 
-        month: 'numeric', 
-        day: 'numeric'
+      let formattedDate = screeningDate.toLocaleString("en-GB", {
+        timeZone: "Europe/London",
+        weekday: "short",
+        month: "long",
+        day: "numeric",
+        year: "numeric"
       });
       $(`#tbody`).append(`
         <tr>
@@ -100,33 +97,43 @@ function fetchScreenings(filmID) {
           <td id="seatsRemaining${value.SeatsRemaining}">${value.SeatsRemaining}</td>
           <td id="theatreID${value.TheatreID}">${value.TheatreID}</td>
           <td><button type="button" class="bookingButton btn btn-primary" value="${value.ScreeningID}">Book</button></td>
-          </tr>`
-      );
-      $(".bookingButton").click(function(e){
-        console.log(e.target.value);;
+          </tr>`);
+      $(".bookingButton").click(function (e) {
+        console.log(e.target.value);
         let ID = e.target.value;
-      
+
         localStorage.setItem("ViewScreeningID", ID);
         location.replace("http://localhost:3000/booking/createBooking.html");
-      
-      
-        });
+      });
     });
   });
 }
 function playTrailer(videoURL) {
   console.log("Video URL: " + videoURL); // Debug
 
-  $('#trailerModal').on('shown.bs.modal', function () {
-    $('#trailerVideo').attr('src', videoURL); 
-  }); 
-  $('#trailerModal').modal('show');
+  $("#trailerModal").on("shown.bs.modal", function () {
+    $("#trailerVideo").attr("src", videoURL);
+  });
+  $("#trailerModal").modal("show");
 }
 
-
-$('#trailerModal').on('hidden.bs.modal', function () {
-  console.log('Modal closed');
-  $('#trailerVideo').attr('src', '');
-  $('#trailerModal').attr('inert', 'true');
+$("#trailerModal").on("hidden.bs.modal", function () {
+  console.log("Modal closed");
+  $("#trailerVideo").attr("src", "");
+  $("#trailerModal").attr("inert", "true");
 });
 
+$(document).ready(function () {
+  var scrollTopBtn = $(".scroll-to-top-btn");
+  $(window).on("scroll", function () {
+    if ($(this).scrollTop() > 50) {
+      scrollTopBtn.fadeIn().css("visibility", "visible");
+    } else {
+      scrollTopBtn.fadeOut().css("visibility", "hidden");
+    }
+  });
+
+  scrollTopBtn.click(function () {
+    $("html, body").animate({ scrollTop: 0 }, 120);
+  });
+});

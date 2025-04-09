@@ -15,15 +15,42 @@ var connection = mysql.createConnection({
 connection.connect(function (err) {
   job.start();
   if (err) throw err;
-  console.log(`Sucessfully connected to MySQL database cinemaDB`);
+  console.log(`Successfully connected to MySQL database cinemaDB`);
 });
 
 //This populates the table on default page for testing cruds
 exports.getScreenings = function (req, res) {
-  connection.query("SELECT * FROM Screening ORDER BY TheatreID, Date, StartTime", function (err, rows, fields) {
-    if (err) throw err;
+  connection.query(
+    "SELECT * FROM Screening ORDER BY TheatreID, Date, StartTime",
+    function (err, rows, fields) {
+      if (err) throw err;
 
-    res.send(JSON.stringify(rows));
+      res.send(JSON.stringify(rows));
+    }
+  );
+};
+
+// For when filtering with the dropdown menus on the home page
+exports.getScreeningsByFilter = function (req, res) {
+  var startTime = req.body.startTime;
+  var date = req.body.date;
+  var filmID = req.body.filmID;
+  //console.log(date);
+
+  const query = `SELECT * from Screening WHERE FilmID = ? AND Date = ? AND StartTime = ?`;
+
+  connection.query(query, [filmID, date, startTime], function (err, rows) {
+    if (err) {
+      console.error(err);
+      return res.status(500).send("Error getting screening");
+    }
+
+    if (rows.length === 0) {
+      return res.status(404).send({ message: "Screening not found" });
+    }
+
+    console.log("Found Screening ID:", rows[0].ScreeningID);
+    res.json(rows[0].ScreeningID);
   });
 };
 
@@ -31,7 +58,7 @@ exports.getScreenings = function (req, res) {
 exports.getScreening = function (req, res) {
   var screeningID = req.params.screeningID;
 
-  const query = "SELECT * FROM Screening WHERE ScreeningID = ?"; //creates a query using prepared statemetns
+  const query = "SELECT * FROM Screening WHERE ScreeningID = ?"; //creates a query using prepared statements
   connection.query(query, [screeningID], function (err, rows) {
     if (err) {
       console.error(err);
@@ -48,7 +75,7 @@ exports.getScreening = function (req, res) {
 exports.getFilmScreening = function (req, res) {
   var filmID = req.params.filmID;
 
-  const query = "SELECT * FROM Screening WHERE FilmID = ?"; //creates a query using prepared statemetns
+  const query = "SELECT * FROM Screening WHERE FilmID = ?"; //creates a query using prepared statements
   connection.query(query, [filmID], function (err, rows) {
     if (err) {
       console.error(err);
@@ -65,7 +92,7 @@ exports.getFilmScreening = function (req, res) {
 exports.checkRunningTime = function (req, res) {
   var filmID = req.params.filmID;
 
-  const query = "SELECT RunningTime FROM Film WHERE FilmID = ?"; //creates a query using prepared statemetns
+  const query = "SELECT RunningTime FROM Film WHERE FilmID = ?"; //creates a query using prepared statements
   connection.query(query, [filmID], function (err, rows) {
     if (err) {
       console.error(err);
@@ -78,7 +105,6 @@ exports.checkRunningTime = function (req, res) {
   });
 };
 
-
 //Creates a new entry of Screening by passing name, email and password
 exports.createScreening = function (req, res) {
   var startTime = req.body.startTime;
@@ -88,7 +114,7 @@ exports.createScreening = function (req, res) {
   var filmID = req.body.filmID;
 
   const query =
-    "INSERT INTO Screening (StartTime, Date, SeatsRemaining, TheatreID, FilmID ) VALUES (?, ?, ?, ?, ?)"; //Prepared statments
+    "INSERT INTO Screening (StartTime, Date, SeatsRemaining, TheatreID, FilmID ) VALUES (?, ?, ?, ?, ?)"; //Prepared statements
   connection.query(
     query,
     [startTime, date, seatsRemaining, theatreID, filmID],
@@ -160,7 +186,6 @@ exports.getStartTime = function (req, res) {
   });
 };
 
-
 //Deletes an Screening by passing an ID
 exports.checkScreeningAvailability = function (req, res) {
   var theatreID = req.body.theatreID;
@@ -168,15 +193,19 @@ exports.checkScreeningAvailability = function (req, res) {
   var startTime = req.body.startTime;
   var runningTime = req.body.runningTime;
 
-  const query = "SELECT s.TheatreID, s.Date, s.StartTime, f.RunningTime FROM screening s JOIN Film f ON s.FilmID = f.FilmID WHERE s.TheatreID = ? AND s.Date = ? AND (? < ADDTIME(s.StartTime, SEC_TO_TIME(f.RunningTime * 60)) AND ADDTIME(?, SEC_TO_TIME(? * 60)) > s.StartTime)";
+  const query =
+    "SELECT s.TheatreID, s.Date, s.StartTime, f.RunningTime FROM screening s JOIN Film f ON s.FilmID = f.FilmID WHERE s.TheatreID = ? AND s.Date = ? AND (? < ADDTIME(s.StartTime, SEC_TO_TIME(f.RunningTime * 60)) AND ADDTIME(?, SEC_TO_TIME(? * 60)) > s.StartTime)";
 
-  connection.query(query, [theatreID, date, startTime, startTime, runningTime], function (err, result) {
-    if (err) {
-      console.error(err);
-      return res.status(500).send("Error deleting Screening");
+  connection.query(
+    query,
+    [theatreID, date, startTime, startTime, runningTime],
+    function (err, result) {
+      if (err) {
+        console.error(err);
+        return res.status(500).send("Error deleting Screening");
+      }
     }
-    res.json(result);
-  });
+  );
 };
 
 //Deletes an Screening by passing an ID
@@ -187,15 +216,20 @@ exports.checkUpdateScreeningAvailability = function (req, res) {
   var startTime = req.body.startTime;
   var runningTime = req.body.runningTime;
 
-  const query = "SELECT s.TheatreID, s.Date, s.StartTime, f.RunningTime FROM screening s JOIN Film f ON s.FilmID = f.FilmID WHERE s.ScreeningID != ? AND s.TheatreID = ? AND s.Date = ? AND (? < ADDTIME(s.StartTime, SEC_TO_TIME(f.RunningTime * 60)) AND ADDTIME(?, SEC_TO_TIME(? * 60)) > s.StartTime)";
+  const query =
+    "SELECT s.TheatreID, s.Date, s.StartTime, f.RunningTime FROM screening s JOIN Film f ON s.FilmID = f.FilmID WHERE s.ScreeningID != ? AND s.TheatreID = ? AND s.Date = ? AND (? < ADDTIME(s.StartTime, SEC_TO_TIME(f.RunningTime * 60)) AND ADDTIME(?, SEC_TO_TIME(? * 60)) > s.StartTime)";
 
-  connection.query(query, [screeningID, theatreID, date, startTime, startTime, runningTime], function (err, result) {
-    if (err) {
-      console.error(err);
-      return res.status(500).send("Error deleting Screening");
+  connection.query(
+    query,
+    [screeningID, theatreID, date, startTime, startTime, runningTime],
+    function (err, result) {
+      if (err) {
+        console.error(err);
+        return res.status(500).send("Error deleting Screening");
+      }
+      res.json(result);
     }
-    res.json(result);
-  });
+  );
 };
 
 exports.updateSeatsRemaining = function (req, res) {
@@ -232,7 +266,6 @@ exports.getTicketsSoldDaily = function (req, res) {
 };
 
 const job = new CronJob("00 00 0 * * 0", function () {
-
   const query = "DELETE FROM Screening";
   connection.query(query, function (err, result) {
     if (err) {

@@ -15,14 +15,7 @@ function nav() {
                       <li class="nav-item"><a class="nav-link" href="/index.html">Home</a></li>
                       <li class="nav-item"><a class="nav-link" href="/Customer/Film/cFilm.html">Now Showing</a></li>`;
 
-  // $("body").prepend(navOutput);
-  // setTimeout(() => {
-  // let userNav = "";
-  // navOutPut = "";
-
   if (isLoggedIn) {
-    // navOutPut += `<li class="nav-item"><a class="nav-link" href="/user/user.html">User</a></li>`;
-
     if (role === "Admin") {
       navOutPut += `
         <li class="nav-item"><a class="nav-link" href="/film/film.html">Film</a></li>
@@ -38,14 +31,32 @@ function nav() {
     }
   }
 
-  navOutPut += `</ul>
-                  <ul class="navbar-nav list-unstyled d-flex align-items-center">
-                    <form class="d-flex align-items-center position-relative" role="search">
-                      <button id="search-btn" class="btn btn-outline-light rounded-circle p-2" type="button">
-                          <img src="/images/search.svg" alt="Search" width="20" height="50">
-                      </button>
-                      <input id="search-input" class="form-control" type="search" placeholder="Search for films and more!" aria-label="Search">
-                    </form>`;
+  navOutPut += `
+  </ul>
+  <ul class="navbar-nav list-unstyled d-flex align-items-center">
+    <form class="d-flex align-items-center position-relative w-100" role="search" onsubmit="return false;" style="">
+      <input id="search-input" class="form-control" type="search" placeholder="Search for films and more!" aria-label="Search">
+      <button id="search-btn" class="btn btn-outline-light ms-2" type="button">
+        <img src="/images/search.svg" alt="Search" width="20" height="50">
+      </button>
+    </form>  
+    
+    <!-- Suggestions should be injected here dynamically -->
+    <div id="suggestions" style="
+          display: none;
+          position: absolute;
+          top: 100%;
+          right: 0;
+          width: 500px;
+          background-color: white;
+          border: 1px solid #ddd;
+          border-top: none;
+          border-radius: 15px;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          max-height: 200px;
+          overflow-y: auto;
+          z-index: 1000;">
+      </div>`;
 
   if (isLoggedIn) {
     navOutPut += `
@@ -74,7 +85,34 @@ function nav() {
     localStorage.removeItem("token");
     location.replace("/index.html");
   });
-  // });
+
+  $(document).ready(function () {
+    $("#search-input").on("input", function () {
+      let searchQuery = $(this).val().toLowerCase().trim();
+      if (!searchQuery) {
+        $("#suggestions").empty().hide();
+        return;
+      }
+      $.getJSON("http://localhost:3000/films", function (data) {
+        //console.log("Films data:", data);
+        let matches = data.filter((film) =>
+          film.Name.toLowerCase().includes(searchQuery)
+        );
+        if (matches.length > 0) {
+          let suggestionsHTML = matches
+            .map(
+              (film) =>
+                `<div class="suggestion-item" data-id="${film.FilmID}">${film.Name}</div>`
+            )
+            .join("");
+          //console.log(suggestionsHTML);
+          $("#suggestions").html(suggestionsHTML).show();
+        } else {
+          $("#suggestions").empty().hide();
+        }
+      });
+    });
+  });
 }
 
 // Ensures table responsiveness
@@ -86,17 +124,110 @@ $(document).ready(function () {
       $(this).wrap('<div class="table-responsive"></div>');
     }
   });
+});
 
-  // Search button toggle
-  $("#search-btn").click(function () {
-    let input = $("#search-input");
-    input.toggleClass("active");
-  });
+// Close search when clicking outside of it
+$(document).click(function (e) {
+  if (!$(e.target).closest("#search-btn, #search-input, #suggestions").length) {
+    $("#search-input").removeClass("active");
+    $("#suggestions").hide();
+  }
+});
 
-  // Close search when clicking outside of it
-  $(document).click(function (e) {
-    if (!$(e.target).closest("#search-btn, #search-input").length) {
-      $("#search-input").removeClass("active");
+// styling for highlighting the active page
+$(document).ready(function () {
+  // Get the current page path from the browser's URL
+  let currentPath = window.location.pathname;
+  $(".navbar-nav .nav-link").each(function () {
+    // Convert relative href to an absolute URL and extract the pathname
+    let linkPath = new URL($(this).attr("href"), window.location.origin)
+      .pathname;
+
+    // extract the folder of the current path i.e. /Theatre for /Theatre/Theatre.html
+    let currentFolder = currentPath.substring(
+      0,
+      currentPath.lastIndexOf("/") + 1
+    );
+    let linkFolder = linkPath.substring(0, linkPath.lastIndexOf("/") + 1);
+
+    // Check if the current page exactly matches the link,
+    // if the current page is a subpage of the link (e.g., `/Theatre/createTheatre.html` under `/Theatre/`),
+    // or if both the current page and the link belong to the same folder.
+    // If any of these conditions are met, add the "active" class to highlight the link.
+    if (
+      currentPath === linkPath ||
+      currentPath.startsWith(linkPath) ||
+      currentFolder === linkFolder
+    ) {
+      $(this).addClass("active");
     }
   });
+
+  // when the active link is clicked
+  $(".navbar-nav .nav-link").click(function (e) {
+    e.preventDefault();
+    let newUrl = $(this).attr("href");
+
+    // Remove active from all the links and add to the clicked link
+    $(".navbar-nav .nav-link").removeClass("active");
+    $(this).addClass("active");
+
+    // Delay navigation to let the sliding underline animation complete
+    // makes loading page less shaky
+    setTimeout(function () {
+      window.location.href = newUrl;
+    }, 250);
+  });
 });
+
+$(document).on("click", ".suggestion-item", function () {
+  let filmID = $(this).data("id");
+  localStorage.setItem("FilmID", filmID);
+  location.href = `/Customer/Film/filmDetails.html?filmID=${filmID}`;
+});
+
+$(document).on("click", "#search-btn", function (e) {
+  e.preventDefault();
+  // Only call searchFromNavbar if the input is active
+  if ($("#search-input").hasClass("active")) {
+    searchFromNavbar();
+  } else {
+    // Show the input field when the button is clicked
+    $("#search-input").addClass("active").focus();
+  }
+});
+
+$(document).on("click", "#search-btn", function (e) {
+  e.preventDefault();
+  searchFromNavbar();
+});
+
+// Trigger search on Enter key (13)
+$(document).on("keypress", "#search-input", function (e) {
+  if (e.which === 13) {
+    e.preventDefault();
+    searchFromNavbar();
+  }
+});
+
+function searchFromNavbar() {
+  //console.log("searchFromNavbar called");
+  var searchInput = $("#search-input").val().toLowerCase().trim();
+
+  if (searchInput !== "") {
+    $.getJSON("http://localhost:3000/films", function (data) {
+      let exactMatch = data.find(
+        (film) => film.Name.toLowerCase() === searchInput
+      );
+
+      if (exactMatch) {
+        localStorage.setItem("FilmID", exactMatch.FilmID);
+        location.href = `/Customer/Film/filmDetails.html?filmID=${exactMatch.FilmID}`;
+      } else {
+        location.href = `/SearchErrorDetails.html`;
+      }
+    }).fail(function () {
+      alert("Failed to load film data for search.");
+    });
+  }
+}

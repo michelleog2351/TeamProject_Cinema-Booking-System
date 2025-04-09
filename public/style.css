@@ -10,10 +10,41 @@ body {
   flex: 1; /* Push footer to bottom of page */
 }
 
-label{
+label {
   font-weight: bold;
   /* color: #325d88; */
 }
+
+/* Styling for the active page link */
+.navbar-nav .nav-link {
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.navbar-nav .nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  width: 0%;
+  height: 3px;
+  background-color: #17a2b8;
+  transition: width 0.1s ease-in-out;
+}
+
+/* Apply sliding underline when active */
+.navbar-nav .nav-link.active::after {
+  width: 100%; /* Stays at 100% when link is active */
+}
+
+.navbar-nav .nav-link.active {
+  font-weight: bold;
+  color: #17a2b8 !important;
+}
+
+/* .navbar-nav .nav-link:hover::after {
+  width: 100%;
+} */
 
 .navbar {
   position: fixed;
@@ -42,13 +73,20 @@ label{
   margin-top: 0;
 }
 
+/* Stops the search icon button from having white outline when user types but cursor
+   isn't placed in the input box */
+#search-btn:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
 #search-input {
   border-radius: 10px;
   padding: 5px;
   width: 0;
   opacity: 0;
   overflow: hidden;
-  border: 1px solid transparent; 
+  border: 1px solid transparent;
   transition: width 0.3s ease-in-out, opacity 0.2s ease-in-out, border 0.3s;
 }
 
@@ -58,14 +96,36 @@ label{
   border: 1px solid #ccc;
 }
 
+#suggestions{
+min-height: 1px;
+}
+
+.suggestion-item {
+  padding: 10px 10px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.suggestion-item:hover {
+  background-color: #f0f0f0;
+}
+
 .table {
   overflow-x: auto;
   white-space: nowrap;
 }
 
+.position-relative {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden; /* Prevents overflow issues */
+}
+
 .card {
   width: 100%; /* let the grid system handle the card width based on the window size - ensuring responsiveness*/
-  height: 400px; /* Matches the height of the images now */
+  /* height: 400px; Matches the height of the images now */
   position: relative;
   overflow: hidden;
   border-radius: 10px;
@@ -85,6 +145,12 @@ label{
   min-height: 160px; /* adjust as needed */
 }
 
+.card:hover .overlay,
+.position-relative:hover .overlay {
+  top: 0;
+  opacity: 1;
+}
+
 .overlay {
   position: absolute;
   top: -100%;
@@ -94,15 +160,11 @@ label{
   background: rgba(0, 0, 0, 0.7);
   display: flex;
   padding: var(--bs-card-img-overlay-padding, 1rem);
+  border-radius: 10px;
   justify-content: center;
   align-items: center;
   opacity: 0;
   transition: top 0.5s ease, opacity 0.5s ease;
-}
-
-.card:hover .overlay {
-  top: 0;
-  opacity: 1;
 }
 
 .overlay-content {
@@ -119,8 +181,8 @@ label{
   border-radius: 20px;
   font-size: 16px;
   cursor: pointer;
-  max-width: 250px;
-  width: auto;
+  max-width: 80%;
+  width: auto; /* Ensures button doesn’t stretch */
   margin: 0 auto;
 }
 
@@ -162,8 +224,38 @@ label{
 }
 
 .book-tickets-btn {
+  padding: 10px;
+  border-radius: 20px;
+  color: white;
+  font-size: 30px;
+  text-align: center;
+  line-height: normal;
+  cursor: pointer;
+  transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.2s ease;
+}
+
+.book-tickets-btn:hover {
+  background-color: #17a2b8 !important;
+  font-weight: bolder;
+  transform: scale(1.1);
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.highcharts-point {
+  fill: var(--bs-primary); /* default seat colour */
+  cursor: pointer !important;
+  transition: fill 0.3s ease-in-out !important;
+}
+
+.highcharts-point:hover {
+  fill: #17a2b8 !important;
+}
+
+.SeatsDiv {
+  flex-grow: 1;
 }
 
 footer {
   width: 100%;
+  margin-top: auto;
 }

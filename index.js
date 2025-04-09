@@ -12,10 +12,9 @@ var Theatre = require("./model/theatre");
 var booking = require("./model/booking");
 var ticketType = require("./model/ticketType");
 var user = require("./model/user");
-var stripe = require('stripe')('sk_test_51RA4naAHOjFm0KcvxGrWP9tUACN3ZKBNezG5Nv1WvyRE3ULu4uURGLq6n7FvqHkX5faO5pdAKHFJEKtWfZMK7pk100kEHND3eu');
-
-
-
+var stripe = require("stripe")(
+  "sk_test_51RA4naAHOjFm0KcvxGrWP9tUACN3ZKBNezG5Nv1WvyRE3ULu4uURGLq6n7FvqHkX5faO5pdAKHFJEKtWfZMK7pk100kEHND3eu"
+);
 
 var app = express();
 app.use(cors());
@@ -24,7 +23,6 @@ app.use(express.static("public"));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-
 
 //Email
 app.post("/send-email", function (req, res) {
@@ -37,16 +35,16 @@ app.post("/send-email", function (req, res) {
   let transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: "retroreelsatu@gmail.com", 
-      pass: "udkl siis jkfn wacj"
-    }
+      user: "retroreelsatu@gmail.com",
+      pass: "udkl siis jkfn wacj",
+    },
   });
 
   let mailOptions = {
     from: "retroreelsatu@gmail.com",
     to: email,
     subject: "Welcome to RetroReels Cinema",
-    text: "Thank you for signing up to our newsletter! We will keep you up to date with all new releases"
+    text: "Thank you for signing up to our newsletter! We will keep you up to date with all new releases",
   };
 
   transporter.sendMail(mailOptions, function (error, info) {
@@ -72,16 +70,16 @@ app.post("/send-receipt", function (req, res) {
   let transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: "retroreelsatu@gmail.com", 
-      pass: "udkl siis jkfn wacj"
-    }
+      user: "retroreelsatu@gmail.com",
+      pass: "udkl siis jkfn wacj",
+    },
   });
 
   let mailOptions = {
     from: "retroreelsatu@gmail.com",
     to: email,
     subject: "Your booking has been confirmed",
-    text: "Thank you for booking with Retro Reels!"
+    text: "Thank you for booking with Retro Reels!",
   };
 
   transporter.sendMail(mailOptions, function (error, info) {
@@ -97,37 +95,36 @@ app.post("/send-receipt", function (req, res) {
 ///
 
 //Stripe
-app.post('/create-checkout-session', async (req, res) => {
+app.post("/create-checkout-session", async (req, res) => {
   const { email, amount } = req.body;
 
   try {
     const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card'],
+      payment_method_types: ["card"],
       line_items: [
         {
           price_data: {
-            currency: 'eur',
+            currency: "eur",
             product_data: {
-              name: 'Cinema Ticket Booking',
+              name: "Cinema Ticket Booking",
             },
             unit_amount: amount * 100,
           },
           quantity: 1,
         },
       ],
-      mode: 'payment',
+      mode: "payment",
       customer_email: email,
-      success_url: 'http://localhost:3000/creditcard/success.html',
-      cancel_url: 'http://localhost:3000/Customer/Film/cFilm.html',
+      success_url: "http://localhost:3000/creditcard/success.html",
+      cancel_url: "http://localhost:3000/Customer/Film/cFilm.html",
     });
 
     res.json({ id: session.id });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Failed to create session' });
+    res.status(500).json({ error: "Failed to create session" });
   }
 });
-
 
 ////
 
@@ -215,6 +212,10 @@ app.post("/seatsRemaining", function (req, res) {
 
 app.post("/screeningDates", function (req, res) {
   screening.getScreeningDates(req, res);
+});
+
+app.post("/screeningsByFilter", function (req, res) {
+  screening.getScreeningsByFilter(req, res);
 });
 
 app.get("/ticketsSoldDaily", function (req, res) {
@@ -335,7 +336,6 @@ app.post("/login", function (req, res) {
 ////////////////////////////////////////////////////////////
 
 //STRIPE
-
 
 ////////////////////////////////////////////////////////////
 var myServer = app.listen(3000, function () {
