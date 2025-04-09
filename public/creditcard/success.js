@@ -11,7 +11,7 @@ $(document).ready(function () {
 
             $.post("http://localhost:3000/seatsRemaining", {
                 screeningID: booking.screeningID,
-                seatsRemaining: booking.noOfSeats,
+                seatsRemaining: (booking.currentSeatsRemaining - booking.noOfSeats),
               }).done(function () {
                 setTimeout(redirect, 4000);
               })

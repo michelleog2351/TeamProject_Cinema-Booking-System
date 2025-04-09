@@ -34,7 +34,6 @@ function getJsonData() {
 
     $(".deleteButton").click(async function (e) {
       let ID = e.target.value;
-
       screeningID = parseInt($(`#screening${ID}`).text());
       screeningData = await $.getJSON(
         `http://localhost:3000/screening/${screeningID}`

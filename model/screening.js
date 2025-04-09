@@ -237,7 +237,7 @@ exports.updateSeatsRemaining = function (req, res) {
   var seatsRemaining = req.body.seatsRemaining;
 
   const query =
-    "UPDATE Screening SET SeatsRemaining = SeatsRemaining - ? WHERE ScreeningID = ?";
+    "UPDATE Screening SET SeatsRemaining = ? WHERE ScreeningID = ?";
 
   connection.query(
     query,
