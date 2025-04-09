@@ -34,18 +34,14 @@ function getJsonData() {
 
     $(".deleteButton").click(async function (e) {
       let ID = e.target.value;
-      console.log(ID)
       screeningID = parseInt($(`#screening${ID}`).text());
       screeningData = await $.getJSON(
         `http://localhost:3000/screening/${screeningID}`
       );
 
       newSeatsAvailable = parseInt($(`#noOfSeats${ID}`).text());
-      console.log(newSeatsAvailable)
       SeatsRemaining = screeningData.SeatsRemaining;
       SeatsRemaining += newSeatsAvailable;
-      console.log(newSeatsAvailable)
-      console.log(SeatsRemaining)
       updateSeatsRemaining(screeningID, SeatsRemaining);
 
       $.post(`http://localhost:3000/deleteBooking/${ID}`).done(function () {
