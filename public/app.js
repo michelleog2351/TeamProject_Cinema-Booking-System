@@ -64,9 +64,10 @@ function filmDD() {
 					</div>
 				</div>
 			`);
+      fetchScreenings(filmID);
       });
 
-      fetchScreenings(filmID);
+      // fetchScreenings(filmID);
     } else {
       $.getJSON("http://localhost:3000/films", function (data) {
         // Show all films again with sorting
