@@ -186,7 +186,6 @@ exports.getStartTime = function (req, res) {
   });
 };
 
-//Deletes an Screening by passing an ID
 exports.checkScreeningAvailability = function (req, res) {
   var theatreID = req.body.theatreID;
   var date = req.body.date;

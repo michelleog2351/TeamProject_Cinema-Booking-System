@@ -118,6 +118,21 @@ exports.bookedSeats = function (req, res) {
   });
 };
 
+exports.bookedScreening = function (req, res) {
+  var screeningID = req.params.ScreeningID;
+
+  const query = "SELECT * FROM Booking WHERE ScreeningID = ?";
+  connection.query(query, [screeningID],
+    function (err, result) {
+      if (err) {
+        console.error(err);
+        return res.status(500).send("Error deleting Screening");
+      }
+      res.json(result);
+    })
+};
+
+
 //Seconds
 //Minutes
 //Hours

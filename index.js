@@ -266,6 +266,10 @@ app.get("/bookedSeats/:ScreeningID", function (req, res) {
   booking.bookedSeats(req, res);
 });
 
+app.post("/bookedScreening/:ScreeningID?", function (req, res) {
+  booking.bookedScreening(req, res);
+});
+
 ////////////////////////////////////////////////////////////
 
 //Theatre Routes

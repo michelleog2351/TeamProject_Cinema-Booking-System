@@ -17,9 +17,9 @@ async function getJsonData() {
     $.each(data, async function (i, value) {
       let screeningDate = new Date(value.Date);
       let formattedDate = screeningDate.toLocaleString('en-GB', {
-        timeZone: 'Europe/London', 
-        year: 'numeric', 
-        month: 'numeric', 
+        timeZone: 'Europe/London',
+        year: 'numeric',
+        month: 'numeric',
         day: 'numeric'
       });
       let filmname = await getFilmData(value.FilmID);
@@ -39,9 +39,20 @@ async function getJsonData() {
 
     $(document).on("click", ".updateButton", function (e) {
       let ID = e.target.value;
-      localStorage.setItem("ScreeningID", ID);
-      location.replace("http://localhost:3000/screening/updateScreening.html");
-    });
+      $.post(`http://localhost:3000/bookedScreening/${ID}`,).done(function (data) 
+      {
+        console.log(data.length)
+        if (data.length == 0) {
+          localStorage.setItem("ScreeningID", ID);
+          location.replace("http://localhost:3000/screening/updateScreening.html");
+        }
+        else
+        {
+          alert("Bookings already made no")
+        }
+      })
+    })
+
 
     $(document).on("click", ".deleteButton", function (e) {
       let ID = e.target.value;
