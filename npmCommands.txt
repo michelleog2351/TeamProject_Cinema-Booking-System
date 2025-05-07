@@ -1,5 +1,9 @@
-MAY NEED TO RUN THESE AFTER EVERY PULL
 
+
+
+npm init
+
+MAY NEED TO RUN THESE AFTER EVERY PULL
 # Install express (web framework for Node.js)
 npm install express
 
@@ -20,6 +24,18 @@ npm install underscore
 
 # Install cron (enable a task to execute at a specified time)
 npm install cron
+
+# Install Stripe (used to handle payments)
+npm install stripe
+
+# Install Nodemailer (used to send emails from Node.js)
+npm install nodemailer
+
+# Install Multer (used to handle file uploads)
+npm install multer
+
+# Install Moment-Timezone (used to work with dates and time zones)
+npm install moment-timezone
 
 # Install nodemon (development tool to automatically restart server on changes)
 npm install --save-dev nodemon
