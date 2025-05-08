@@ -76,7 +76,7 @@ $(document).ready(function () {
       startTime: $(`#startTime`).val(),
       runningTime: filmRunningTime,
     };
-
+    
     $.post(
       `http://localhost:3000/checkScreeningAvailability`,
       bookedScreening
@@ -93,8 +93,8 @@ $(document).ready(function () {
           seatsRemaining: $(`#seatsRemaining`).val(),
           theatreID: $(`#theatreSelect`).val(),
           filmID: filmID,
+          
         };
-
         $.post(`http://localhost:3000/createScreening`, newScreening).done(
           function () {
             location.replace("http://localhost:3000/screening/screening.html");
